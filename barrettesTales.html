@@ -1,11 +1,10 @@
 <!doctype html>
-<html lang="fr">
-<head>
+<html lang="fr"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Barrettes de spécialités — Terminale 2026-2027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&amp;display=swap">
 <style>
 :root {
   --navy:   #1a2b6d;
@@ -489,7 +488,7 @@ html,body{
 </head>
 <body>
 
-<div class="slide" id="slide">
+<div class="slide edit-mode" id="slide">
 
   <!-- HEADER -->
   <div class="top">
@@ -498,13 +497,13 @@ html,body{
       <span class="top-sub">2026–2027</span>
     </div>
     <div class="top-right">
-      <div class="match-count" id="matchCount"></div>
+      <div class="match-count" id="matchCount" style="color: var(--amber);"></div>
       <a href="barrettes1eres.html" class="btn-edit" style="text-decoration:none;">⇄ Premières</a>
-      <button class="btn-edit" id="anomaliesBtn" onclick="toggleAnomaliesPanel()">⚠️ <span id="anomaliesCount">…</span></button>
+      <button class="btn-edit" id="anomaliesBtn" onclick="toggleAnomaliesPanel()" style="border-color: rgba(34, 197, 94, 0.6); background: rgba(34, 197, 94, 0.15);">⚠️ <span id="anomaliesCount">OK</span></button>
       <button class="btn-edit" id="btnImport" onclick="openImport()">⤓ Import</button>
-      <button class="btn-edit" id="btnExport" onclick="exportHTML()" style="display:none;">💾 Exporter</button>
-      <button class="btn-pr"   id="btnPR">👥 PR</button>
-      <button class="btn-edit" id="btnEdit">✎ Éditer</button>
+      <button class="btn-edit" id="btnExport" onclick="exportHTML()" style="">💾 Exporter</button>
+      <button class="btn-pr" id="btnPR">👥 PR</button>
+      <button class="btn-edit active" id="btnEdit">✓ Terminer</button>
     </div>
   </div>
 
@@ -523,7 +522,7 @@ html,body{
         <span class="barrette-pill b1">Barrette 1</span>
         <span class="barrette-hours">Lun. 09h &nbsp;|&nbsp; Ma. 10h &nbsp;|&nbsp; Je. 09h</span>
         <span class="barrette-desc">6 groupes</span>
-        <span class="barrette-total" id="b1Total"></span>
+        <span class="barrette-total" id="b1Total">113 élèves</span>
       </div>
       <div class="groups">
 
@@ -531,7 +530,7 @@ html,body{
           <div class="g-head b1"><div class="g-spec">SES</div><div class="g-teacher">M. Lopez</div></div>
           <div class="g-divider"></div>
           <div class="g-list">
-            <div class="name">AHBAR</div><div class="name">BADON</div><div class="name">BALTAYAN--BERNARD</div><div class="name">BELLIER</div><div class="name">BERAS</div><div class="name">BOELY</div><div class="name">CANTIN</div><div class="name">CHAPET</div><div class="name">DAUBLAIN</div><div class="name">FAURE-MURGUE</div><div class="name">FAVERON</div><div class="name">FAVERON</div><div class="name">GIORGI</div><div class="name">GOMEZ DE MERCADO</div><div class="name">KOECHKERIAN</div><div class="name">LORIOT</div><div class="name">NAILI</div><div class="name">OTTONELLI--SANCHEZ</div><div class="name">PEYRONNON</div><div class="name">SOLEILHAC</div><div class="name">TEPELIAN</div><div class="name">TORRES</div><div class="name">VERRIER MAZOUE</div>
+            <div class="name pr">AHBAR</div><div class="name pr">BADON</div><div class="name pr">BALTAYAN--BERNARD</div><div class="name pr">BELLIER</div><div class="name">BERAS</div><div class="name pr">BOELY</div><div class="name pr">CANTIN</div><div class="name pr">CHAPET</div><div class="name pr">DAUBLAIN</div><div class="name">FAURE-MURGUE</div><div class="name">FAVERON ANDREA</div><div class="name">FAVERON ALIX</div><div class="name">GIORGI</div><div class="name">GOMEZ DE MERCADO</div><div class="name pr">KOECHKERIAN</div><div class="name pr">LORIOT</div><div class="name pr">NAILI</div><div class="name pr">OTTONELLI--SANCHEZ</div><div class="name pr">PEYRONNON</div><div class="name pr">SOLEILHAC</div><div class="name pr">TEPELIAN</div><div class="name pr">TORRES</div><div class="name pr">VERRIER MAZOUE</div>
           </div>
           <div class="g-count">23 élèves</div>
         </div>
@@ -540,7 +539,7 @@ html,body{
           <div class="g-head b1"><div class="g-spec">SVT</div><div class="g-teacher">Mme Pirowski</div></div>
           <div class="g-divider"></div>
           <div class="g-list">
-            <div class="name">ALI</div><div class="name">ANDRÉ</div><div class="name">AROUCHANIAN</div><div class="name">BADI-LUMB</div><div class="name">BLONDEEL</div><div class="name">BREARD</div><div class="name">CHEROUI</div><div class="name">CORNET</div><div class="name">COTTEREAU</div><div class="name">DINER</div><div class="name">FAUCHER-TCHORLIAN</div><div class="name">GAULIER</div><div class="name">JULLIEN</div><div class="name">LE BRUN-FREDDI</div><div class="name">MELKONYAN</div><div class="name">PALAYSI</div><div class="name">PERRIER</div><div class="name">PIRES</div><div class="name">ROBERT</div><div class="name">VIAL</div><div class="name">VILLARET</div>
+            <div class="name pr">ALI</div><div class="name pr">ANDRÉ</div><div class="name pr">AROUCHANIAN</div><div class="name">BADI-LUMB</div><div class="name pr">BLONDEEL</div><div class="name">BREARD</div><div class="name">CHEROUI</div><div class="name">CORNET</div><div class="name">COTTEREAU</div><div class="name">DINER</div><div class="name pr">FAUCHER-TCHORLIAN</div><div class="name pr">GAULIER</div><div class="name">JULLIEN</div><div class="name pr">LE BRUN-FREDDI</div><div class="name">MELKONYAN</div><div class="name pr">PALAYSI</div><div class="name pr">PERRIER</div><div class="name">PIRES</div><div class="name pr">ROBERT</div><div class="name">VIAL</div><div class="name pr">VILLARET</div>
           </div>
           <div class="g-count">21 élèves</div>
         </div>
@@ -549,7 +548,7 @@ html,body{
           <div class="g-head b1"><div class="g-spec">HGGSP</div><div class="g-teacher">Mme Thromas / Nocera</div></div>
           <div class="g-divider"></div>
           <div class="g-list">
-            <div class="name">AMETOWANOU--RAVERDY</div><div class="name">CETTOUR-BARON</div><div class="name">CHARLIER</div><div class="name">CONTI</div><div class="name">FAURE L.</div><div class="name">FLORES</div><div class="name">GENRE</div><div class="name">GUIDOTTI</div><div class="name">HYSENI</div><div class="name">KHOUCHANE-PALAYSI</div><div class="name">MARTINEZ</div><div class="name">MAUFFAIT</div><div class="name">MORFIN</div><div class="name">OUGIER</div><div class="name">PENA</div><div class="name">RENDA</div><div class="name">ROUSSET</div><div class="name">TENDIL</div><div class="name">VADROT</div>
+            <div class="name pr">AMETOWANOU--RAVERDY</div><div class="name">CETTOUR-BARON</div><div class="name pr">CHARLIER</div><div class="name">CONTI</div><div class="name">FAURE L.</div><div class="name pr">FLORES</div><div class="name pr">GENRE</div><div class="name pr">GUIDOTTI</div><div class="name">HYSENI</div><div class="name">KHOUCHANE-PALAYSI</div><div class="name">MARTINEZ</div><div class="name">MAUFFAIT</div><div class="name">MORFIN</div><div class="name">OUGIER</div><div class="name pr">PENA</div><div class="name pr">RENDA</div><div class="name">ROUSSET</div><div class="name">TENDIL</div><div class="name pr">VADROT</div>
           </div>
           <div class="g-count">19 élèves</div>
         </div>
@@ -558,7 +557,7 @@ html,body{
           <div class="g-head b1"><div class="g-spec">MATHS</div><div class="g-teacher">M. Prin</div></div>
           <div class="g-divider"></div>
           <div class="g-list">
-            <div class="name">DACHER</div><div class="name">EL YADIRI</div><div class="name">FAURE C.</div><div class="name">FERRERO</div><div class="name">FOUREL</div><div class="name">GOULLARD</div><div class="name">GRAND</div><div class="name">HERPET</div><div class="name">JULIEN</div><div class="name">LADRAM DE ROUBIN</div><div class="name">LEICHER</div><div class="name">LIEVIN</div><div class="name">MARABENA</div><div class="name">MEJEAN</div><div class="name">MEJEAN</div><div class="name">MONTIER</div><div class="name">POUZACHE</div><div class="name">ROSTAING</div><div class="name">SAINT-CAST</div><div class="name">SAMIEZ QUAGEBEUR</div><div class="name">SICARD</div><div class="name">VABRES</div><div class="name">WATTIAU</div><div class="name">ZAHN</div>
+            <div class="name">DACHER</div><div class="name">EL YADIRI</div><div class="name">FAURE C.</div><div class="name">FERRERO</div><div class="name">FOUREL</div><div class="name">GOULLARD</div><div class="name">GRAND</div><div class="name">HERPET</div><div class="name">JULIEN</div><div class="name">LADRAM DE ROUBIN</div><div class="name">LEICHER</div><div class="name">LIEVIN</div><div class="name">MARABENA</div><div class="name">MEJEAN EDOUARD</div><div class="name">MEJEAN VICTOR</div><div class="name">MONTIER</div><div class="name">POUZACHE</div><div class="name">ROSTAING</div><div class="name">SAINT-CAST</div><div class="name">SAMIEZ QUAGEBEUR</div><div class="name">SICARD</div><div class="name">VABRES</div><div class="name">WATTIAU</div><div class="name">ZAHN</div>
           </div>
           <div class="g-count">24 élèves</div>
         </div>
@@ -576,7 +575,7 @@ html,body{
           <div class="g-head b1"><div class="g-spec">AMC</div><div class="g-teacher">Mme Gaudenz</div></div>
           <div class="g-divider"></div>
           <div class="g-list">
-            <div class="name">BOURBON</div><div class="name">CERISE</div><div class="name">CHARRUE</div><div class="name">HERZI</div><div class="name">MARAIS</div><div class="name">MARTIN</div><div class="name">MATHIAS</div><div class="name">MIGUEL</div><div class="name">REBOUAH</div>
+            <div class="name pr">BOURBON</div><div class="name pr">CERISE</div><div class="name pr">CHARRUE</div><div class="name pr">HERZI</div><div class="name pr">MARAIS</div><div class="name pr">MARTIN</div><div class="name pr">MATHIAS</div><div class="name pr">MIGUEL</div><div class="name pr">REBOUAH</div>
           </div>
           <div class="g-count">9 élèves</div>
         </div>
@@ -590,7 +589,7 @@ html,body{
         <span class="barrette-pill b2">Barrette 2</span>
         <span class="barrette-hours" style="color:var(--mauve);background:rgba(140,58,106,.09)">Ma. 13h &nbsp;|&nbsp; Me. 08h &nbsp;|&nbsp; Ve. 08h</span>
         <span class="barrette-desc">7 groupes</span>
-        <span class="barrette-total" id="b2Total"></span>
+        <span class="barrette-total" id="b2Total">113 élèves</span>
       </div>
       <div class="groups">
 
@@ -598,7 +597,7 @@ html,body{
           <div class="g-head b2"><div class="g-spec">HGGSP</div><div class="g-teacher">Mme Nocera / Thromas</div></div>
           <div class="g-divider"></div>
           <div class="g-list">
-            <div class="name">BALTAYAN--BERNARD</div><div class="name">BOELY</div><div class="name">CANTIN</div><div class="name">FAVERON</div><div class="name">FAVERON</div><div class="name">GIORGI</div><div class="name">GOMEZ DE MERCADO</div><div class="name">JULIEN</div><div class="name">KOECHKERIAN</div><div class="name">LEICHER</div><div class="name">LIEVIN</div><div class="name">MARABENA</div><div class="name">MATHIAS</div><div class="name">SAINT-CAST</div><div class="name">SICARD</div><div class="name">TORRES</div>
+            <div class="name">BALTAYAN--BERNARD</div><div class="name">BOELY</div><div class="name">CANTIN</div><div class="name">FAVERON ANDREA</div><div class="name">FAVERON ALIX</div><div class="name pr">GIORGI</div><div class="name pr">GOMEZ DE MERCADO</div><div class="name pr">JULIEN</div><div class="name">KOECHKERIAN</div><div class="name">LEICHER</div><div class="name pr">LIEVIN</div><div class="name pr">MARABENA</div><div class="name">MATHIAS</div><div class="name pr">SAINT-CAST</div><div class="name">SICARD</div><div class="name">TORRES</div>
           </div>
           <div class="g-count">16 élèves</div>
         </div>
@@ -616,7 +615,7 @@ html,body{
           <div class="g-head b2"><div class="g-spec">PH-CH</div><div class="g-teacher">Mme Follin</div></div>
           <div class="g-divider"></div>
           <div class="g-list">
-            <div class="name">ALI</div><div class="name">AROUCHANIAN</div><div class="name">BADI-LUMB</div><div class="name">BREARD</div><div class="name">CHEROUI</div><div class="name">COTTEREAU</div><div class="name">DACHER</div><div class="name">EL YADIRI</div><div class="name">FAUCHER-TCHORLIAN</div><div class="name">FAURE C.</div><div class="name">FERRERO</div><div class="name">FOUREL</div><div class="name">GOULLARD</div><div class="name">GRAND</div><div class="name">HERPET</div><div class="name">LADRAM DE ROUBIN</div>
+            <div class="name">ALI</div><div class="name">AROUCHANIAN</div><div class="name pr">BADI-LUMB</div><div class="name pr">BREARD</div><div class="name pr">CHEROUI</div><div class="name pr">COTTEREAU</div><div class="name pr">DACHER</div><div class="name pr">EL YADIRI</div><div class="name">FAUCHER-TCHORLIAN</div><div class="name pr">FAURE C.</div><div class="name pr">FERRERO</div><div class="name pr">FOUREL</div><div class="name pr">GOULLARD</div><div class="name pr">GRAND</div><div class="name pr">HERPET</div><div class="name pr">LADRAM DE ROUBIN</div>
           </div>
           <div class="g-count">16 élèves</div>
         </div>
@@ -625,7 +624,7 @@ html,body{
           <div class="g-head b2"><div class="g-spec">PH-CH</div><div class="g-teacher">Mme Le Cœur</div></div>
           <div class="g-divider"></div>
           <div class="g-list">
-            <div class="name">CORNET</div><div class="name">DINER</div><div class="name">JULLIEN</div><div class="name">MEJEAN</div><div class="name">MEJEAN</div><div class="name">MELKONYAN</div><div class="name">MONTIER</div><div class="name">PIRES</div><div class="name">POUZACHE</div><div class="name">ROSTAING</div><div class="name">SAMIEZ QUAGEBEUR</div><div class="name">VABRES</div><div class="name">VIAL</div><div class="name">WATTIAU</div><div class="name">ZAHN</div>
+            <div class="name">CORNET</div><div class="name pr">DINER</div><div class="name pr">JULLIEN</div><div class="name">MEJEAN EDOUARD</div><div class="name">MEJEAN VICTOR</div><div class="name pr">MELKONYAN</div><div class="name pr">MONTIER</div><div class="name pr">PIRES</div><div class="name pr">POUZACHE</div><div class="name pr">ROSTAING</div><div class="name pr">SAMIEZ QUAGEBEUR</div><div class="name pr">VABRES</div><div class="name pr">VIAL</div><div class="name pr">WATTIAU</div><div class="name pr">ZAHN</div>
           </div>
           <div class="g-count">15 élèves</div>
         </div>
@@ -643,7 +642,7 @@ html,body{
           <div class="g-head b2"><div class="g-spec">MATHS</div><div class="g-teacher">M. Rossille</div></div>
           <div class="g-divider"></div>
           <div class="g-list">
-            <div class="name">ABDO AGHA</div><div class="name">BECHARA</div><div class="name">BENSAUDE BARBEZ</div><div class="name">BERAS</div><div class="name">BERTRAND</div><div class="name">CARRIER</div><div class="name">CHOISEL</div><div class="name">COMTE</div><div class="name">CORDEIRO</div><div class="name">CRUMIERE</div><div class="name">DE ANGELIS-PICHON</div><div class="name">DIENNE</div><div class="name">DOS SANTOS</div><div class="name">DUCHAMP</div><div class="name">KHOURY</div><div class="name">LOPEZ--BLANC</div><div class="name">POINSENET</div><div class="name">RENAU</div><div class="name">VERRIER MAZOUE</div>
+            <div class="name pr">ABDO AGHA</div><div class="name pr">BECHARA</div><div class="name pr">BENSAUDE BARBEZ</div><div class="name pr">BERAS</div><div class="name pr">BERTRAND</div><div class="name pr">CARRIER</div><div class="name pr">CHOISEL</div><div class="name pr">COMTE</div><div class="name pr">CORDEIRO</div><div class="name pr">CRUMIERE</div><div class="name pr">DE ANGELIS-PICHON</div><div class="name pr">DIENNE</div><div class="name pr">DOS SANTOS</div><div class="name pr">DUCHAMP</div><div class="name pr">KHOURY</div><div class="name pr">LOPEZ--BLANC</div><div class="name">POINSENET</div><div class="name">RENAU</div><div class="name">VERRIER MAZOUE</div>
           </div>
           <div class="g-count">19 élèves</div>
         </div>
@@ -697,8 +696,8 @@ html,body{
     <div class="modal">
       <div class="modal-head">
         <div class="modal-head-text">
-          <div class="modal-head-title" id="modalTitle">Déplacer …</div>
-          <div class="modal-head-sub" id="modalSub">Groupe actuel : …</div>
+          <div class="modal-head-title" id="modalTitle">Déplacer FAVERON</div>
+          <div class="modal-head-sub" id="modalSub">Groupe actuel : HGGSP — Mme Nocera / Thromas (Barrette 2)</div>
         </div>
         <button class="modal-close" id="modalClose">✕</button>
       </div>
@@ -711,9 +710,9 @@ html,body{
           </div>
         </div>
         <div class="modal-bar-label">Barrette 1</div>
-        <div class="modal-groups" id="modalB1"></div>
+        <div class="modal-groups" id="modalB1"><button class="modal-group-btn">SES<span class="btn-teacher">M. Lopez</span></button><button class="modal-group-btn">SVT<span class="btn-teacher">Mme Pirowski</span></button><button class="modal-group-btn">HGGSP<span class="btn-teacher">Mme Thromas / Nocera</span></button><button class="modal-group-btn">MATHS<span class="btn-teacher">M. Prin</span></button><button class="modal-group-btn">PHYSIQUE<span class="btn-teacher">M. Raymond</span></button><button class="modal-group-btn">AMC<span class="btn-teacher">Mme Gaudenz</span></button></div>
         <div class="modal-bar-label">Barrette 2</div>
-        <div class="modal-groups" id="modalB2"></div>
+        <div class="modal-groups" id="modalB2"><button class="modal-group-btn current">HGGSP<span class="btn-teacher">Mme Nocera / Thromas</span></button><button class="modal-group-btn">HLP<span class="btn-teacher">Mme Raymond</span></button><button class="modal-group-btn">PH-CH<span class="btn-teacher">Mme Follin</span></button><button class="modal-group-btn">PH-CH<span class="btn-teacher">Mme Le Cœur</span></button><button class="modal-group-btn">SES<span class="btn-teacher">Mme Assard Bizet</span></button><button class="modal-group-btn">MATHS<span class="btn-teacher">M. Rossille</span></button><button class="modal-group-btn">MATHS<span class="btn-teacher">M. Roux</span></button></div>
       </div>
     </div>
   </div>
@@ -724,7 +723,7 @@ html,body{
       <span class="anomalies-panel-title">⚠️ Anomalies</span>
       <button class="anomalies-close" onclick="toggleAnomaliesPanel()">✕</button>
     </div>
-    <div class="anomalies-body" id="anomaliesBody"></div>
+    <div class="anomalies-body" id="anomaliesBody"><div class="anomalies-empty">✅ Aucune anomalie détectée</div></div>
   </div>
 
   <!-- IMPORT MODAL -->
@@ -741,7 +740,11 @@ html,body{
         <div class="modal-bar-label" style="margin-bottom:6px;">Codes des groupes</div>
         <table class="import-ref" id="importRefTable"></table>
         <div class="modal-bar-label" style="margin-bottom:0;">Données CSV à importer</div>
-        <textarea class="import-textarea" id="importCsv" placeholder="DUPONT;B1-SES&#10;DUPONT;B2-MATHS-1&#10;MARTIN;B1-HGGSP&#10;MARTIN;B2-SES&#10;..." spellcheck="false" autocomplete="off"></textarea>
+        <textarea class="import-textarea" id="importCsv" placeholder="DUPONT;B1-SES
+DUPONT;B2-MATHS-1
+MARTIN;B1-HGGSP
+MARTIN;B2-SES
+..." spellcheck="false" autocomplete="off"></textarea>
         <div class="import-footer">
           <div id="importResult" class="import-result"></div>
           <button class="pwd-btn" onclick="runImport()">⤓ Importer</button>
@@ -1392,5 +1395,6 @@ function exportHTML() {
   URL.revokeObjectURL(url);
 }
 </script>
-</body>
-</html>
+
+
+</body></html>
