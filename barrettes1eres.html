@@ -137,6 +137,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 /* DROPDOWN RÉAFFECTATION */
 .eleve-dropdown{position:absolute;z-index:200;background:#fff;border:1.5px solid var(--navy);border-radius:7px;box-shadow:0 4px 16px rgba(0,0,0,.18);min-width:160px;overflow:hidden;}
 .eleve-dropdown-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:7px 12px 5px;border-bottom:1px solid var(--rule);}
+.eleve-dropdown-rename{display:flex;gap:6px;padding:7px 8px;border-bottom:1px solid var(--rule);}
+.eleve-rename-input{flex:1;font-size:11px;font-weight:600;border:1.5px solid var(--rule);border-radius:4px;padding:4px 7px;outline:none;text-transform:uppercase;font-family:inherit;color:var(--navy);min-width:0;}
+.eleve-rename-input:focus{border-color:var(--sky);}
+.eleve-rename-btn{background:var(--navy);color:#fff;border:none;border-radius:4px;padding:4px 9px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.eleve-rename-btn:hover{background:#162d4a;}
 .eleve-dropdown-item{padding:7px 12px;font-size:11px;font-weight:600;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between;gap:8px;}
 .eleve-dropdown-item:hover{background:var(--card);}
 .eleve-dropdown-item span{font-weight:400;color:var(--muted);font-size:10px;}
@@ -183,7 +188,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <span class="brand-name">Lycée Saint Victor · Valence</span>
     </div>
     <div class="header-actions">
-      <a href="barrettesTales.html" class="header-btn" style="text-decoration:none;">⇄ Terminales</a>
+      <a href="barrettes.html" class="header-btn" style="text-decoration:none;">⇄ Terminales</a>
       <button class="header-btn" id="anomaliesBtn" onclick="toggleAnomaliesPanel()">⚠️ <span id="anomaliesCount">…</span></button>
       <button class="header-btn" id="editToggle" onclick="askEdit()">✎ Édition</button>
     </div>
@@ -426,11 +431,16 @@ function onEleveClick(e, el) {
 
   // Construire le dropdown
   dropdown = document.createElement('div');
+  const currentName = el.querySelector('.eleve-name').textContent;
   dropdown.className = 'eleve-dropdown';
-  dropdown.innerHTML = '<div class="eleve-dropdown-title">Déplacer vers…</div>' +
+  dropdown.innerHTML =
+    `<div class="eleve-dropdown-rename"><input class="eleve-rename-input" id="eleveRenameInput" type="text" value="${currentName}" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')renameEleve()"><button class="eleve-rename-btn" onclick="renameEleve()">✓</button></div>` +
+    '<div class="eleve-dropdown-title">Déplacer vers…</div>' +
     bar.groupes.map((g, idx) => idx === gi ? '' :
       `<div class="eleve-dropdown-item" onclick="moveEleve(${bi},${gi},${idx})">${g.matiere} <span>${g.prof}</span></div>`
     ).join('');
+  dropdown.addEventListener('click', e => e.stopPropagation());
+  setTimeout(() => { const inp = document.getElementById('eleveRenameInput'); if(inp){ inp.focus(); inp.select(); } }, 30);
 
   // Positionner sous l'élève
   const rect = el.getBoundingClientRect();
@@ -463,6 +473,23 @@ function moveEleve(bi, gi, targetGi) {
   updateBadge(bi, targetGi);
   analyzeEleves();
 
+  closeDropdown();
+}
+
+function renameEleve() {
+  if (!activeEleve) return;
+  const inp = document.getElementById('eleveRenameInput');
+  if (!inp) return;
+  const newName = inp.value.trim().toUpperCase();
+  if (!newName) return;
+  const bi = parseInt(activeEleve.dataset.bi);
+  const gi = parseInt(activeEleve.dataset.gi);
+  activeEleve.querySelector('.eleve-name').textContent = newName;
+  activeEleve.dataset.name = newName.toLowerCase();
+  const container = document.getElementById(`el-${bi}-${gi}`);
+  sortGroup(container);
+  renumber(`el-${bi}-${gi}`);
+  analyzeEleves();
   closeDropdown();
 }
 
