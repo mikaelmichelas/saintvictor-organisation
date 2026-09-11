@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barrettes EDS — Premières · Lycée Saint Victor</title>
+<style>
+:root {
+  --navy:  #1e3a5f;
+  --sky:   #0284c7;
+  --mauve: #7c3aed;
+  --amber: #d97706;
+  --green: #16a34a;
+  --pink:  #db2777;
+  --orange:#ea580c;
+  --text:  #1a2332;
+  --muted: #6b7a8d;
+  --card:  #f1f5f9;
+  --rule:  #e2e8f0;
+  --ground:#f8fafc;
+  --white: #fff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1f38;color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;}
+
+/* SLIDE WRAPPER */
+.slide{position:relative;width:100%;max-width:1100px;background:var(--ground);box-shadow:0 8px 40px rgba(0,0,0,.45);min-height:100vh;display:flex;flex-direction:column;}
+
+/* HEADER */
+.header{background:var(--navy);color:#fff;padding:12px 18px 10px;}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:8px;}
+.brand-dots{display:flex;gap:4px;}
+.dot{width:8px;height:8px;border-radius:50%;}
+.brand-name{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.85;}
+.header h1{font-size:16px;font-weight:800;margin-top:4px;}
+.header-sub{font-size:11px;opacity:.65;margin-top:1px;}
+.header-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+
+/* SEARCH */
+.search-bar{padding:8px 18px;background:#fff;border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:50;display:flex;gap:8px;align-items:center;}
+.search-input{flex:1;padding:6px 11px;border:1.5px solid var(--rule);border-radius:5px;font-size:12px;outline:none;transition:border .15s;}
+.search-input:focus{border-color:var(--sky);}
+.search-clear{background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:3px 6px;border-radius:4px;}
+.search-clear:hover{background:var(--card);}
+.search-result{font-size:11px;color:var(--muted);white-space:nowrap;}
+
+
+/* CONTENT */
+.page-content{padding:16px 18px 32px;}
+.barrette-section{margin-bottom:24px;}
+.barrette-title{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--rule);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.barrette-num{background:var(--navy);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.barrette-schedule{font-size:11px;font-weight:500;color:var(--muted);margin-left:2px;}
+.barrette-total{font-size:11px;font-weight:700;color:var(--navy);background:var(--card);padding:2px 8px;border-radius:10px;margin-left:auto;}
+
+/* GROUP GRID */
+.groupes-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.groupe-card{flex:0 0 135px;}
+
+/* GROUP CARD */
+.groupe-card{background:#fff;border-radius:6px;border:1px solid var(--rule);overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.05);width:135px;}
+.groupe-header{padding:8px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:5px;}
+.groupe-header-left{display:flex;flex-direction:column;gap:1px;}
+.groupe-matiere{font-size:12px;font-weight:800;color:#fff;letter-spacing:.02em;line-height:1.2;}
+.groupe-prof-inline{font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.78);line-height:1.3;}
+.groupe-badge{background:rgba(255,255,255,.22);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;white-space:nowrap;flex-shrink:0;margin-top:1px;}
+.groupe-eleves{padding:4px 6px;display:flex;flex-direction:column;gap:0;max-height:240px;overflow-y:auto;}
+.groupe-eleves::-webkit-scrollbar{width:3px;}
+.groupe-eleves::-webkit-scrollbar-track{background:transparent;}
+.groupe-eleves::-webkit-scrollbar-thumb{background:var(--rule);border-radius:4px;}
+.eleve{padding:3px 3px;font-size:10px;border-radius:3px;transition:background .1s;display:flex;align-items:center;gap:3px;}
+.eleve:not(:last-child){border-bottom:1px solid var(--rule);}
+.eleve.highlight{background:#fef9c3;font-weight:700;}
+.eleve.dimmed{opacity:.3;}
+.eleve-num{font-size:8px;color:var(--muted);width:12px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums;}
+
+/* Matière colors */
+.mat-MATHS {background:#1e3a5f;}
+.mat-PHCH  {background:#7c3aed;}
+.mat-SVT   {background:#16a34a;}
+.mat-SES   {background:#d97706;}
+.mat-HGGSP {background:#0284c7;}
+.mat-HLP   {background:#db2777;}
+.mat-AMC   {background:#ea580c;}
+
+/* BUTTONS */
+.header-btn{padding:4px 10px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);border-radius:5px;font-size:11px;cursor:pointer;color:#fff;display:flex;align-items:center;gap:4px;white-space:nowrap;transition:background .15s;}
+.header-btn:hover{background:rgba(255,255,255,.2);}
+.header-btn.active{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.6);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,20,40,.55);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
+.modal-overlay.hidden{display:none;}
+.modal-box{background:#fff;border-radius:12px;padding:28px 28px 22px;width:320px;box-shadow:0 16px 48px rgba(0,0,0,.3);display:flex;flex-direction:column;gap:16px;}
+.modal-title{font-size:15px;font-weight:800;color:var(--navy);}
+.modal-sub{font-size:12px;color:var(--muted);margin-top:-10px;}
+.modal-input-wrap{position:relative;}
+.modal-input{width:100%;padding:10px 36px 10px 12px;border:1.5px solid var(--rule);border-radius:7px;font-size:14px;outline:none;transition:border .15s;}
+.modal-input:focus{border-color:var(--sky);}
+.modal-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:2px;}
+.modal-err{font-size:11px;color:#dc2626;min-height:14px;margin-top:-8px;}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;}
+.modal-cancel{padding:8px 16px;background:none;border:1.5px solid var(--rule);border-radius:6px;font-size:13px;cursor:pointer;color:var(--muted);}
+.modal-cancel:hover{background:var(--card);}
+.modal-confirm{padding:8px 18px;background:var(--navy);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;}
+.modal-confirm:hover{background:#162d4a;}
+
+/* ANOMALIES */
+.eleve.dup-barrette{background:#fef3c7;}
+.eleve.dup-barrette .eleve-name{color:#b45309;font-weight:700;}
+.eleve.warn-global .eleve-name{color:#dc2626;}
+.eleve-warn{font-size:8px;flex-shrink:0;line-height:1;}
+
+/* EDIT MODE */
+.edit-mode .eleve{cursor:pointer;}
+.edit-mode .eleve:hover{background:var(--card);}
+.eleve.editing{background:#e0f2fe;font-weight:700;}
+
+/* PANNEAU ANOMALIES */
+.anomalies-panel{position:fixed;top:0;right:0;height:100vh;width:320px;background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,.2);z-index:300;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .22s ease;}
+.anomalies-panel.open{transform:translateX(0);}
+.anomalies-panel-header{background:var(--navy);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.anomalies-panel-title{font-size:13px;font-weight:800;}
+.anomalies-close{background:none;border:none;color:#fff;font-size:18px;cursor:pointer;line-height:1;padding:0 2px;}
+.anomalies-body{overflow-y:auto;flex:1;padding:12px 14px;display:flex;flex-direction:column;gap:10px;}
+.anomaly-item{border:1px solid var(--rule);border-radius:6px;overflow:hidden;}
+.anomaly-name{font-size:11px;font-weight:800;color:var(--navy);padding:6px 10px;background:var(--card);border-bottom:1px solid var(--rule);}
+.anomaly-detail{font-size:10px;color:var(--muted);padding:5px 10px;line-height:1.6;}
+.anomaly-detail b{color:var(--text);}
+.anomaly-tag{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;margin-right:3px;}
+.tag-dup{background:#fef3c7;color:#b45309;}
+.tag-warn{background:#fee2e2;color:#dc2626;}
+.anomalies-empty{font-size:12px;color:var(--muted);text-align:center;padding:30px 0;}
+
+/* DROPDOWN RÉAFFECTATION */
+.eleve-dropdown{position:absolute;z-index:200;background:#fff;border:1.5px solid var(--navy);border-radius:7px;box-shadow:0 4px 16px rgba(0,0,0,.18);min-width:160px;overflow:hidden;}
+.eleve-dropdown-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:7px 12px 5px;border-bottom:1px solid var(--rule);}
+.eleve-dropdown-item{padding:7px 12px;font-size:11px;font-weight:600;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between;gap:8px;}
+.eleve-dropdown-item:hover{background:var(--card);}
+.eleve-dropdown-item span{font-weight:400;color:var(--muted);font-size:10px;}
+</style>
+</head>
+<body>
+<div class="slide">
+
+<!-- PANNEAU ANOMALIES -->
+<div class="anomalies-panel" id="anomaliesPanel">
+  <div class="anomalies-panel-header">
+    <span class="anomalies-panel-title">⚠️ Anomalies</span>
+    <button class="anomalies-close" onclick="toggleAnomaliesPanel()">✕</button>
+  </div>
+  <div class="anomalies-body" id="anomaliesBody"></div>
+</div>
+
+<!-- MODAL MOT DE PASSE -->
+<div class="modal-overlay hidden" id="modalOverlay">
+  <div class="modal-box">
+    <div class="modal-title" id="modalTitle">Accès restreint</div>
+    <div class="modal-sub" id="modalSub">Entrez le mot de passe pour continuer.</div>
+    <div class="modal-input-wrap">
+      <input class="modal-input" id="modalPwd" type="password" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')modalConfirm()">
+      <button class="modal-eye" onclick="toggleModalEye()" id="modalEye">👁</button>
+    </div>
+    <div class="modal-err" id="modalErr"></div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="modalClose()">Annuler</button>
+      <button class="modal-confirm" onclick="modalConfirm()">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+<div class="header">
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-dots">
+        <div class="dot" style="background:#1e3a5f;border:2px solid rgba(255,255,255,.4);"></div>
+        <div class="dot" style="background:#7c3aed;"></div>
+        <div class="dot" style="background:#a8d4e6;"></div>
+        <div class="dot" style="background:#d97706;"></div>
+      </div>
+      <span class="brand-name">Lycée Saint Victor · Valence</span>
+    </div>
+    <div class="header-actions">
+      <a href="barrettes.html" class="header-btn" style="text-decoration:none;">⇄ Terminales</a>
+      <button class="header-btn" id="anomaliesBtn" onclick="toggleAnomaliesPanel()">⚠️ <span id="anomaliesCount">…</span></button>
+      <button class="header-btn" id="editToggle" onclick="askEdit()">✎ Édition</button>
+    </div>
+  </div>
+  <h1>Barrettes de spécialités — Premières</h1>
+  <div class="header-sub">Année scolaire 2026–2027 · 3 barrettes</div>
+</div>
+
+
+<div class="search-bar">
+  <input class="search-input" id="searchInput" type="text" placeholder="🔍  Rechercher un élève…" oninput="doSearch(this.value)" autocomplete="off">
+  <button class="search-clear" onclick="clearSearch()" title="Effacer">✕</button>
+  <span class="search-result" id="searchResult"></span>
+</div>
+
+<div class="page-content" id="pageContent"></div>
+
+<script>
+const PWD_PR   = 'SaintVictor26';
+const PWD_EDIT = 'SaintVictor26';
+
+const DATA = [
+  {
+    barrette: "Barrette 1",
+    schedule: "6 groupes · Jeu. 13h55 | Ven. 10h05",
+    groupes: [
+      { matiere:"HLP",   prof:"POPH. / REYMOND", eleves:["AIT MAHDI","CORNET","DIAZ","ETIENNE","JAMONT","LAMBALLAIS","MARCHAL AUBERT","PENNINGSFELD","PENOT","RIDEAU NAINANI","SORBIER","VERILHAC"] },
+      { matiere:"MATHS", prof:"BERTRAND",          eleves:["AMAND","BAUREL","BOITTIAUX TARRIOTE","BRUCHON","BRUN","CELBERT--PARRAMON","CHARVOLIN","CLAPE","DAS NEVES","DASPET-LOUBENS","DE LAFORCADE C.","DELATTRE","DIANE","FILLOD","FOREL","FREZET FAYS","JOFFIN","JOSE MUESES","KAVALSES","KLEINHENY","LEMRANI","LÉVÊQUE","MEHADJI","MERAD","MEULENKAMP","NAKHAL","NDIAYE","POUDEVIGNE AQUILINA","RECOING","RUDELLE--BARBE","SAVLI","ZAIBA"] },
+      { matiere:"PH-CH", prof:"RAYMOND",            eleves:["ADIGUZEL","ARNOUX","AÏT HAMMADI","BEURDELEY","BOLTRI","CHARLIER","COULOMBIER","DA COSTA FERNANDES","DELRUE","DOGAN","FONTVIELLE","GERVY","HAFSAOUI","KHALIFI","LEICHER","LHADDAD","MOISE","MOUTAABID","PERRET","RAWASH","REYNAUD","RUSSIER","TASSIAMBA"] },
+      { matiere:"SES",   prof:"LOPEZ",              eleves:["BALOGNA","BERNARD","BERTRAND A.","CLEMENCEAU","CORTES","DESPESSE","DUPOS C.","FEHRI","GAINE","MATTERN VANDEPUTTE","MICHEL","MISTIGRY","NICOT","PLANTA-MOESTUS","PONT--RENARD","RODET","YAMARKE M' BALENG"] },
+      { matiere:"HGGSP", prof:"DURIF",              eleves:["BASSEYISSILA RODIER","BRAHMIA","COMBAZ","CORTIAL","CUISINIER","DE LAFORCADE Q.","DOUET","FAIVRE","GERMON","GOURDAIN","HENRY","HIVET","LEHEMBRE","LOGAN","MERLIAUD","MICHEL-KARMA","MIHAJLOVIC","MOULENE DUVAL","NAIT ELHAJ","OMRI","PEROT","RUILLE","RUZINDAZA M.","TATIER","TOURVIEILLE","TUAL GARCIA","YEUILLAZ"] },
+      { matiere:"SVT",   prof:"VEYSSEYRE",          eleves:["BERTRAND K.","CHAMBON","CHRISTOPHE","DARNAUDET","DUPOS E.","GHAZARYAN","HOLLANDT BAMBA","LAMEIRAS LEGRAND","LOZZI","MAGAN TRODI","MARONDEDZE","MONTEUX","RACHO ARAKILIAN","ROSSILLE","SELEN","YILMAZ"] }
+    ]
+  },
+  {
+    barrette: "Barrette 2",
+    schedule: "6 groupes · Mar. 08h00 | Mer. 10h05",
+    groupes: [
+      { matiere:"HGGSP", prof:"NOCERA",     eleves:["BERNARD","CORNET","CORTES","DE LAFORCADE C.","DIAZ","DUPOS C.","ETIENNE","GERVY","GOURDAIN","HAFSAOUI","JAMONT","MARCHAL AUBERT","MISTIGRY","MOISE","NDIAYE","NICOT","PENNINGSFELD","PENOT","PONT--RENARD","RIDEAU NAINANI","SORBIER","VERILHAC"] },
+      { matiere:"MATHS", prof:"ROUX / MEH", eleves:["BOLTRI","CHARLIER","CHRISTOPHE","CORTIAL","COULOMBIER","CUISINIER","DELRUE","DESPESSE","DOUET","FEHRI","FONTVIELLE","GHAZARYAN","LAMBALLAIS","LAMEIRAS LEGRAND","LEICHER","LOZZI","MAGAN TRODI","MARONDEDZE","MERLIAUD","MIHAJLOVIC","MOUTAABID","PEROT","PLANTA-MOESTUS","RAWASH","ROSSILLE","RUILLE","RUSSIER","TASSIAMBA","TUAL GARCIA","YILMAZ"] },
+      { matiere:"PH-CH", prof:"FOLLIN",     eleves:["BERTRAND K.","BOITTIAUX TARRIOTE","BRUN","CLEMENCEAU","COMBAZ","DARNAUDET","DAS NEVES","DELATTRE","DUPOS E.","FILLOD","GERMON","JOFFIN","JOSE MUESES","KLEINHENY","LÉVÊQUE","MEHADJI","MERAD","MICHEL","MONTEUX","NAKHAL","RACHO ARAKILIAN","RODET","RUDELLE--BARBE","SELEN","ZAIBA"] },
+      { matiere:"SES",   prof:"ASSARD",     eleves:["AIT MAHDI","ARNOUX","BAUREL","CHAMBON","DASPET-LOUBENS","DE LAFORCADE Q.","DIANE","LEHEMBRE","LEMRANI","MOULENE DUVAL","PERRET","TATIER"] },
+      { matiere:"AMC",   prof:"QUANTIN",    eleves:["AMAND","AÏT HAMMADI","BASSEYISSILA RODIER","BERTRAND A.","BEURDELEY","BRAHMIA","CELBERT--PARRAMON","FAIVRE","FREZET FAYS","GAINE","HIVET","HOLLANDT BAMBA","KAVALSES","LOGAN","MICHEL-KARMA","NAIT ELHAJ","OMRI","RECOING","RUZINDAZA M.","TOURVIEILLE","YEUILLAZ"] },
+      { matiere:"SVT",   prof:"BOUCHER",    eleves:["ADIGUZEL","BALOGNA","BRUCHON","CHARVOLIN","CLAPE","DA COSTA FERNANDES","DOGAN","FOREL","HENRY","KHALIFI","LHADDAD","MATTERN VANDEPUTTE","MEULENKAMP","POUDEVIGNE AQUILINA","REYNAUD","SAVLI","VILLARET","YAMARKE M' BALENG"] }
+    ]
+  },
+  {
+    barrette: "Barrette 3",
+    schedule: "5 groupes · Lun. 13h00 | Ven. 08h00",
+    groupes: [
+      { matiere:"AMC",   prof:"CORNEILLER", eleves:["AIT MAHDI","BALOGNA","BAUREL","BERNARD","BOITTIAUX TARRIOTE","DELATTRE","DIANE","FILLOD","JOFFIN","KLEINHENY","LAMBALLAIS","LEHEMBRE","MAGAN TRODI","MARONDEDZE","MATTERN VANDEPUTTE","MEHADJI","MERLIAUD","MISTIGRY","NICOT","PENOT","PLANTA-MOESTUS","RUILLE","ZAIBA"] },
+      { matiere:"MATHS", prof:"TRAPIER",    eleves:["ADIGUZEL","ARNOUX","AÏT HAMMADI","BERTRAND A.","BERTRAND K.","BEURDELEY","CHAMBON","CLEMENCEAU","DA COSTA FERNANDES","DARNAUDET","DE LAFORCADE Q.","DOGAN","DUPOS C.","DUPOS E.","GERMON","GERVY","GOURDAIN","HAFSAOUI","KHALIFI","LHADDAD","MICHEL","MOISE","MONTEUX","MOULENE DUVAL","PERRET","PONT--RENARD","RACHO ARAKILIAN","REYNAUD","RODET","SELEN","TATIER","VILLARET"] },
+      { matiere:"PH-CH", prof:"RAMIREZ",    eleves:["CELBERT--PARRAMON","CHARVOLIN","CHRISTOPHE","CLAPE","CORTIAL","DASPET-LOUBENS","DESPESSE","FEHRI","FOREL","FREZET FAYS","GHAZARYAN","HOLLANDT BAMBA","KAVALSES","LAMEIRAS LEGRAND","LEMRANI","LOZZI","MEULENKAMP","MIHAJLOVIC","NDIAYE","POUDEVIGNE AQUILINA","RECOING","ROSSILLE","SAVLI","YAMARKE M' BALENG","YILMAZ"] },
+      { matiere:"SVT",   prof:"PIROWSKI",   eleves:["AMAND","BOLTRI","CHARLIER","COMBAZ","CORNET","CORTES","COULOMBIER","CUISINIER","DELRUE","FONTVIELLE","GAINE","JOSE MUESES","LÉVÊQUE","MERAD","MOUTAABID","RAWASH","RUDELLE--BARBE","TASSIAMBA"] },
+      { matiere:"SES",   prof:"LOPEZ",      eleves:["BASSEYISSILA RODIER","BRAHMIA","BRUCHON","BRUN","DAS NEVES","DE LAFORCADE C.","DIAZ","DOUET","ETIENNE","FAIVRE","HENRY","HIVET","JAMONT","LEICHER","LOGAN","MARCHAL AUBERT","MICHEL-KARMA","NAIT ELHAJ","NAKHAL","OMRI","PENNINGSFELD","PEROT","RIDEAU NAINANI","RUSSIER","RUZINDAZA M.","SORBIER","TOURVIEILLE","TUAL GARCIA","VERILHAC","YEUILLAZ"] }
+    ]
+  }
+];
+
+// Classe CSS par matière
+const MAT_CLASS = {'MATHS':'mat-MATHS','PH-CH':'mat-PHCH','SVT':'mat-SVT','SES':'mat-SES','HGGSP':'mat-HGGSP','HLP':'mat-HLP','AMC':'mat-AMC'};
+function matClass(m){ return MAT_CLASS[m]||'mat-AMC'; }
+
+// ─── BUILD DOM ────────────────────────────────────────────────────
+const content = document.getElementById('pageContent');
+
+DATA.forEach((bar, bi) => {
+  // Titre barrette
+  const section = document.createElement('div');
+  section.className = 'barrette-section';
+
+  const title = document.createElement('div');
+  title.className = 'barrette-title';
+  const totalEleves = bar.groupes.reduce((s, g) => s + g.eleves.length, 0);
+  title.innerHTML = `<span class="barrette-num">B${bi+1}</span>${bar.barrette}<span class="barrette-schedule">${bar.schedule}</span><span class="barrette-total">${totalEleves} élèves</span>`;
+  section.appendChild(title);
+
+  const grid = document.createElement('div');
+  grid.className = 'groupes-grid';
+
+  bar.groupes.forEach((g, gi) => {
+    const card = document.createElement('div');
+    card.className = 'groupe-card';
+    card.id = `g-${bi}-${gi}`;
+
+    // Header coloré
+    const header = document.createElement('div');
+    header.className = `groupe-header ${matClass(g.matiere)}`;
+    const left = document.createElement('div');
+    left.className = 'groupe-header-left';
+    const mat = document.createElement('span');
+    mat.className = 'groupe-matiere';
+    mat.textContent = g.matiere;
+    const prof = document.createElement('span');
+    prof.className = 'groupe-prof-inline';
+    prof.textContent = g.prof;
+    left.append(mat, prof);
+    const badge = document.createElement('span');
+    badge.className = 'groupe-badge';
+    badge.textContent = g.eleves.length + ' él.';
+    header.append(left, badge);
+    card.appendChild(header);
+
+    // Liste élèves
+    const liste = document.createElement('div');
+    liste.className = 'groupe-eleves';
+    liste.id = `el-${bi}-${gi}`;
+
+    g.eleves.forEach((nom, i) => {
+      liste.appendChild(makeEleve(nom, i+1, bi, gi));
+    });
+
+    card.appendChild(liste);
+    grid.appendChild(card);
+  });
+
+  section.appendChild(grid);
+  content.appendChild(section);
+});
+
+function makeEleve(nom, num, bi, gi) {
+  const el = document.createElement('div');
+  el.className = 'eleve';
+  el.dataset.name = nom.toLowerCase();
+  el.dataset.bi = bi;
+  el.dataset.gi = gi;
+  const numEl = document.createElement('span');
+  numEl.className = 'eleve-num';
+  numEl.textContent = num;
+  const nameEl = document.createElement('span');
+  nameEl.className = 'eleve-name';
+  nameEl.textContent = nom;
+  el.append(numEl, nameEl);
+  el.addEventListener('click', function(e){ onEleveClick(e, this); });
+  return el;
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────
+let modalCallback = null;
+
+function modalOpen(title, sub, onSuccess) {
+  modalCallback = onSuccess;
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalSub').textContent = sub;
+  document.getElementById('modalPwd').value = '';
+  document.getElementById('modalErr').textContent = '';
+  document.getElementById('modalPwd').type = 'password';
+  document.getElementById('modalEye').textContent = '👁';
+  document.getElementById('modalOverlay').classList.remove('hidden');
+  setTimeout(() => document.getElementById('modalPwd').focus(), 50);
+}
+function modalClose() {
+  document.getElementById('modalOverlay').classList.add('hidden');
+  modalCallback = null;
+}
+function modalConfirm() {
+  const pwd = document.getElementById('modalPwd').value;
+  if (pwd !== PWD_PR) {
+    document.getElementById('modalErr').textContent = 'Mot de passe incorrect.';
+    document.getElementById('modalPwd').focus();
+    return;
+  }
+  const cb = modalCallback;
+  modalClose();
+  if (cb) cb();
+}
+function toggleModalEye() {
+  const inp = document.getElementById('modalPwd');
+  const eye = document.getElementById('modalEye');
+  if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
+  else { inp.type = 'password'; eye.textContent = '👁'; }
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) modalClose();
+});
+
+// ─── SEARCH ───────────────────────────────────────────────────────
+let currentSearch = '';
+function doSearch(val) {
+  currentSearch = val.trim().toLowerCase();
+  const all = document.querySelectorAll('.eleve');
+  let found = 0;
+  all.forEach(el => {
+    const name = el.dataset.name || '';
+    if (!currentSearch) {
+      el.classList.remove('highlight','dimmed');
+    } else if (name.includes(currentSearch)) {
+      el.classList.add('highlight'); el.classList.remove('dimmed'); found++;
+    } else {
+      el.classList.add('dimmed'); el.classList.remove('highlight');
+    }
+  });
+  const res = document.getElementById('searchResult');
+  if (!currentSearch) { res.textContent = ''; return; }
+  res.textContent = found ? `${found} résultat${found>1?'s':''}` : 'Aucun résultat';
+}
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  doSearch('');
+}
+
+// ─── EDIT MODE ────────────────────────────────────────────────────
+let editUnlocked = false;
+let editActive = false;
+
+function askEdit() {
+  if (editUnlocked) { toggleEditMode(); return; }
+  modalOpen('Mode édition', 'Accès réservé à l\'administration.', () => {
+    editUnlocked = true;
+    toggleEditMode();
+  });
+}
+
+function toggleEditMode() {
+  editActive = !editActive;
+  document.body.classList.toggle('edit-mode', editActive);
+  const btn = document.getElementById('editToggle');
+  btn.textContent = editActive ? '✓ Fin édition' : '✎ Édition';
+  btn.style.background = editActive ? 'rgba(22,163,74,.4)' : '';
+  btn.style.borderColor = editActive ? 'rgba(22,163,74,.8)' : '';
+  closeDropdown();
+}
+
+// ─── DROPDOWN RÉAFFECTATION ───────────────────────────────────────
+let dropdown = null;
+let activeEleve = null;
+
+function onEleveClick(e, el) {
+  if (!editActive) return;
+  e.stopPropagation();
+  if (activeEleve === el) { closeDropdown(); return; }
+  closeDropdown();
+
+  activeEleve = el;
+  el.classList.add('editing');
+
+  const bi = parseInt(el.dataset.bi);
+  const gi = parseInt(el.dataset.gi);
+  const bar = DATA[bi];
+
+  // Construire le dropdown
+  dropdown = document.createElement('div');
+  dropdown.className = 'eleve-dropdown';
+  dropdown.innerHTML = '<div class="eleve-dropdown-title">Déplacer vers…</div>' +
+    bar.groupes.map((g, idx) => idx === gi ? '' :
+      `<div class="eleve-dropdown-item" onclick="moveEleve(${bi},${gi},${idx})">${g.matiere} <span>${g.prof}</span></div>`
+    ).join('');
+
+  // Positionner sous l'élève
+  const rect = el.getBoundingClientRect();
+  const slideRect = document.querySelector('.slide').getBoundingClientRect();
+  dropdown.style.top  = (rect.bottom - slideRect.top + 4) + 'px';
+  dropdown.style.left = (rect.left   - slideRect.left) + 'px';
+
+  document.querySelector('.slide').appendChild(dropdown);
+}
+
+function moveEleve(bi, gi, targetGi) {
+  if (!activeEleve) return;
+  const name = activeEleve.querySelector('.eleve-name').textContent;
+
+  // Retirer du groupe source
+  activeEleve.remove();
+
+  // Ajouter au groupe cible
+  const targetContainer = document.getElementById(`el-${bi}-${targetGi}`);
+  const newEl = makeEleve(name, 0, bi, targetGi);
+  targetContainer.appendChild(newEl);
+
+  // Trier alphabétiquement le groupe cible
+  sortGroup(targetContainer);
+
+  // Renuméroter les deux groupes
+  renumber(`el-${bi}-${gi}`);
+  renumber(`el-${bi}-${targetGi}`);
+  updateBadge(bi, gi);
+  updateBadge(bi, targetGi);
+  analyzeEleves();
+
+  closeDropdown();
+}
+
+function sortGroup(container) {
+  const eleves = Array.from(container.querySelectorAll('.eleve'));
+  eleves.sort((a, b) => a.querySelector('.eleve-name').textContent.localeCompare(b.querySelector('.eleve-name').textContent, 'fr'));
+  eleves.forEach(el => container.appendChild(el));
+}
+
+function renumber(containerId) {
+  document.querySelectorAll(`#${containerId} .eleve-num`).forEach((el, i) => {
+    el.textContent = i + 1;
+  });
+}
+
+function updateBadge(bi, gi) {
+  const count = document.querySelectorAll(`#el-${bi}-${gi} .eleve`).length;
+  const card  = document.getElementById(`g-${bi}-${gi}`);
+  if (card) card.querySelector('.groupe-badge').textContent = count + ' él.';
+}
+
+function closeDropdown() {
+  if (dropdown) { dropdown.remove(); dropdown = null; }
+  if (activeEleve) { activeEleve.classList.remove('editing'); activeEleve = null; }
+}
+
+document.addEventListener('click', closeDropdown);
+
+// ─── ANALYSE ANOMALIES ────────────────────────────────────────────
+function analyzeEleves() {
+  // Réinitialiser marqueurs visuels
+  document.querySelectorAll('.eleve').forEach(el => {
+    el.classList.remove('dup-barrette','warn-global');
+    const w = el.querySelector('.eleve-warn');
+    if (w) w.remove();
+  });
+
+  // Construire la map nom → [{bi, gi, matiere, el}]
+  const map = {};
+  document.querySelectorAll('.eleve').forEach(el => {
+    const name = el.querySelector('.eleve-name').textContent.trim().toUpperCase();
+    const bi = parseInt(el.dataset.bi);
+    const gi = parseInt(el.dataset.gi);
+    const matiere = DATA[bi].groupes[gi].matiere;
+    if (!map[name]) map[name] = [];
+    map[name].push({bi, gi, matiere, el});
+  });
+
+  const anomalies = []; // {name, tags, details}
+
+  Object.entries(map).forEach(([name, appearances]) => {
+    const issues = [];
+
+    // Doublons dans une même barrette
+    const byBi = {};
+    appearances.forEach(a => { (byBi[a.bi] = byBi[a.bi]||[]).push(a); });
+    let hasDup = false;
+    Object.entries(byBi).forEach(([bi, arr]) => {
+      if (arr.length > 1) {
+        hasDup = true;
+        arr.forEach(a => a.el.classList.add('dup-barrette'));
+        issues.push({tag:'dup', text:`Double en B${parseInt(bi)+1} (${arr.map(a=>a.matiere).join(', ')})`});
+      }
+    });
+
+    // Règle globale
+    const total = appearances.length;
+    const nBi   = new Set(appearances.map(a => a.bi)).size;
+    const nMat  = new Set(appearances.map(a => a.matiere)).size;
+    const isValid = total === 3 && nBi === 3 && nMat === 3;
+
+    if (!isValid) {
+      appearances.forEach(a => {
+        a.el.classList.add('warn-global');
+        const warn = document.createElement('span');
+        warn.className = 'eleve-warn';
+        warn.textContent = '⚠️';
+        a.el.insertBefore(warn, a.el.firstChild);
+      });
+      const present = appearances.map(a => `B${a.bi+1}/${a.matiere}`).join(', ');
+      if (total !== 3) issues.push({tag:'warn', text:`${total} occurrence(s) au lieu de 3 — ${present}`});
+      if (nBi !== 3 && total === 3) issues.push({tag:'warn', text:`Pas 1 par barrette — ${present}`});
+      if (nMat !== 3 && total === 3) issues.push({tag:'warn', text:`Matière répétée — ${present}`});
+    }
+
+    if (issues.length > 0) anomalies.push({name, issues});
+  });
+
+  // Mettre à jour le bouton
+  const btn = document.getElementById('anomaliesBtn');
+  const count = document.getElementById('anomaliesCount');
+  count.textContent = anomalies.length ? anomalies.length + ' anomalie' + (anomalies.length>1?'s':'') : 'OK';
+  btn.style.borderColor = anomalies.length ? 'rgba(252,165,0,.8)' : 'rgba(34,197,94,.6)';
+  btn.style.background  = anomalies.length ? 'rgba(252,165,0,.15)' : 'rgba(34,197,94,.15)';
+
+  // Remplir le panneau
+  const body = document.getElementById('anomaliesBody');
+  body.innerHTML = '';
+  if (!anomalies.length) {
+    body.innerHTML = '<div class="anomalies-empty">✅ Aucune anomalie détectée</div>';
+    return;
+  }
+  anomalies.sort((a,b) => a.name.localeCompare(b.name,'fr')).forEach(({name, issues}) => {
+    const item = document.createElement('div');
+    item.className = 'anomaly-item';
+    item.innerHTML = `<div class="anomaly-name">${name}</div>` +
+      `<div class="anomaly-detail">${issues.map(i =>
+        `<span class="anomaly-tag tag-${i.tag}">${i.tag==='dup'?'DOUBLON':'INCOMPLET'}</span>${i.text}`
+      ).join('<br>')}</div>`;
+    body.appendChild(item);
+  });
+}
+
+function toggleAnomaliesPanel() {
+  document.getElementById('anomaliesPanel').classList.toggle('open');
+}
+
+analyzeEleves();
+</script>
+</div><!-- /.slide -->
+</body>
+</html>
