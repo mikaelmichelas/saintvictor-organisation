@@ -502,6 +502,7 @@ html,body{
       <a href="barrettes1eres.html" class="btn-edit" style="text-decoration:none;">⇄ Premières</a>
       <button class="btn-edit" id="anomaliesBtn" onclick="toggleAnomaliesPanel()">⚠️ <span id="anomaliesCount">…</span></button>
       <button class="btn-edit" id="btnImport" onclick="openImport()">⤓ Import</button>
+      <button class="btn-edit" id="btnExport" onclick="exportHTML()" style="display:none;">💾 Exporter</button>
       <button class="btn-pr"   id="btnPR">👥 PR</button>
       <button class="btn-edit" id="btnEdit">✎ Éditer</button>
     </div>
@@ -902,12 +903,14 @@ let editMode  = false;
 let selected  = null;   // DOM element currently selected
 let modalMode = 'group'; // 'group' | 'pr'
 
+const btnExport = document.getElementById('btnExport');
 btnEdit.addEventListener('click', () => {
   requirePassword(() => {
     editMode = !editMode;
     slide.classList.toggle('edit-mode', editMode);
     btnEdit.classList.toggle('active', editMode);
     btnEdit.textContent = editMode ? '✓ Terminer' : '✎ Éditer';
+    btnExport.style.display = editMode ? '' : 'none';
     if (!editMode) clearSelection();
   });
 });
@@ -1347,6 +1350,47 @@ applyPRBold();
 updateBarretteTotals();
 analyzeEleves();
 input.focus();
+
+/* ══════════════════════════════════════
+   EXPORT HTML
+══════════════════════════════════════ */
+function exportHTML() {
+  // Sérialise l'état actuel des groupes dans le HTML source
+  const groups = document.querySelectorAll('.group');
+  let html = document.documentElement.outerHTML;
+
+  // Pour chaque groupe, reconstruit la liste des noms à partir du DOM actuel
+  groups.forEach(group => {
+    const id = group.id;
+    const names = [...group.querySelectorAll('.g-list .name')].map(el => el.outerHTML).join('\n        ');
+    // Remplace le contenu de .g-list dans le HTML sérialisé
+    // On reconstruit depuis le DOM via outerHTML complet du groupe
+  });
+
+  // Méthode plus simple : prendre tout l'outerHTML du document après nettoyage
+  // Retire les classes temporaires de highlight de recherche
+  const clone = document.documentElement.cloneNode(true);
+
+  // Nettoie les états temporaires
+  clone.querySelectorAll('.name.hit').forEach(el => el.classList.remove('hit'));
+  clone.querySelectorAll('.group.hidden').forEach(el => el.classList.remove('hidden'));
+  clone.querySelectorAll('[style*="display: none"]').forEach(el => {
+    if (el.id === 'btnExport') el.style.display = '';
+  });
+
+  // Retire le bouton export de la copie (il sera recréé au prochain chargement via JS)
+  // Non — on le garde, il sera caché par défaut
+
+  const blob = new Blob(['<!doctype html>\n' + clone.outerHTML], {type: 'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const now = new Date();
+  const stamp = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+  a.download = `barrettesTales.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 </script>
 </body>
 </html>
