@@ -1,0 +1,1352 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Barrettes de spécialités — Terminale 2026-2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap">
+<style>
+:root {
+  --navy:   #1a2b6d;
+  --mauve:  #8c3a6a;
+  --amber:  #d98c1e;
+  --sky:    #6a96c8;
+  --ground: #f4f5f8;
+  --white:  #ffffff;
+  --text:   #18202e;
+  --muted:  #7a8098;
+  --rule:   #dde0ea;
+  --card:   #eef0f6;
+  --hit:    #fef3c7;
+  --hit-border: #d98c1e;
+  --pr-b1:  rgba(26,43,109,.12);
+  --pr-b2:  rgba(140,58,106,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  width:100%;height:100%;
+  background:#1e2433;
+  font-family:'Sora',system-ui,sans-serif;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.slide{
+  width:1280px;height:720px;
+  background:var(--ground);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  position:relative;
+}
+
+/* ── HEADER ── */
+.top{
+  height:56px;flex-shrink:0;
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;
+}
+.top-title{color:#fff;font-size:15px;font-weight:700;}
+.top-sub{color:rgba(255,255,255,.45);font-size:11px;margin-left:10px;}
+.top-right{display:flex;align-items:center;gap:10px;}
+
+/* ── SEARCH ── */
+.search-bar{
+  flex-shrink:0;
+  height:42px;
+  padding:0 32px;
+  background:var(--white);
+  border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;gap:12px;
+}
+.search-bar input{
+  flex:1;border:none;outline:none;
+  font-family:'Sora',sans-serif;font-size:13px;color:var(--text);
+  background:transparent;
+}
+.search-bar input::placeholder{color:var(--muted);}
+.match-count{
+  font-size:11px;font-weight:700;color:var(--amber);
+  letter-spacing:.04em;white-space:nowrap;min-width:80px;text-align:right;
+}
+
+/* ── CONTENT ── */
+.content{
+  height:594px;
+  display:flex;flex-direction:column;
+  padding:10px 32px;
+  gap:10px;
+  overflow:hidden;
+}
+
+/* ── BARRETTE SECTION ── */
+.barrette-section{
+  height:282px;
+  flex:none;
+  display:flex;flex-direction:column;
+  gap:6px;
+}
+.barrette-label{
+  flex-shrink:0;
+  display:flex;align-items:center;gap:8px;height:22px;
+}
+.barrette-pill{
+  font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;color:#fff;white-space:nowrap;
+}
+.barrette-pill.b1{background:var(--navy);}
+.barrette-pill.b2{background:var(--mauve);}
+.barrette-hours{
+  font-size:11px;font-weight:600;color:var(--navy);
+  background:rgba(26,43,109,.09);
+  border-radius:4px;padding:2px 8px;letter-spacing:.03em;white-space:nowrap;
+}
+.barrette-pill.b2 ~ .barrette-hours{
+  color:var(--mauve);background:rgba(140,58,106,.09);
+}
+.barrette-sep{color:var(--rule);margin:0 2px;}
+.barrette-desc{font-size:11px;color:var(--muted);}
+.barrette-total{
+  font-size:11px;font-weight:700;color:var(--amber);
+  background:rgba(217,140,30,.1);border-radius:4px;padding:2px 8px;
+}
+
+/* ── GROUPS ROW ── */
+.groups{
+  display:flex;gap:6px;
+  height:254px;
+  flex:none;
+}
+
+/* ── GROUP CARD ── */
+.group{
+  flex:1;min-width:0;
+  height:254px;
+  background:var(--white);
+  border-radius:7px;
+  border:1.5px solid var(--rule);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  transition:border-color .2s,box-shadow .2s,opacity .2s;
+}
+.group.has-match{
+  border-color:var(--amber);
+  box-shadow:0 0 0 2px rgba(217,140,30,.2);
+}
+.group.no-match{opacity:.28;}
+
+.g-head{
+  flex-shrink:0;
+  padding:8px 10px 5px;
+  border-top:3px solid transparent;
+}
+.g-head.b1{border-top-color:var(--navy);}
+.g-head.b2{border-top-color:var(--mauve);}
+
+.g-spec{font-size:12px;font-weight:800;line-height:1;}
+.g-head.b1 .g-spec{color:var(--navy);}
+.g-head.b2 .g-spec{color:var(--mauve);}
+
+.g-teacher{
+  font-size:9px;font-weight:500;color:var(--muted);
+  margin-top:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+.g-divider{flex-shrink:0;height:1px;background:var(--rule);}
+
+.g-list{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:4px 8px;
+}
+.g-list::-webkit-scrollbar{width:3px;}
+.g-list::-webkit-scrollbar-track{background:transparent;}
+.g-list::-webkit-scrollbar-thumb{background:var(--rule);border-radius:2px;}
+
+.name{
+  font-size:9px;font-weight:500;color:var(--text);
+  padding:2px 4px;
+  border-radius:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  line-height:1.25;
+  transition:background .12s;
+  cursor:default;
+}
+.name.pr{
+  font-weight:800;
+}
+.g-head.b1 ~ .g-divider ~ .g-list .name.pr { color:var(--navy); }
+.g-head.b2 ~ .g-divider ~ .g-list .name.pr { color:var(--mauve); }
+.name.hit{
+  background:var(--hit);
+  font-weight:700;
+  border-left:2px solid var(--hit-border);
+  padding-left:5px;
+}
+.name.pr.hit{font-weight:800;}
+
+.g-count{
+  flex-shrink:0;
+  padding:3px 8px;
+  background:var(--card);
+  font-size:9px;font-weight:600;color:var(--muted);
+  text-align:right;letter-spacing:.05em;
+  border-top:1px solid var(--rule);
+}
+
+/* ── BUTTONS ── */
+.btn-edit,.btn-pr{
+  font-family:'Sora',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  border:1.5px solid rgba(255,255,255,.35);
+  background:transparent;color:rgba(255,255,255,.8);
+  padding:5px 14px;border-radius:20px;cursor:pointer;
+  transition:background .15s,border-color .15s,color .15s;
+  white-space:nowrap;
+}
+.btn-edit:hover,.btn-pr:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.6);color:#fff;}
+.btn-edit.active,.btn-pr.active{background:#fff;color:var(--navy);border-color:#fff;}
+
+/* edit mode — barrettes */
+.edit-mode .name{cursor:pointer;}
+.edit-mode .name:hover{background:rgba(217,140,30,.15);color:var(--text);}
+.edit-mode .name.selected{background:var(--amber);color:#fff;font-weight:700;}
+
+/* edit mode — PR view */
+.slide.pr-view.edit-mode .pr-student{cursor:pointer;}
+.slide.pr-view.edit-mode .pr-student:hover{background:rgba(217,140,30,.15);}
+.slide.pr-view.edit-mode .pr-student.selected{background:var(--amber);color:#fff;font-weight:700;}
+
+/* ── PASSWORD MODAL ── */
+.pwd-overlay{
+  display:none;
+  position:absolute;inset:0;
+  background:rgba(18,24,40,.65);
+  z-index:300;
+  align-items:center;justify-content:center;
+}
+.pwd-overlay.open{display:flex;}
+.pwd-box{
+  background:#fff;border-radius:12px;
+  width:360px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+  overflow:hidden;
+}
+.pwd-head{
+  background:var(--navy);padding:14px 20px;
+  display:flex;align-items:center;gap:10px;
+}
+.pwd-head-icon{font-size:16px;}
+.pwd-head-title{color:#fff;font-size:13px;font-weight:700;}
+.pwd-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:12px;}
+.pwd-label{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;}
+.pwd-input-row{display:flex;gap:8px;}
+.pwd-input{
+  flex:1;
+  font-family:'Sora',sans-serif;font-size:13px;
+  border:1.5px solid var(--rule);border-radius:7px;
+  padding:7px 12px;outline:none;color:var(--text);
+  transition:border-color .15s;
+}
+.pwd-input:focus{border-color:var(--navy);}
+.pwd-input.error{border-color:#ef4444;animation:shake .25s ease;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.pwd-btn{
+  font-family:'Sora',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  background:var(--navy);color:#fff;
+  border:none;border-radius:7px;padding:7px 16px;cursor:pointer;
+  white-space:nowrap;
+}
+.pwd-btn:hover{background:#253d99;}
+.pwd-error{font-size:10px;color:#ef4444;font-weight:600;min-height:14px;}
+
+/* ── MOVE MODAL ── */
+.modal-overlay{
+  display:none;
+  position:absolute;inset:0;
+  background:rgba(18,24,40,.55);
+  z-index:200;
+  align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:#fff;border-radius:12px;
+  width:680px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+  overflow:hidden;
+}
+.modal-head{
+  background:var(--navy);padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.modal-head-text{color:#fff;}
+.modal-head-title{font-size:13px;font-weight:700;}
+.modal-head-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px;}
+.modal-close{
+  background:none;border:none;color:rgba(255,255,255,.6);
+  font-size:18px;cursor:pointer;padding:0 4px;line-height:1;
+}
+.modal-close:hover{color:#fff;}
+.modal-body{padding:16px 20px 20px;}
+.modal-bar-label{
+  font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;
+}
+.modal-groups{
+  display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;
+}
+.modal-group-btn{
+  font-family:'Sora',sans-serif;
+  font-size:11px;font-weight:600;
+  padding:5px 12px;border-radius:6px;
+  border:1.5px solid var(--rule);
+  background:var(--card);color:var(--text);
+  cursor:pointer;
+  transition:background .12s,border-color .12s,color .12s;
+}
+.modal-group-btn:hover{border-color:var(--amber);background:var(--hit);color:var(--text);}
+.modal-group-btn.current{opacity:.35;cursor:not-allowed;}
+.modal-group-btn .btn-teacher{display:block;font-size:9px;font-weight:400;color:var(--muted);margin-top:1px;}
+
+/* ── PR VIEW ── */
+/* 720 - 56(top) - 28(footer) = 636px */
+.pr-section{
+  display:none;
+  flex-direction:column;
+  height:636px;
+  flex-shrink:0;
+}
+.slide.pr-view .search-bar{ display:none; }
+.slide.pr-view .content{ display:none; }
+.slide.pr-view .pr-section{ display:flex; }
+
+.pr-search-bar{
+  flex-shrink:0;
+  height:42px;
+  padding:0 32px;
+  background:var(--white);
+  border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;gap:12px;
+}
+.pr-search-bar input{
+  flex:1;border:none;outline:none;
+  font-family:'Sora',sans-serif;font-size:13px;color:var(--text);
+  background:transparent;
+}
+.pr-search-bar input::placeholder{color:var(--muted);}
+.pr-match-count{
+  font-size:11px;font-weight:700;color:var(--amber);
+  letter-spacing:.04em;white-space:nowrap;min-width:80px;text-align:right;
+}
+
+/* 636 - 42(search) - 28(footer padded in content) */
+.pr-content{
+  flex:1;
+  display:flex;flex-direction:column;
+  padding:10px 32px;
+  gap:10px;
+  overflow:hidden;
+  height:594px;
+}
+.pr-row{
+  display:flex;gap:6px;
+  height:282px;flex:none;
+}
+
+/* PR CARD */
+.pr-card{
+  flex:1;min-width:0;
+  height:282px;
+  background:var(--white);
+  border-radius:7px;
+  border:1.5px solid var(--rule);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  transition:border-color .2s,box-shadow .2s,opacity .2s;
+}
+.pr-card.no-match{opacity:.25;}
+.pr-card.has-match{
+  border-color:var(--amber);
+  box-shadow:0 0 0 2px rgba(217,140,30,.2);
+}
+
+.pr-head{
+  flex-shrink:0;
+  padding:8px 10px 6px;
+  border-top:3px solid var(--rule);
+}
+.pr-head.b1{border-top-color:var(--navy);}
+.pr-head.b2{border-top-color:var(--mauve);}
+.pr-name-label{
+  font-size:12px;font-weight:800;line-height:1;
+}
+.pr-head.b1 .pr-name-label{color:var(--navy);}
+.pr-head.b2 .pr-name-label{color:var(--mauve);}
+.pr-head-meta{
+  display:flex;align-items:center;gap:6px;margin-top:3px;
+}
+.pr-spec-badge{
+  font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:2px 7px;border-radius:10px;color:#fff;
+}
+.pr-head.b1 .pr-spec-badge{background:var(--navy);}
+.pr-head.b2 .pr-spec-badge{background:var(--mauve);}
+.pr-bar-label{
+  font-size:9px;font-weight:500;color:var(--muted);
+}
+
+.pr-divider{flex-shrink:0;height:1px;background:var(--rule);}
+
+.pr-list{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:4px 8px;
+}
+.pr-list::-webkit-scrollbar{width:3px;}
+.pr-list::-webkit-scrollbar-track{background:transparent;}
+.pr-list::-webkit-scrollbar-thumb{background:var(--rule);border-radius:2px;}
+
+.pr-student{
+  font-size:9px;font-weight:500;color:var(--text);
+  padding:2px 4px;border-radius:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  line-height:1.25;
+}
+.pr-student.hit{
+  background:var(--hit);font-weight:700;
+  border-left:2px solid var(--hit-border);padding-left:5px;
+}
+
+.pr-count-bar{
+  flex-shrink:0;
+  padding:3px 8px;
+  background:var(--card);
+  font-size:9px;font-weight:600;color:var(--muted);
+  text-align:right;letter-spacing:.05em;
+  border-top:1px solid var(--rule);
+}
+
+.pr-footer-note{
+  font-size:10px;color:var(--muted);font-style:italic;
+  padding:4px 0 0;flex-shrink:0;text-align:center;
+}
+
+/* ── IMPORT MODAL */
+.import-overlay{display:none;position:absolute;inset:0;background:rgba(18,24,40,.6);z-index:400;align-items:center;justify-content:center;}
+.import-overlay.open{display:flex;}
+.import-modal{background:#fff;border-radius:12px;width:680px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden;}
+.import-body{padding:16px 20px 20px;overflow-y:auto;flex:1;}
+.import-ref{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:14px;}
+.import-ref th{background:var(--card);padding:4px 8px;text-align:left;border:1px solid var(--rule);font-weight:700;color:var(--muted);letter-spacing:.04em;}
+.import-ref td{padding:3px 8px;border:1px solid var(--rule);}
+.import-ref .ref-code{font-weight:800;color:var(--navy);}
+.import-ref .ref-muted{color:var(--muted);}
+.import-textarea{width:100%;height:150px;font-family:'Sora',monospace;font-size:11px;border:1.5px solid var(--rule);border-radius:6px;padding:8px 10px;outline:none;resize:vertical;margin-top:6px;line-height:1.6;}
+.import-textarea:focus{border-color:var(--navy);}
+.import-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;}
+.import-result{font-size:11px;font-weight:600;}
+.import-result.ok{color:var(--green, #16a34a);}
+.import-result.err{color:#ef4444;}
+
+/* ── ANOMALIES */
+.name.dup-barrette{background:#fef3c7;color:#b45309;font-weight:700;}
+.name.warn-global{color:#dc2626;}
+.name.warn-global::before{content:'⚠ ';font-size:7px;}
+
+/* ── ANOMALIES PANEL */
+.anomalies-panel{position:absolute;top:0;right:0;height:100%;width:300px;background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,.2);z-index:250;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .22s ease;}
+.anomalies-panel.open{transform:translateX(0);}
+.anomalies-panel-header{background:var(--navy);color:#fff;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.anomalies-panel-title{font-size:12px;font-weight:700;}
+.anomalies-close{background:none;border:none;color:rgba(255,255,255,.7);font-size:16px;cursor:pointer;padding:0 2px;line-height:1;}
+.anomalies-close:hover{color:#fff;}
+.anomalies-body{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px;}
+.anomalies-body::-webkit-scrollbar{width:3px;}
+.anomalies-body::-webkit-scrollbar-thumb{background:var(--rule);border-radius:2px;}
+.anomaly-item{border:1px solid var(--rule);border-radius:6px;overflow:hidden;}
+.anomaly-name{font-size:10px;font-weight:800;color:var(--navy);padding:5px 8px;background:var(--card);border-bottom:1px solid var(--rule);}
+.anomaly-detail{font-size:9px;color:var(--muted);padding:4px 8px;line-height:1.6;}
+.anomaly-tag{display:inline-block;font-size:8px;font-weight:700;padding:1px 5px;border-radius:8px;margin-right:3px;}
+.tag-dup{background:#fef3c7;color:#b45309;}
+.tag-warn{background:#fee2e2;color:#dc2626;}
+.anomalies-empty{font-size:11px;color:var(--muted);text-align:center;padding:24px 0;}
+
+/* ── FOOTER ── */
+.footer{
+  flex-shrink:0;height:28px;
+  border-top:1px solid var(--rule);
+  background:var(--white);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;
+}
+.footer-hint{font-size:10px;color:var(--muted);font-style:italic;}
+.footer-year{font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.08em;}
+</style>
+</head>
+<body>
+
+<div class="slide" id="slide">
+
+  <!-- HEADER -->
+  <div class="top">
+    <div>
+      <span class="top-title">Barrettes de spécialités — Terminale</span>
+      <span class="top-sub">2026–2027</span>
+    </div>
+    <div class="top-right">
+      <div class="match-count" id="matchCount"></div>
+      <a href="barrettes1eres.html" class="btn-edit" style="text-decoration:none;">⇄ Premières</a>
+      <button class="btn-edit" id="anomaliesBtn" onclick="toggleAnomaliesPanel()">⚠️ <span id="anomaliesCount">…</span></button>
+      <button class="btn-edit" id="btnImport" onclick="openImport()">⤓ Import</button>
+      <button class="btn-pr"   id="btnPR">👥 PR</button>
+      <button class="btn-edit" id="btnEdit">✎ Éditer</button>
+    </div>
+  </div>
+
+  <!-- SEARCH (barrettes view) -->
+  <div class="search-bar">
+    <span style="color:var(--muted);font-size:15px;flex-shrink:0">🔍</span>
+    <input type="text" id="search" placeholder="Tape ton nom pour trouver ton groupe…" autocomplete="off" spellcheck="false">
+  </div>
+
+  <!-- CONTENT (barrettes view) -->
+  <div class="content">
+
+    <!-- BARRETTE 1 -->
+    <div class="barrette-section">
+      <div class="barrette-label">
+        <span class="barrette-pill b1">Barrette 1</span>
+        <span class="barrette-hours">Lun. 09h &nbsp;|&nbsp; Ma. 10h &nbsp;|&nbsp; Je. 09h</span>
+        <span class="barrette-desc">6 groupes</span>
+        <span class="barrette-total" id="b1Total"></span>
+      </div>
+      <div class="groups">
+
+        <div class="group" id="g1" data-bar="1" data-spec="SES" data-teacher="M. Lopez">
+          <div class="g-head b1"><div class="g-spec">SES</div><div class="g-teacher">M. Lopez</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">AHBAR</div><div class="name">BADON</div><div class="name">BALTAYAN--BERNARD</div><div class="name">BELLIER</div><div class="name">BERAS</div><div class="name">BOELY</div><div class="name">CANTIN</div><div class="name">CHAPET</div><div class="name">DAUBLAIN</div><div class="name">FAURE-MURGUE</div><div class="name">FAVERON</div><div class="name">FAVERON</div><div class="name">GIORGI</div><div class="name">GOMEZ DE MERCADO</div><div class="name">KOECHKERIAN</div><div class="name">LORIOT</div><div class="name">NAILI</div><div class="name">OTTONELLI--SANCHEZ</div><div class="name">PEYRONNON</div><div class="name">SOLEILHAC</div><div class="name">TEPELIAN</div><div class="name">TORRES</div><div class="name">VERRIER MAZOUE</div>
+          </div>
+          <div class="g-count">23 élèves</div>
+        </div>
+
+        <div class="group" id="g2" data-bar="1" data-spec="SVT" data-teacher="Mme Pirowski">
+          <div class="g-head b1"><div class="g-spec">SVT</div><div class="g-teacher">Mme Pirowski</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">ALI</div><div class="name">ANDRÉ</div><div class="name">AROUCHANIAN</div><div class="name">BADI-LUMB</div><div class="name">BLONDEEL</div><div class="name">BREARD</div><div class="name">CHEROUI</div><div class="name">CORNET</div><div class="name">COTTEREAU</div><div class="name">DINER</div><div class="name">FAUCHER-TCHORLIAN</div><div class="name">GAULIER</div><div class="name">JULLIEN</div><div class="name">LE BRUN-FREDDI</div><div class="name">MELKONYAN</div><div class="name">PALAYSI</div><div class="name">PERRIER</div><div class="name">PIRES</div><div class="name">ROBERT</div><div class="name">VIAL</div><div class="name">VILLARET</div>
+          </div>
+          <div class="g-count">21 élèves</div>
+        </div>
+
+        <div class="group" id="g3" data-bar="1" data-spec="HGGSP" data-teacher="Mme Thromas / Nocera">
+          <div class="g-head b1"><div class="g-spec">HGGSP</div><div class="g-teacher">Mme Thromas / Nocera</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">AMETOWANOU--RAVERDY</div><div class="name">CETTOUR-BARON</div><div class="name">CHARLIER</div><div class="name">CONTI</div><div class="name">FAURE L.</div><div class="name">FLORES</div><div class="name">GENRE</div><div class="name">GUIDOTTI</div><div class="name">HYSENI</div><div class="name">KHOUCHANE-PALAYSI</div><div class="name">MARTINEZ</div><div class="name">MAUFFAIT</div><div class="name">MORFIN</div><div class="name">OUGIER</div><div class="name">PENA</div><div class="name">RENDA</div><div class="name">ROUSSET</div><div class="name">TENDIL</div><div class="name">VADROT</div>
+          </div>
+          <div class="g-count">19 élèves</div>
+        </div>
+
+        <div class="group" id="g4" data-bar="1" data-spec="MATHS" data-teacher="M. Prin">
+          <div class="g-head b1"><div class="g-spec">MATHS</div><div class="g-teacher">M. Prin</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">DACHER</div><div class="name">EL YADIRI</div><div class="name">FAURE C.</div><div class="name">FERRERO</div><div class="name">FOUREL</div><div class="name">GOULLARD</div><div class="name">GRAND</div><div class="name">HERPET</div><div class="name">JULIEN</div><div class="name">LADRAM DE ROUBIN</div><div class="name">LEICHER</div><div class="name">LIEVIN</div><div class="name">MARABENA</div><div class="name">MEJEAN</div><div class="name">MEJEAN</div><div class="name">MONTIER</div><div class="name">POUZACHE</div><div class="name">ROSTAING</div><div class="name">SAINT-CAST</div><div class="name">SAMIEZ QUAGEBEUR</div><div class="name">SICARD</div><div class="name">VABRES</div><div class="name">WATTIAU</div><div class="name">ZAHN</div>
+          </div>
+          <div class="g-count">24 élèves</div>
+        </div>
+
+        <div class="group" id="g5" data-bar="1" data-spec="PHYSIQUE" data-teacher="M. Raymond">
+          <div class="g-head b1"><div class="g-spec">PHYSIQUE</div><div class="g-teacher">M. Raymond</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">ABDO AGHA</div><div class="name">BECHARA</div><div class="name">BENSAUDE BARBEZ</div><div class="name">BERTRAND</div><div class="name">CARRIER</div><div class="name">CHOISEL</div><div class="name">COMTE</div><div class="name">CORDEIRO</div><div class="name">CRUMIERE</div><div class="name">DE ANGELIS-PICHON</div><div class="name">DIENNE</div><div class="name">DOS SANTOS</div><div class="name">DUCHAMP</div><div class="name">KHOURY</div><div class="name">LOPEZ--BLANC</div><div class="name">POINSENET</div><div class="name">RENAU</div>
+          </div>
+          <div class="g-count">17 élèves</div>
+        </div>
+
+        <div class="group" id="g6" data-bar="1" data-spec="AMC" data-teacher="Mme Gaudenz">
+          <div class="g-head b1"><div class="g-spec">AMC</div><div class="g-teacher">Mme Gaudenz</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">BOURBON</div><div class="name">CERISE</div><div class="name">CHARRUE</div><div class="name">HERZI</div><div class="name">MARAIS</div><div class="name">MARTIN</div><div class="name">MATHIAS</div><div class="name">MIGUEL</div><div class="name">REBOUAH</div>
+          </div>
+          <div class="g-count">9 élèves</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BARRETTE 2 -->
+    <div class="barrette-section">
+      <div class="barrette-label">
+        <span class="barrette-pill b2">Barrette 2</span>
+        <span class="barrette-hours" style="color:var(--mauve);background:rgba(140,58,106,.09)">Ma. 13h &nbsp;|&nbsp; Me. 08h &nbsp;|&nbsp; Ve. 08h</span>
+        <span class="barrette-desc">7 groupes</span>
+        <span class="barrette-total" id="b2Total"></span>
+      </div>
+      <div class="groups">
+
+        <div class="group" id="g7" data-bar="2" data-spec="HGGSP" data-teacher="Mme Nocera / Thromas">
+          <div class="g-head b2"><div class="g-spec">HGGSP</div><div class="g-teacher">Mme Nocera / Thromas</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">BALTAYAN--BERNARD</div><div class="name">BOELY</div><div class="name">CANTIN</div><div class="name">FAVERON</div><div class="name">FAVERON</div><div class="name">GIORGI</div><div class="name">GOMEZ DE MERCADO</div><div class="name">JULIEN</div><div class="name">KOECHKERIAN</div><div class="name">LEICHER</div><div class="name">LIEVIN</div><div class="name">MARABENA</div><div class="name">MATHIAS</div><div class="name">SAINT-CAST</div><div class="name">SICARD</div><div class="name">TORRES</div>
+          </div>
+          <div class="g-count">16 élèves</div>
+        </div>
+
+        <div class="group" id="g8" data-bar="2" data-spec="HLP" data-teacher="Mme Raymond">
+          <div class="g-head b2"><div class="g-spec">HLP</div><div class="g-teacher">Mme Raymond</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">AMETOWANOU--RAVERDY</div><div class="name">CHARLIER</div><div class="name">CHARRUE</div><div class="name">FAURE L.</div><div class="name">FLORES</div><div class="name">PALAYSI</div><div class="name">RENDA</div><div class="name">VADROT</div>
+          </div>
+          <div class="g-count">8 élèves</div>
+        </div>
+
+        <div class="group" id="g9" data-bar="2" data-spec="PH-CH" data-teacher="Mme Follin">
+          <div class="g-head b2"><div class="g-spec">PH-CH</div><div class="g-teacher">Mme Follin</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">ALI</div><div class="name">AROUCHANIAN</div><div class="name">BADI-LUMB</div><div class="name">BREARD</div><div class="name">CHEROUI</div><div class="name">COTTEREAU</div><div class="name">DACHER</div><div class="name">EL YADIRI</div><div class="name">FAUCHER-TCHORLIAN</div><div class="name">FAURE C.</div><div class="name">FERRERO</div><div class="name">FOUREL</div><div class="name">GOULLARD</div><div class="name">GRAND</div><div class="name">HERPET</div><div class="name">LADRAM DE ROUBIN</div>
+          </div>
+          <div class="g-count">16 élèves</div>
+        </div>
+
+        <div class="group" id="g10" data-bar="2" data-spec="PH-CH" data-teacher="Mme Le Cœur">
+          <div class="g-head b2"><div class="g-spec">PH-CH</div><div class="g-teacher">Mme Le Cœur</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">CORNET</div><div class="name">DINER</div><div class="name">JULLIEN</div><div class="name">MEJEAN</div><div class="name">MEJEAN</div><div class="name">MELKONYAN</div><div class="name">MONTIER</div><div class="name">PIRES</div><div class="name">POUZACHE</div><div class="name">ROSTAING</div><div class="name">SAMIEZ QUAGEBEUR</div><div class="name">VABRES</div><div class="name">VIAL</div><div class="name">WATTIAU</div><div class="name">ZAHN</div>
+          </div>
+          <div class="g-count">15 élèves</div>
+        </div>
+
+        <div class="group" id="g11" data-bar="2" data-spec="SES" data-teacher="Mme Assard Bizet">
+          <div class="g-head b2"><div class="g-spec">SES</div><div class="g-teacher">Mme Assard Bizet</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">BLONDEEL</div><div class="name">BOURBON</div><div class="name">CERISE</div><div class="name">GENRE</div><div class="name">GUIDOTTI</div><div class="name">HERZI</div><div class="name">HYSENI</div><div class="name">KHOUCHANE-PALAYSI</div><div class="name">MARAIS</div><div class="name">MARTIN</div><div class="name">MARTINEZ</div><div class="name">MAUFFAIT</div><div class="name">MORFIN</div><div class="name">OUGIER</div><div class="name">PENA</div><div class="name">PERRIER</div><div class="name">REBOUAH</div><div class="name">ROBERT</div><div class="name">ROUSSET</div><div class="name">TENDIL</div>
+          </div>
+          <div class="g-count">20 élèves</div>
+        </div>
+
+        <div class="group" id="g12" data-bar="2" data-spec="MATHS" data-teacher="M. Rossille">
+          <div class="g-head b2"><div class="g-spec">MATHS</div><div class="g-teacher">M. Rossille</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">ABDO AGHA</div><div class="name">BECHARA</div><div class="name">BENSAUDE BARBEZ</div><div class="name">BERAS</div><div class="name">BERTRAND</div><div class="name">CARRIER</div><div class="name">CHOISEL</div><div class="name">COMTE</div><div class="name">CORDEIRO</div><div class="name">CRUMIERE</div><div class="name">DE ANGELIS-PICHON</div><div class="name">DIENNE</div><div class="name">DOS SANTOS</div><div class="name">DUCHAMP</div><div class="name">KHOURY</div><div class="name">LOPEZ--BLANC</div><div class="name">POINSENET</div><div class="name">RENAU</div><div class="name">VERRIER MAZOUE</div>
+          </div>
+          <div class="g-count">19 élèves</div>
+        </div>
+
+        <div class="group" id="g13" data-bar="2" data-spec="MATHS" data-teacher="M. Roux">
+          <div class="g-head b2"><div class="g-spec">MATHS</div><div class="g-teacher">M. Roux</div></div>
+          <div class="g-divider"></div>
+          <div class="g-list">
+            <div class="name">AHBAR</div><div class="name">ANDRÉ</div><div class="name">BADON</div><div class="name">BELLIER</div><div class="name">CETTOUR-BARON</div><div class="name">CHAPET</div><div class="name">CONTI</div><div class="name">DAUBLAIN</div><div class="name">FAURE-MURGUE</div><div class="name">GAULIER</div><div class="name">LE BRUN-FREDDI</div><div class="name">LORIOT</div><div class="name">MIGUEL</div><div class="name">NAILI</div><div class="name">OTTONELLI--SANCHEZ</div><div class="name">PEYRONNON</div><div class="name">SOLEILHAC</div><div class="name">TEPELIAN</div><div class="name">VILLARET</div>
+          </div>
+          <div class="g-count">19 élèves</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PR VIEW SECTION -->
+  <div class="pr-section" id="prSection">
+    <div class="pr-search-bar">
+      <span style="color:var(--muted);font-size:15px;flex-shrink:0">🔍</span>
+      <input type="text" id="prSearch" placeholder="Recherche par nom d'élève ou de prof référent…" autocomplete="off" spellcheck="false">
+      <div class="pr-match-count" id="prMatchCount"></div>
+    </div>
+    <div class="pr-content" id="prContent">
+      <!-- PR cards injected by JS -->
+    </div>
+  </div>
+
+  <!-- MODAL MOT DE PASSE -->
+  <div class="pwd-overlay" id="pwdOverlay">
+    <div class="pwd-box">
+      <div class="pwd-head">
+        <span class="pwd-head-icon">🔒</span>
+        <span class="pwd-head-title">Accès réservé</span>
+      </div>
+      <div class="pwd-body">
+        <div class="pwd-label">Mot de passe</div>
+        <div class="pwd-input-row">
+          <input class="pwd-input" id="pwdInput" type="password" placeholder="••••••••" autocomplete="off">
+          <button class="pwd-btn" id="pwdSubmit">OK</button>
+        </div>
+        <div class="pwd-error" id="pwdError"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DÉPLACEMENT -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <div class="modal-head-title" id="modalTitle">Déplacer …</div>
+          <div class="modal-head-sub" id="modalSub">Groupe actuel : …</div>
+        </div>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="modalNameSection" style="margin-bottom:14px;">
+          <div class="modal-bar-label">Modifier le nom</div>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <input type="text" id="modalNameInput" class="pwd-input" style="flex:1;font-family:'Sora',sans-serif;font-size:12px;text-transform:uppercase;" autocomplete="off" spellcheck="false">
+            <button class="pwd-btn" onclick="applyNameOnly()" style="font-size:10px;padding:7px 14px;white-space:nowrap;">✓ Renommer</button>
+          </div>
+        </div>
+        <div class="modal-bar-label">Barrette 1</div>
+        <div class="modal-groups" id="modalB1"></div>
+        <div class="modal-bar-label">Barrette 2</div>
+        <div class="modal-groups" id="modalB2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANNEAU ANOMALIES -->
+  <div class="anomalies-panel" id="anomaliesPanel">
+    <div class="anomalies-panel-header">
+      <span class="anomalies-panel-title">⚠️ Anomalies</span>
+      <button class="anomalies-close" onclick="toggleAnomaliesPanel()">✕</button>
+    </div>
+    <div class="anomalies-body" id="anomaliesBody"></div>
+  </div>
+
+  <!-- IMPORT MODAL -->
+  <div class="import-overlay" id="importOverlay">
+    <div class="import-modal">
+      <div class="modal-head">
+        <div class="modal-head-text">
+          <div class="modal-head-title">⤓ Importer les élèves</div>
+          <div class="modal-head-sub">Format : NOM;CODE_GROUPE — une ligne par affectation élève → groupe</div>
+        </div>
+        <button class="modal-close" onclick="closeImport()">✕</button>
+      </div>
+      <div class="import-body">
+        <div class="modal-bar-label" style="margin-bottom:6px;">Codes des groupes</div>
+        <table class="import-ref" id="importRefTable"></table>
+        <div class="modal-bar-label" style="margin-bottom:0;">Données CSV à importer</div>
+        <textarea class="import-textarea" id="importCsv" placeholder="DUPONT;B1-SES&#10;DUPONT;B2-MATHS-1&#10;MARTIN;B1-HGGSP&#10;MARTIN;B2-SES&#10;..." spellcheck="false" autocomplete="off"></textarea>
+        <div class="import-footer">
+          <div id="importResult" class="import-result"></div>
+          <button class="pwd-btn" onclick="runImport()">⤓ Importer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="footer-hint" id="footerHint">Tape ton nom dans la barre de recherche pour te localiser instantanément</span>
+    <span class="footer-year">Terminale · 2026–2027</span>
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   MOT DE PASSE
+   ↓ Modifier la valeur ci-dessous pour changer le mot de passe
+══════════════════════════════════════ */
+const PASSWORD = 'SaintVictor26';  // ← changer ici
+
+let unlocked = false;
+let pendingAction = null;   // fonction à exécuter après validation
+
+const pwdOverlay = document.getElementById('pwdOverlay');
+const pwdInput   = document.getElementById('pwdInput');
+const pwdSubmit  = document.getElementById('pwdSubmit');
+const pwdError   = document.getElementById('pwdError');
+
+function requirePassword(action){
+  if (unlocked){ action(); return; }
+  pendingAction = action;
+  pwdInput.value = '';
+  pwdError.textContent = '';
+  pwdOverlay.classList.add('open');
+  setTimeout(() => pwdInput.focus(), 50);
+}
+
+function validatePassword(){
+  if (pwdInput.value === PASSWORD){
+    unlocked = true;
+    pwdOverlay.classList.remove('open');
+    pwdError.textContent = '';
+    if (pendingAction){ pendingAction(); pendingAction = null; }
+  } else {
+    pwdError.textContent = 'Mot de passe incorrect.';
+    pwdInput.classList.add('error');
+    pwdInput.value = '';
+    setTimeout(() => pwdInput.classList.remove('error'), 400);
+    pwdInput.focus();
+  }
+}
+
+pwdSubmit.addEventListener('click', validatePassword);
+pwdInput.addEventListener('keydown', e => { if(e.key==='Enter') validatePassword(); });
+
+/* ══════════════════════════════════════
+   PR DATA
+   groupId = groupe de spé du PR (= ses élèves gras dans ce groupe)
+══════════════════════════════════════ */
+const PR_DATA = [
+  { id:'lopez',    name:'M. Lopez',      groupId:'g1',  bar:1, spec:'SES',
+    students:['AHBAR','BADON','BALTAYAN--BERNARD','BELLIER','BOELY','CANTIN','CHAPET','CONTI','DAUBLAIN','KOECHKERIAN','LORIOT','NAILI','OTTONELLI--SANCHEZ','PEYRONNON','SOLEILHAC','TEPELIAN','TORRES','VERRIER MAZOUE'] },
+  { id:'pirowski', name:'Mme Pirowski',  groupId:'g2',  bar:1, spec:'SVT',
+    students:['ALI','ANDRÉ','AROUCHANIAN','BLONDEEL','FAUCHER-TCHORLIAN','GAULIER','LE BRUN-FREDDI','PALAYSI','PERRIER','ROBERT','VILLARET'] },
+  { id:'thromas',  name:'Mme Thromas',   groupId:'g3',  bar:1, spec:'HGGSP',
+    students:['AMETOWANOU--RAVERDY','CHARLIER','FAURE-MURGUE','FLORES','GENRE','GUIDOTTI','LEICHER','PENA','RENDA','SICARD','VADROT'] },
+  { id:'gaudenz',  name:'Mme Gaudenz',   groupId:'g6',  bar:1, spec:'AMC',
+    students:['BOURBON','CERISE','CHARRUE','HERZI','MARAIS','MARTIN','MATHIAS','MIGUEL','REBOUAH'] },
+  { id:'nocera',   name:'Mme Nocera',    groupId:'g7',  bar:2, spec:'HGGSP',
+    students:['CETTOUR-BARON','FAURE L.','FAVERON','FAVERON','GIORGI','MORFIN','GOMEZ DE MERCADO','HYSENI','JULIEN','KHOUCHANE-PALAYSI','LIEVIN','MARABENA','MARTINEZ','MAUFFAIT','OUGIER','ROUSSET','SAINT-CAST','TENDIL'] },
+  { id:'follin',   name:'Mme Follin',    groupId:'g9',  bar:2, spec:'PH-CH',
+    students:['BADI-LUMB','BREARD','CHEROUI','CORNET','COTTEREAU','DACHER','EL YADIRI','FAURE C.','FERRERO','FOUREL','GOULLARD','GRAND','HERPET','LADRAM DE ROUBIN'] },
+  { id:'lecoeur',  name:'Mme Le Cœur',  groupId:'g10', bar:2, spec:'PH-CH',
+    students:['DINER','JULLIEN','MEJEAN','MEJEAN','MELKONYAN','MONTIER','PIRES','POUZACHE','RENAU','ROSTAING','SAMIEZ QUAGEBEUR','VABRES','VIAL','WATTIAU','ZAHN'] },
+  { id:'rossille', name:'M. Rossille',   groupId:'g12', bar:2, spec:'MATHS',
+    students:['ABDO AGHA','BECHARA','BENSAUDE BARBEZ','BERAS','BERTRAND','CARRIER','CHOISEL','COMTE','CORDEIRO','CRUMIERE','DE ANGELIS-PICHON','DIENNE','DOS SANTOS','DUCHAMP','KHOURY','LOPEZ--BLANC'] },
+];
+
+/* ── Build PR bold set: "normalizedName|groupId" ── */
+function normStr(s){ return s.trim().replace(/\s+/g,' ').toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+
+const prBoldSet = new Set();
+PR_DATA.forEach(pr => {
+  pr.students.forEach(s => prBoldSet.add(normStr(s) + '|' + pr.groupId));
+});
+
+/* ── Apply PR bold on all .name elements ── */
+function applyPRBold(){
+  document.querySelectorAll('.group').forEach(group => {
+    group.querySelectorAll('.name').forEach(el => {
+      const key = normStr(el.textContent) + '|' + group.id;
+      el.classList.toggle('pr', prBoldSet.has(key));
+    });
+  });
+}
+
+/* ── Compute & display barrette totals ── */
+function updateBarretteTotals(){
+  ['1','2'].forEach(bar => {
+    let total = 0;
+    document.querySelectorAll(`.group[data-bar="${bar}"]`).forEach(g => {
+      total += g.querySelectorAll('.g-list .name').length;
+    });
+    document.getElementById('b'+bar+'Total').textContent = total + ' élèves';
+  });
+}
+
+/* ══════════════════════════════════════
+   SEARCH (barrettes)
+══════════════════════════════════════ */
+const input      = document.getElementById('search');
+const matchCount = document.getElementById('matchCount');
+
+function getAllNames()  { return document.querySelectorAll('.group .name'); }
+function getAllGroups() { return document.querySelectorAll('.group'); }
+
+input.addEventListener('input', runSearch);
+function runSearch(){
+  const q = input.value.trim().toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  if (!q) {
+    getAllNames().forEach(n => n.classList.remove('hit'));
+    getAllGroups().forEach(g => g.classList.remove('has-match','no-match'));
+    matchCount.textContent = '';
+    return;
+  }
+  let total = 0;
+  getAllGroups().forEach(group => {
+    const names = group.querySelectorAll('.name');
+    let groupHit = false;
+    names.forEach(n => {
+      const txt = normStr(n.textContent);
+      const hit = txt.includes(q.normalize('NFD').replace(/[̀-ͯ]/g,''));
+      n.classList.toggle('hit', hit);
+      if (hit){ groupHit=true; total++; n.scrollIntoView({block:'nearest',behavior:'smooth'}); }
+    });
+    group.classList.toggle('has-match', groupHit);
+    group.classList.toggle('no-match', !groupHit);
+  });
+  matchCount.style.color = total>0 ? 'var(--amber)' : '#ef4444';
+  matchCount.textContent = total===0 ? 'Aucun résultat' : total===1 ? '1 résultat' : `${total} résultats`;
+}
+
+/* ══════════════════════════════════════
+   EDIT MODULE
+══════════════════════════════════════ */
+const slide    = document.getElementById('slide');
+const btnEdit  = document.getElementById('btnEdit');
+const overlay  = document.getElementById('modalOverlay');
+const modalTitle = document.getElementById('modalTitle');
+const modalSub   = document.getElementById('modalSub');
+const modalClose = document.getElementById('modalClose');
+const modalB1    = document.getElementById('modalB1');
+const modalB2    = document.getElementById('modalB2');
+
+let editMode  = false;
+let selected  = null;   // DOM element currently selected
+let modalMode = 'group'; // 'group' | 'pr'
+
+btnEdit.addEventListener('click', () => {
+  requirePassword(() => {
+    editMode = !editMode;
+    slide.classList.toggle('edit-mode', editMode);
+    btnEdit.classList.toggle('active', editMode);
+    btnEdit.textContent = editMode ? '✓ Terminer' : '✎ Éditer';
+    if (!editMode) clearSelection();
+  });
+});
+
+slide.addEventListener('click', e => {
+  if (!editMode) return;
+
+  if (slide.classList.contains('pr-view')) {
+    /* ── PR view: reassign PR ── */
+    const studentEl = e.target.closest('.pr-card .pr-student');
+    if (!studentEl) return;
+    if (selected === studentEl){ clearSelection(); return; }
+    clearSelection();
+    selected = studentEl;
+    selected.classList.add('selected');
+    const card = studentEl.closest('.pr-card');
+    const prId = card.dataset.prId;
+    const pr   = PR_DATA.find(p => p.id === prId);
+    modalMode = 'pr';
+    modalTitle.textContent = `Changer le PR de ${studentEl.textContent.trim()}`;
+    modalSub.textContent   = `PR actuel : ${pr.name} — ${pr.spec} (Barrette ${pr.bar})`;
+    document.getElementById('modalNameSection').style.display = 'none';
+    buildModalButtons(null, prId);
+    overlay.classList.add('open');
+  } else {
+    /* ── Barrettes view: move to another group ── */
+    const nameEl = e.target.closest('.group .name');
+    if (!nameEl) return;
+    if (selected === nameEl){ clearSelection(); return; }
+    clearSelection();
+    selected = nameEl;
+    selected.classList.add('selected');
+    const group = nameEl.closest('.group');
+    modalMode = 'group';
+    modalTitle.textContent = `Déplacer ${nameEl.textContent.trim()}`;
+    modalSub.textContent   = `Groupe actuel : ${group.dataset.spec} — ${group.dataset.teacher} (Barrette ${group.dataset.bar})`;
+    document.getElementById('modalNameInput').value = nameEl.textContent.trim();
+    document.getElementById('modalNameSection').style.display = '';
+    buildModalButtons(group.id, null);
+    overlay.classList.add('open');
+  }
+});
+
+function buildModalButtons(currentGroupId, currentPrId){
+  modalB1.innerHTML = ''; modalB2.innerHTML = '';
+
+  if (modalMode === 'group') {
+    /* Group-move buttons: all 13 groups */
+    document.querySelectorAll('.group').forEach(g => {
+      const btn = document.createElement('button');
+      btn.className = 'modal-group-btn';
+      btn.innerHTML = `${g.dataset.spec}<span class="btn-teacher">${g.dataset.teacher}</span>`;
+      if (g.id === currentGroupId) btn.classList.add('current');
+      else btn.addEventListener('click', () => moveStudent(g.id));
+      (g.dataset.bar==='1' ? modalB1 : modalB2).appendChild(btn);
+    });
+  } else {
+    /* PR-reassign buttons: all 8 PRs */
+    PR_DATA.forEach(pr => {
+      const btn = document.createElement('button');
+      btn.className = 'modal-group-btn';
+      btn.innerHTML = `${pr.name}<span class="btn-teacher">${pr.spec}</span>`;
+      if (pr.id === currentPrId) btn.classList.add('current');
+      else btn.addEventListener('click', () => movePR(pr.id));
+      (pr.bar===1 ? modalB1 : modalB2).appendChild(btn);
+    });
+  }
+}
+
+function applyNameOnly(){
+  if (!selected) return;
+  const newName = document.getElementById('modalNameInput').value.trim().toUpperCase();
+  if (!newName) return;
+  const srcGroup = selected.closest('.group');
+  selected.textContent = newName;
+  const key = normStr(newName) + '|' + srcGroup.id;
+  selected.classList.toggle('pr', prBoldSet.has(key));
+  analyzeEleves();
+  closeModal();
+}
+
+function moveStudent(targetGroupId){
+  if (!selected) return;
+  const targetGroup = document.getElementById(targetGroupId);
+  const targetList  = targetGroup.querySelector('.g-list');
+  const inputVal    = document.getElementById('modalNameInput').value.trim().toUpperCase();
+  const studentName = inputVal || selected.textContent.trim();
+  const wasPR = selected.classList.contains('pr');
+  const srcGroup = selected.closest('.group');
+  selected.remove();
+  updateCount(srcGroup);
+  const newEl = document.createElement('div');
+  newEl.className = 'name' + (wasPR ? ' pr' : '');
+  newEl.textContent = studentName;
+  // re-check PR status in new group
+  const key = normStr(studentName)+'|'+targetGroupId;
+  if (prBoldSet.has(key)) newEl.classList.add('pr');
+  else newEl.classList.remove('pr');
+  const siblings = [...targetList.querySelectorAll('.name')];
+  const insertBefore = siblings.find(s => s.textContent.trim().localeCompare(studentName,'fr',{sensitivity:'base'})>0);
+  if (insertBefore) targetList.insertBefore(newEl, insertBefore);
+  else targetList.appendChild(newEl);
+  updateCount(targetGroup);
+  updateBarretteTotals();
+  analyzeEleves();
+  closeModal();
+}
+
+function movePR(newPrId){
+  if (!selected) return;
+  const studentName = selected.textContent.trim();
+  const srcCard     = selected.closest('.pr-card');
+  const srcPrId     = srcCard.dataset.prId;
+  const srcPr       = PR_DATA.find(p => p.id === srcPrId);
+  const dstPr       = PR_DATA.find(p => p.id === newPrId);
+
+  /* Mutate PR_DATA: remove one occurrence from src, add to dst */
+  const idx = srcPr.students.indexOf(studentName);
+  if (idx !== -1) srcPr.students.splice(idx, 1);
+  dstPr.students.push(studentName);
+  dstPr.students.sort((a,b) => a.localeCompare(b,'fr',{sensitivity:'base'}));
+
+  /* Rebuild prBoldSet from updated PR_DATA */
+  prBoldSet.clear();
+  PR_DATA.forEach(pr => pr.students.forEach(s => prBoldSet.add(normStr(s)+'|'+pr.groupId)));
+
+  /* Re-apply bold in barrettes view */
+  applyPRBold();
+
+  /* Update PR cards: move DOM element */
+  selected.remove();
+  updatePRCount(srcCard);
+
+  const dstCard = document.querySelector(`.pr-card[data-pr-id="${newPrId}"]`);
+  if (dstCard) {
+    const dstList = dstCard.querySelector('.pr-list');
+    const newEl = document.createElement('div');
+    newEl.className = 'pr-student';
+    newEl.textContent = studentName;
+    const siblings = [...dstList.querySelectorAll('.pr-student')];
+    const insertBefore = siblings.find(s => s.textContent.trim().localeCompare(studentName,'fr',{sensitivity:'base'})>0);
+    if (insertBefore) dstList.insertBefore(newEl, insertBefore);
+    else dstList.appendChild(newEl);
+    updatePRCount(dstCard);
+  }
+
+  closeModal();
+}
+
+function updatePRCount(card){
+  const c = card.querySelectorAll('.pr-list .pr-student').length;
+  card.querySelector('.pr-count-bar').textContent = `${c} élève${c>1?'s':''}`;
+}
+
+function updateCount(group){
+  const c = group.querySelectorAll('.g-list .name').length;
+  group.querySelector('.g-count').textContent = `${c} élève${c>1?'s':''}`;
+}
+
+function closeModal(){ overlay.classList.remove('open'); clearSelection(); }
+function clearSelection(){ if(selected){selected.classList.remove('selected');selected=null;} }
+
+modalClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if(e.target===overlay) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+/* ══════════════════════════════════════
+   PR VIEW
+══════════════════════════════════════ */
+const btnPR      = document.getElementById('btnPR');
+const prSearch   = document.getElementById('prSearch');
+const prMatchCount = document.getElementById('prMatchCount');
+const prContent  = document.getElementById('prContent');
+const footerHint = document.getElementById('footerHint');
+
+let prViewMode = false;
+
+/* Build PR cards */
+function buildPRCards(){
+  prContent.innerHTML = '';
+  // Row 1: B1 PRs, Row 2: B2 PRs
+  [1,2].forEach(bar => {
+    const row = document.createElement('div');
+    row.className = 'pr-row';
+    PR_DATA.filter(pr => pr.bar===bar).forEach(pr => {
+      const card = document.createElement('div');
+      card.className = 'pr-card';
+      card.dataset.prId = pr.id;
+      const headClass = 'pr-head b'+bar;
+      card.innerHTML = `
+        <div class="${headClass}">
+          <div class="pr-name-label">${pr.name}</div>
+          <div class="pr-head-meta">
+            <span class="pr-spec-badge">${pr.spec}</span>
+            <span class="pr-bar-label">Barrette ${bar}</span>
+          </div>
+        </div>
+        <div class="pr-divider"></div>
+        <div class="pr-list">${pr.students.map(s=>`<div class="pr-student">${s}</div>`).join('')}</div>
+        <div class="pr-count-bar">${pr.students.length} élève${pr.students.length>1?'s':''}</div>
+      `;
+      row.appendChild(card);
+    });
+    prContent.appendChild(row);
+  });
+}
+
+btnPR.addEventListener('click', () => {
+  requirePassword(() => { togglePRView(); });
+});
+
+function togglePRView(){
+  prViewMode = !prViewMode;
+  slide.classList.toggle('pr-view', prViewMode);
+  btnPR.classList.toggle('active', prViewMode);
+  btnPR.textContent = prViewMode ? '← Barrettes' : '👥 PR';
+  if (prViewMode){
+    buildPRCards();
+    prSearch.focus();
+    footerHint.textContent = 'Page Professeurs Référents — recherche par élève ou par prof';
+    // exit edit mode if active
+    if(editMode){ editMode=false; slide.classList.remove('edit-mode'); btnEdit.classList.remove('active'); btnEdit.textContent='✎ Éditer'; clearSelection(); }
+  } else {
+    footerHint.textContent = 'Tape ton nom dans la barre de recherche pour te localiser instantanément';
+    input.focus();
+  }
+  prMatchCount.textContent='';
+  prSearch.value='';
+}
+
+/* PR search */
+prSearch.addEventListener('input', () => {
+  const q = prSearch.value.trim().toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const cards = document.querySelectorAll('.pr-card');
+  if(!q){
+    cards.forEach(c=>{ c.classList.remove('has-match','no-match'); c.querySelectorAll('.pr-student').forEach(s=>s.classList.remove('hit')); });
+    prMatchCount.textContent='';
+    return;
+  }
+  let total=0;
+  cards.forEach(card => {
+    const students = card.querySelectorAll('.pr-student');
+    let cardHit=false;
+    students.forEach(s => {
+      const txt = normStr(s.textContent);
+      const hit = txt.includes(q);
+      s.classList.toggle('hit',hit);
+      if(hit){cardHit=true;total++;s.scrollIntoView({block:'nearest',behavior:'smooth'});}
+    });
+    // also match teacher name
+    const teacherEl = card.querySelector('.pr-name-label');
+    if(teacherEl && normStr(teacherEl.textContent).includes(q)) cardHit=true;
+    card.classList.toggle('has-match',cardHit);
+    card.classList.toggle('no-match',!cardHit);
+  });
+  prMatchCount.style.color = total>0 ? 'var(--amber)' : '#ef4444';
+  prMatchCount.textContent = total===0?'Aucun résultat':total===1?'1 résultat':`${total} résultats`;
+});
+
+/* ══════════════════════════════════════
+   ANOMALIES
+══════════════════════════════════════ */
+function analyzeEleves(){
+  document.querySelectorAll('.group .g-list .name').forEach(el => {
+    el.classList.remove('dup-barrette','warn-global');
+  });
+
+  const map = {};
+  document.querySelectorAll('.group').forEach(group => {
+    const bar  = group.dataset.bar;
+    const spec = group.dataset.spec;
+    group.querySelectorAll('.g-list .name').forEach(el => {
+      const name = el.textContent.trim().replace(/^⚠ /,'').toUpperCase();
+      if (!map[name]) map[name] = [];
+      map[name].push({bar, spec, el});
+    });
+  });
+
+  const anomalies = [];
+
+  Object.entries(map).forEach(([name, appearances]) => {
+    const issues = [];
+
+    // Doublons au sein d'une même barrette
+    const byBar = {};
+    appearances.forEach(a => { (byBar[a.bar] = byBar[a.bar]||[]).push(a); });
+    Object.entries(byBar).forEach(([bar, arr]) => {
+      if (arr.length > 1) {
+        arr.forEach(a => a.el.classList.add('dup-barrette'));
+        issues.push({tag:'dup', text:`Double en B${bar} (${arr.map(a=>a.spec).join(', ')})`});
+      }
+    });
+
+    // Règle globale : exactement 2 occurrences, 1 par barrette, 2 matières différentes
+    const total = appearances.length;
+    const nBars = new Set(appearances.map(a => a.bar)).size;
+    const nSpec = new Set(appearances.map(a => a.spec)).size;
+    const isValid = total === 2 && nBars === 2 && nSpec === 2;
+
+    if (!isValid) {
+      appearances.forEach(a => a.el.classList.add('warn-global'));
+      const present = appearances.map(a => `B${a.bar}/${a.spec}`).join(', ');
+      if (total !== 2)       issues.push({tag:'warn', text:`${total} occurrence(s) au lieu de 2 — ${present}`});
+      else if (nBars !== 2)  issues.push({tag:'warn', text:`Pas 1 par barrette — ${present}`});
+      else if (nSpec !== 2)  issues.push({tag:'warn', text:`Matière répétée — ${present}`});
+    }
+
+    if (issues.length > 0) anomalies.push({name, issues});
+  });
+
+  const btn   = document.getElementById('anomaliesBtn');
+  const count = document.getElementById('anomaliesCount');
+  count.textContent = anomalies.length ? anomalies.length + ' anomalie' + (anomalies.length>1?'s':'') : 'OK';
+  btn.style.borderColor = anomalies.length ? 'rgba(252,165,0,.8)' : 'rgba(34,197,94,.6)';
+  btn.style.background  = anomalies.length ? 'rgba(252,165,0,.15)' : 'rgba(34,197,94,.15)';
+
+  const body = document.getElementById('anomaliesBody');
+  body.innerHTML = '';
+  if (!anomalies.length) {
+    body.innerHTML = '<div class="anomalies-empty">✅ Aucune anomalie détectée</div>';
+    return;
+  }
+  anomalies.sort((a,b) => a.name.localeCompare(b.name,'fr')).forEach(({name, issues}) => {
+    const item = document.createElement('div');
+    item.className = 'anomaly-item';
+    item.innerHTML = `<div class="anomaly-name">${name}</div>` +
+      `<div class="anomaly-detail">${issues.map(i =>
+        `<span class="anomaly-tag tag-${i.tag}">${i.tag==='dup'?'DOUBLON':'INCOMPLET'}</span>${i.text}`
+      ).join('<br>')}</div>`;
+    body.appendChild(item);
+  });
+}
+
+function toggleAnomaliesPanel(){
+  document.getElementById('anomaliesPanel').classList.toggle('open');
+}
+
+/* ══════════════════════════════════════
+   IMPORT CSV
+══════════════════════════════════════ */
+function buildGroupCodes() {
+  const specCount = {};
+  document.querySelectorAll('.group').forEach(g => {
+    const key = `B${g.dataset.bar}-${g.dataset.spec}`;
+    specCount[key] = (specCount[key] || 0) + 1;
+  });
+  const seen = {};
+  const codeToId = {};
+  const idToCode = {};
+  document.querySelectorAll('.group').forEach(g => {
+    const baseKey = `B${g.dataset.bar}-${g.dataset.spec}`;
+    let code;
+    if (specCount[baseKey] > 1) {
+      seen[baseKey] = (seen[baseKey] || 0) + 1;
+      code = `${baseKey}-${seen[baseKey]}`;
+    } else {
+      code = baseKey;
+    }
+    codeToId[code] = g.id;
+    idToCode[g.id] = code;
+  });
+  return { codeToId, idToCode };
+}
+
+function openImport() {
+  requirePassword(() => {
+    const { codeToId, idToCode } = buildGroupCodes();
+    const tbl = document.getElementById('importRefTable');
+    tbl.innerHTML = '<tr><th>Code</th><th>Spécialité</th><th>Professeur</th><th>Barrette</th></tr>';
+    document.querySelectorAll('.group').forEach(g => {
+      const code = idToCode[g.id];
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td class="ref-code">${code}</td><td>${g.dataset.spec}</td><td class="ref-muted">${g.dataset.teacher}</td><td class="ref-muted">B${g.dataset.bar}</td>`;
+      tbl.appendChild(tr);
+    });
+    document.getElementById('importCsv').value = '';
+    document.getElementById('importResult').textContent = '';
+    document.getElementById('importResult').className = 'import-result';
+    document.getElementById('importOverlay').classList.add('open');
+  });
+}
+
+function closeImport() {
+  document.getElementById('importOverlay').classList.remove('open');
+}
+
+function runImport() {
+  const { codeToId } = buildGroupCodes();
+  const csv = document.getElementById('importCsv').value.trim();
+  const resultEl = document.getElementById('importResult');
+  if (!csv) { resultEl.textContent = 'Aucune donnée.'; resultEl.className = 'import-result err'; return; }
+
+  // Clear all students
+  document.querySelectorAll('.group .g-list').forEach(list => { list.innerHTML = ''; });
+
+  let ok = 0, skipped = 0;
+  csv.split('\n').forEach(line => {
+    line = line.trim();
+    if (!line || line.startsWith('#')) return;
+    const parts = line.split(';');
+    if (parts.length < 2) { skipped++; return; }
+    const nom = parts[0].trim().toUpperCase();
+    const code = parts[1].trim().toUpperCase();
+    const groupId = codeToId[code];
+    if (!groupId || !nom) { skipped++; return; }
+    const group = document.getElementById(groupId);
+    if (!group) { skipped++; return; }
+    const list = group.querySelector('.g-list');
+    const el = document.createElement('div');
+    el.className = 'name';
+    el.textContent = nom;
+    const key = normStr(nom) + '|' + groupId;
+    if (prBoldSet.has(key)) el.classList.add('pr');
+    const siblings = [...list.querySelectorAll('.name')];
+    const insertBefore = siblings.find(s => s.textContent.trim().localeCompare(nom, 'fr', {sensitivity:'base'}) > 0);
+    if (insertBefore) list.insertBefore(el, insertBefore);
+    else list.appendChild(el);
+    ok++;
+  });
+
+  document.querySelectorAll('.group').forEach(g => updateCount(g));
+  updateBarretteTotals();
+  analyzeEleves();
+
+  resultEl.textContent = `✅ ${ok} affectation(s) importée(s)${skipped ? ` · ${skipped} ligne(s) ignorée(s)` : ''}`;
+  resultEl.className = 'import-result ' + (ok > 0 ? 'ok' : 'err');
+}
+
+document.getElementById('importOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('importOverlay')) closeImport();
+});
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+applyPRBold();
+updateBarretteTotals();
+analyzeEleves();
+input.focus();
+</script>
+</body>
+</html>
