@@ -342,29 +342,27 @@ html,body{
   letter-spacing:.04em;white-space:nowrap;min-width:80px;text-align:right;
 }
 
-/* 636 - 42(search) - 28(footer padded in content) */
 .pr-content{
   flex:1;
   display:flex;flex-direction:column;
-  padding:10px 32px;
+  padding:10px 32px 16px;
   gap:10px;
-  overflow:hidden;
-  height:594px;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 .pr-row{
   display:flex;gap:6px;
-  height:282px;flex:none;
+  flex-wrap:wrap;
+  align-items:flex-start;
 }
 
 /* PR CARD */
 .pr-card{
-  flex:1;min-width:0;
-  height:282px;
+  flex:1;min-width:160px;
   background:var(--white);
   border-radius:7px;
   border:1.5px solid var(--rule);
   display:flex;flex-direction:column;
-  overflow:hidden;
   transition:border-color .2s,box-shadow .2s,opacity .2s;
 }
 .pr-card.no-match{opacity:.25;}
@@ -401,14 +399,8 @@ html,body{
 .pr-divider{flex-shrink:0;height:1px;background:var(--rule);}
 
 .pr-list{
-  flex:1;
-  overflow-y:auto;
-  overflow-x:hidden;
-  padding:4px 8px;
+  padding:4px 8px 6px;
 }
-.pr-list::-webkit-scrollbar{width:3px;}
-.pr-list::-webkit-scrollbar-track{background:transparent;}
-.pr-list::-webkit-scrollbar-thumb{background:var(--rule);border-radius:2px;}
 
 .pr-student{
   font-size:9px;font-weight:500;color:var(--text);
@@ -669,6 +661,7 @@ html,body{
       <span style="color:var(--muted);font-size:15px;flex-shrink:0">🔍</span>
       <input type="text" id="prSearch" placeholder="Recherche par nom d'élève ou de prof référent…" autocomplete="off" spellcheck="false">
       <div class="pr-match-count" id="prMatchCount"></div>
+      <div id="prTotalCount" style="font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;"></div>
     </div>
     <div class="pr-content" id="prContent">
       <!-- PR cards injected by JS -->
@@ -1169,6 +1162,11 @@ function buildPRCards(){
     byTeacher[pr.name].students.push(...pr.students);
   });
   const teachers = Object.values(byTeacher).sort((a,b) => a.name.localeCompare(b.name,'fr'));
+
+  // Compteur total
+  const totalEleves = teachers.reduce((s,t) => s + t.students.length, 0);
+  const totalEl = document.getElementById('prTotalCount');
+  if (totalEl) totalEl.textContent = `${totalEleves} élève${totalEleves>1?'s':''} réparti${totalEleves>1?'s':''} entre ${teachers.length} PR`;
 
   const row = document.createElement('div');
   row.className = 'pr-row';
