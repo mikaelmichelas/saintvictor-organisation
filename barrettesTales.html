@@ -1159,34 +1159,37 @@ const footerHint = document.getElementById('footerHint');
 
 let prViewMode = false;
 
-/* Build PR cards */
+/* Build PR cards — une carte par prof, tous élèves confondus */
 function buildPRCards(){
   prContent.innerHTML = '';
-  // Row 1: B1 PRs, Row 2: B2 PRs
-  [1,2].forEach(bar => {
-    const row = document.createElement('div');
-    row.className = 'pr-row';
-    PR_DATA.filter(pr => pr.bar===bar).forEach(pr => {
-      const card = document.createElement('div');
-      card.className = 'pr-card';
-      card.dataset.prId = pr.id;
-      const headClass = 'pr-head b'+bar;
-      card.innerHTML = `
-        <div class="${headClass}">
-          <div class="pr-name-label">${pr.name}</div>
-          <div class="pr-head-meta">
-            <span class="pr-spec-badge">${pr.spec}</span>
-            <span class="pr-bar-label">Barrette ${bar}</span>
-          </div>
-        </div>
-        <div class="pr-divider"></div>
-        <div class="pr-list">${pr.students.map(s=>`<div class="pr-student">${s}</div>`).join('')}</div>
-        <div class="pr-count-bar">${pr.students.length} élève${pr.students.length>1?'s':''}</div>
-      `;
-      row.appendChild(card);
-    });
-    prContent.appendChild(row);
+  // Fusionner les entrées PR_DATA par nom de prof
+  const byTeacher = {};
+  PR_DATA.forEach(pr => {
+    if (!byTeacher[pr.name]) byTeacher[pr.name] = { name: pr.name, students: [] };
+    byTeacher[pr.name].students.push(...pr.students);
   });
+  const teachers = Object.values(byTeacher).sort((a,b) => a.name.localeCompare(b.name,'fr'));
+
+  const row = document.createElement('div');
+  row.className = 'pr-row';
+  teachers.forEach(t => {
+    t.students.sort((a,b) => a.localeCompare(b,'fr',{sensitivity:'base'}));
+    const card = document.createElement('div');
+    card.className = 'pr-card';
+    card.dataset.prName = t.name;
+    card.innerHTML = `
+      <div class="pr-head b1">
+        <div class="pr-name-label">${t.name}</div>
+        <div class="pr-head-meta">
+          <span class="pr-bar-label">${t.students.length} élève${t.students.length>1?'s':''}</span>
+        </div>
+      </div>
+      <div class="pr-divider"></div>
+      <div class="pr-list">${t.students.map(s=>`<div class="pr-student">${s}</div>`).join('')}</div>
+    `;
+    row.appendChild(card);
+  });
+  prContent.appendChild(row);
 }
 
 btnPR.addEventListener('click', () => {
