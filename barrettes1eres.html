@@ -203,6 +203,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="import-section-label" style="margin-bottom:4px;">Données CSV</div>
         <textarea class="import-textarea" id="importCsv" placeholder="DUPONT;B1-MATHS&#10;DUPONT;B2-SES&#10;DUPONT;B3-HLP&#10;..." spellcheck="false" autocomplete="off"></textarea>
       </div>
+      <div style="padding:4px 0;">
+        <label style="font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;cursor:pointer;">
+          <input type="checkbox" id="importAdditive" style="cursor:pointer;">
+          Mode Ajout — ajoute sans effacer l'existant
+        </label>
+      </div>
       <div class="import-footer">
         <div id="importResult" class="import-result"></div>
         <button class="import-run-btn" onclick="runImport()">⤓ Importer</button>
@@ -242,6 +248,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="header-actions">
       <a href="barrettesTales.html" class="header-btn" style="text-decoration:none;">⇄ Terminales</a>
       <button class="header-btn" id="anomaliesBtn" onclick="toggleAnomaliesPanel()">⚠️ <span id="anomaliesCount">…</span></button>
+      <button class="header-btn" id="btnRefresh" onclick="loadFromSheet()" style="display:none;">⟳ Actualiser</button>
       <button class="header-btn" id="btnImport" onclick="openImport()">⤓ Import</button>
       <button class="header-btn" id="btnExport" onclick="exportHTML()" style="display:none;">💾 Exporter</button>
       <button class="header-btn" id="editToggle" onclick="askEdit()">✎ Édition</button>
@@ -634,13 +641,16 @@ function runImport() {
     return;
   }
 
-  // Clear all student DOM elements
-  DATA.forEach((bar, bi) => {
-    bar.groupes.forEach((g, gi) => {
-      const container = document.getElementById(`el-${bi}-${gi}`);
-      if (container) container.innerHTML = '';
+  const additive = document.getElementById('importAdditive')?.checked;
+  if (!additive) {
+    // Clear all student DOM elements
+    DATA.forEach((bar, bi) => {
+      bar.groupes.forEach((g, gi) => {
+        const container = document.getElementById(`el-${bi}-${gi}`);
+        if (container) container.innerHTML = '';
+      });
     });
-  });
+  }
 
   let ok = 0, skipped = 0;
   csv.split('\n').forEach(line => {
@@ -655,6 +665,11 @@ function runImport() {
     const { bi, gi } = grp;
     const container = document.getElementById(`el-${bi}-${gi}`);
     if (!container) { skipped++; return; }
+    // En mode Ajout : ignorer si le nom existe déjà dans ce groupe
+    if (additive) {
+      const exists = [...container.querySelectorAll('.eleve-name')].some(el => el.textContent.trim().toUpperCase() === nom);
+      if (exists) { skipped++; return; }
+    }
     const el = makeEleve(nom, 0, bi, gi);
     container.appendChild(el);
     ok++;
@@ -774,6 +789,70 @@ function toggleAnomaliesPanel() {
 }
 
 analyzeEleves();
+
+/* ── GOOGLE SHEETS — SOURCE DE DONNÉES ──
+   Collez ici l'URL de publication CSV du Google Sheet
+   (Fichier > Partager > Publier sur le Web > CSV)        */
+const SHEET_URL_1ERES = ''; // ← URL ici
+
+async function loadFromSheet() {
+  if (!SHEET_URL_1ERES) return;
+  const btn = document.getElementById('btnRefresh');
+  if (btn) { btn.textContent = '⟳ …'; btn.disabled = true; }
+  try {
+    const res = await fetch(SHEET_URL_1ERES);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    // Charge en mode remplacement complet
+    document.getElementById('importAdditive').checked = false;
+    document.getElementById('importCsv').value = text.trim();
+    runImportSilent(text.trim());
+    if (btn) { btn.textContent = '⟳ Actualiser'; btn.disabled = false; }
+  } catch(e) {
+    if (btn) { btn.textContent = '⟳ Erreur'; btn.disabled = false; }
+    console.error('Sheet load error:', e);
+  }
+}
+
+function runImportSilent(csv) {
+  const codeToGroup = buildImportCodes();
+  if (!csv) return;
+  DATA.forEach((bar, bi) => {
+    bar.groupes.forEach((g, gi) => {
+      const c = document.getElementById(`el-${bi}-${gi}`);
+      if (c) c.innerHTML = '';
+    });
+  });
+  csv.split('\n').forEach(line => {
+    line = line.trim();
+    if (!line || line.startsWith('#')) return;
+    const parts = line.split(';');
+    if (parts.length < 2) return;
+    const nom = parts[0].trim().toUpperCase();
+    const code = parts[1].trim().toUpperCase();
+    const grp = codeToGroup[code];
+    if (!grp || !nom) return;
+    const { bi, gi } = grp;
+    const container = document.getElementById(`el-${bi}-${gi}`);
+    if (!container) return;
+    container.appendChild(makeEleve(nom, 0, bi, gi));
+  });
+  DATA.forEach((bar, bi) => {
+    bar.groupes.forEach((g, gi) => {
+      const cid = `el-${bi}-${gi}`;
+      const c = document.getElementById(cid);
+      if (c) { sortGroup(c); renumber(cid); updateBadge(bi, gi); }
+    });
+  });
+  refreshBarretteTotals();
+  analyzeEleves();
+}
+
+// Affiche le bouton et charge si URL configurée
+if (SHEET_URL_1ERES) {
+  document.getElementById('btnRefresh').style.display = '';
+  loadFromSheet();
+}
 
 /* ── EXPORT HTML ── */
 function exportHTML() {
