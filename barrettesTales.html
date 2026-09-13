@@ -1188,6 +1188,12 @@ function buildPRCards(){
     row.appendChild(card);
   });
   prContent.appendChild(row);
+
+  // Note de bas de panneau
+  const note = document.createElement('p');
+  note.style.cssText = 'margin-top:10px;font-size:10px;color:var(--muted);font-style:italic;line-height:1.5;flex-shrink:0;';
+  note.textContent = 'Vie de classe (3h) : Mme Thromas en TA et TC — Mme Pirowski en TB et TD. Ces heures couvrent notamment les élections des délégués et éco-délégués, la préparation du CVL, la fête de Noël et la gestion de classe.';
+  prContent.appendChild(note);
 }
 
 btnPR.addEventListener('click', () => {
