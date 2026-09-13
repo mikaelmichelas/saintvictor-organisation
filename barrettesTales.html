@@ -811,32 +811,23 @@ pwdInput.addEventListener('keydown', e => { if(e.key==='Enter') validatePassword
    PR DATA
    groupId = groupe de spé du PR (= ses élèves gras dans ce groupe)
 ══════════════════════════════════════ */
-const PR_DATA = [
-  { id:'lopez',    name:'M. Lopez',      groupId:'g1',  bar:1, spec:'SES',
-    students:['AHBAR','BADON','BALTAYAN--BERNARD','BELLIER','BOELY','CANTIN','CHAPET','CONTI','DAUBLAIN','KOECHKERIAN','LORIOT','NAILI','OTTONELLI--SANCHEZ','PEYRONNON','SOLEILHAC','TEPELIAN','TORRES','VERRIER MAZOUE'] },
-  { id:'pirowski', name:'Mme Pirowski',  groupId:'g2',  bar:1, spec:'SVT',
-    students:['ALI','ANDRÉ','AROUCHANIAN','BLONDEEL','FAUCHER-TCHORLIAN','GAULIER','LE BRUN-FREDDI','PALAYSI','PERRIER','ROBERT','VILLARET'] },
-  { id:'thromas',  name:'Mme Thromas',   groupId:'g3',  bar:1, spec:'HGGSP',
-    students:['AMETOWANOU--RAVERDY','CHARLIER','FAURE-MURGUE','FLORES','GENRE','GUIDOTTI','LEICHER','PENA','RENDA','SICARD','VADROT'] },
-  { id:'gaudenz',  name:'Mme Gaudenz',   groupId:'g6',  bar:1, spec:'AMC',
-    students:['BOURBON','CERISE','CHARRUE','HERZI','MARAIS','MARTIN','MATHIAS','MIGUEL','REBOUAH'] },
-  { id:'nocera',   name:'Mme Nocera',    groupId:'g7',  bar:2, spec:'HGGSP',
-    students:['CETTOUR-BARON','FAURE L.','FAVERON','FAVERON','GIORGI','MORFIN','GOMEZ DE MERCADO','HYSENI','JULIEN','KHOUCHANE-PALAYSI','LIEVIN','MARABENA','MARTINEZ','MAUFFAIT','OUGIER','ROUSSET','SAINT-CAST','TENDIL'] },
-  { id:'follin',   name:'Mme Follin',    groupId:'g9',  bar:2, spec:'PH-CH',
-    students:['BADI-LUMB','BREARD','CHEROUI','CORNET','COTTEREAU','DACHER','EL YADIRI','FAURE C.','FERRERO','FOUREL','GOULLARD','GRAND','HERPET','LADRAM DE ROUBIN'] },
-  { id:'lecoeur',  name:'Mme Le Cœur',  groupId:'g10', bar:2, spec:'PH-CH',
-    students:['DINER','JULLIEN','MEJEAN','MEJEAN','MELKONYAN','MONTIER','PIRES','POUZACHE','RENAU','ROSTAING','SAMIEZ QUAGEBEUR','VABRES','VIAL','WATTIAU','ZAHN'] },
-  { id:'rossille', name:'M. Rossille',   groupId:'g12', bar:2, spec:'MATHS',
-    students:['ABDO AGHA','BECHARA','BENSAUDE BARBEZ','BERAS','BERTRAND','CARRIER','CHOISEL','COMTE','CORDEIRO','CRUMIERE','DE ANGELIS-PICHON','DIENNE','DOS SANTOS','DUCHAMP','KHOURY','LOPEZ--BLANC'] },
-];
+/* PR_DATA est reconstruit dynamiquement à chaque import depuis la colonne 3 du Sheet */
+let PR_DATA = [];
 
-/* ── Build PR bold set: "normalizedName|groupId" ── */
+/* ── Normalisation ── */
 function normStr(s){ return s.trim().replace(/\s+/g,' ').toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
 
 const prBoldSet = new Set();
-PR_DATA.forEach(pr => {
-  pr.students.forEach(s => prBoldSet.add(normStr(s) + '|' + pr.groupId));
-});
+
+/* ── Reconstruit PR_DATA + prBoldSet depuis un prMap issu de l'import ── */
+function rebuildPRDataFromMap(prMap) {
+  PR_DATA = Object.values(prMap).sort((a,b) => {
+    if (a.bar !== b.bar) return a.bar - b.bar;
+    return a.name.localeCompare(b.name, 'fr');
+  });
+  prBoldSet.clear();
+  PR_DATA.forEach(pr => pr.students.forEach(s => prBoldSet.add(normStr(s)+'|'+pr.groupId)));
+}
 
 /* ── Apply PR bold on all .name elements ── */
 function applyPRBold(){
@@ -888,6 +879,7 @@ function runImportSilent(csv) {
   const { codeToId } = buildGroupCodes();
   if (!csv) return;
   document.querySelectorAll('.group .g-list').forEach(list => { list.innerHTML = ''; });
+  const prMap = {}; // "teacherName|groupId" → { id, name, groupId, bar, spec, students[] }
   csv.split('\n').forEach(line => {
     line = line.trim();
     if (!line || line.startsWith('#')) return;
@@ -895,21 +887,37 @@ function runImportSilent(csv) {
     if (parts.length < 2) return;
     const nom = parts[0].trim().toUpperCase();
     const code = parts[1].trim().toUpperCase();
+    const teacherName = parts.length >= 3 ? parts[2].trim() : '';
     const groupId = codeToId[code];
     if (!groupId || !nom) return;
     const group = document.getElementById(groupId);
     if (!group) return;
     const list = group.querySelector('.g-list');
+    // Enregistrer le PR dans la map
+    if (teacherName) {
+      const prKey = teacherName + '|' + groupId;
+      if (!prMap[prKey]) {
+        prMap[prKey] = {
+          id: teacherName.toLowerCase().replace(/[^a-z0-9]+/g,'-') + '-' + groupId,
+          name: teacherName,
+          groupId,
+          bar: parseInt(group.dataset.bar || '1'),
+          spec: group.dataset.spec || code,
+          students: []
+        };
+      }
+      prMap[prKey].students.push(nom);
+    }
     const el = document.createElement('div');
     el.className = 'name';
     el.textContent = nom;
-    const key = normStr(nom) + '|' + groupId;
-    if (prBoldSet.has(key)) el.classList.add('pr');
+    if (teacherName) el.classList.add('pr');
     const siblings = [...list.querySelectorAll('.name')];
     const insertBefore = siblings.find(s => s.textContent.trim().localeCompare(nom, 'fr', {sensitivity:'base'}) > 0);
     if (insertBefore) list.insertBefore(el, insertBefore);
     else list.appendChild(el);
   });
+  rebuildPRDataFromMap(prMap);
   document.querySelectorAll('.group').forEach(g => updateCount(g));
   updateBarretteTotals();
   analyzeEleves();
@@ -1372,6 +1380,7 @@ function runImport() {
     document.querySelectorAll('.group .g-list').forEach(list => { list.innerHTML = ''; });
   }
 
+  const prMap = {};
   let ok = 0, skipped = 0;
   csv.split('\n').forEach(line => {
     line = line.trim();
@@ -1380,6 +1389,7 @@ function runImport() {
     if (parts.length < 2) { skipped++; return; }
     const nom = parts[0].trim().toUpperCase();
     const code = parts[1].trim().toUpperCase();
+    const teacherName = parts.length >= 3 ? parts[2].trim() : '';
     const groupId = codeToId[code];
     if (!groupId || !nom) { skipped++; return; }
     const group = document.getElementById(groupId);
@@ -1390,11 +1400,25 @@ function runImport() {
       const exists = [...list.querySelectorAll('.name')].some(el => el.textContent.trim().toUpperCase() === nom);
       if (exists) { skipped++; return; }
     }
+    // Enregistrer le PR dans la map
+    if (teacherName) {
+      const prKey = teacherName + '|' + groupId;
+      if (!prMap[prKey]) {
+        prMap[prKey] = {
+          id: teacherName.toLowerCase().replace(/[^a-z0-9]+/g,'-') + '-' + groupId,
+          name: teacherName,
+          groupId,
+          bar: parseInt(group.dataset.bar || '1'),
+          spec: group.dataset.spec || code,
+          students: []
+        };
+      }
+      prMap[prKey].students.push(nom);
+    }
     const el = document.createElement('div');
     el.className = 'name';
     el.textContent = nom;
-    const key = normStr(nom) + '|' + groupId;
-    if (prBoldSet.has(key)) el.classList.add('pr');
+    if (teacherName) el.classList.add('pr');
     const siblings = [...list.querySelectorAll('.name')];
     const insertBefore = siblings.find(s => s.textContent.trim().localeCompare(nom, 'fr', {sensitivity:'base'}) > 0);
     if (insertBefore) list.insertBefore(el, insertBefore);
@@ -1402,6 +1426,7 @@ function runImport() {
     ok++;
   });
 
+  rebuildPRDataFromMap(prMap);
   document.querySelectorAll('.group').forEach(g => updateCount(g));
   updateBarretteTotals();
   analyzeEleves();
