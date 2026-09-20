@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campagnes Pix – Terminale | Lycée Saint-Victor</title>
+<style>
+  :root {
+    --pix: #3d68ff;
+    --pix-dark: #1b3fcc;
+    --bg: #f4f6ff;
+    --card: #ffffff;
+    --border: #dde3ff;
+    --text: #1a1a2e;
+    --muted: #5a6080;
+    --tag-bg: #e8ecff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 16px 48px;
+  }
+  header {
+    max-width: 900px;
+    margin: 0 auto 32px;
+    text-align: center;
+  }
+  .logo { font-size: 2rem; margin-bottom: 8px; }
+  h1 { font-size: 1.6rem; color: var(--pix); font-weight: 700; }
+  .subtitle { color: var(--muted); font-size: 0.95rem; margin-top: 6px; }
+  .container { max-width: 900px; margin: 0 auto; }
+  .section { margin-bottom: 32px; }
+  .section-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 4px 10px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .card:hover { box-shadow: 0 2px 12px rgba(61,104,255,.12); }
+  .code-badge {
+    font-family: 'Courier New', monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--card);
+    background: var(--pix);
+    border-radius: 8px;
+    padding: 8px 14px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    min-width: 140px;
+    text-align: center;
+    cursor: pointer;
+    user-select: all;
+    transition: background .15s;
+  }
+  .code-badge:hover { background: var(--pix-dark); }
+  .code-badge.copied { background: #22c55e; }
+  .parcours-name {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .link-icon {
+    color: var(--pix);
+    opacity: .5;
+    font-size: 1.1rem;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .link-icon:hover { opacity: 1; }
+  .note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 32px;
+  }
+  .intro-box {
+    background: var(--pix);
+    color: white;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .intro-box strong { display: block; font-size: 1rem; margin-bottom: 4px; }
+  @media print {
+    body { background: white; padding: 0; }
+    .card { break-inside: avoid; }
+    .link-icon { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🎓</div>
+  <h1>Campagnes Pix — Terminale</h1>
+  <p class="subtitle">Lycée Saint-Victor · Valence · Année 2025-2026</p>
+</header>
+
+<div class="container">
+
+  <div class="intro-box">
+    <strong>Comment utiliser ce code ?</strong>
+    Connecte-toi sur <strong>pix.fr</strong> → cliquer sur <em>Rejoindre une campagne</em> → saisir le code de la campagne qui t'a été communiqué par ton professeur.
+  </div>
+
+  <!-- GÉNÉRAL / RENTRÉE -->
+  <div class="section">
+    <div class="section-title">🏫 Général — Rentrée &amp; Certification</div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'BMZKFW892')">BMZKFW892</div>
+      <div class="parcours-name">Parcours de rentrée Tle</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884324/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'NYBBPP577')">NYBBPP577</div>
+      <div class="parcours-name">Complément au parcours de rentrée Term GT en vue de la certification</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884332/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'DNTFGZ537')">DNTFGZ537</div>
+      <div class="parcours-name">Nouveautés lycée 2026</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884378/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+  </div>
+
+  <!-- EMI -->
+  <div class="section">
+    <div class="section-title">📰 EMI — Éducation aux Médias et à l'Information</div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'EZQWVK864')">EZQWVK864</div>
+      <div class="parcours-name">EMI - Lycée (parcours général)</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884368/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'QBNNRM725')">QBNNRM725</div>
+      <div class="parcours-name">EMI - Économie et mutations des médias</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884355/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'FDYRBU577')">FDYRBU577</div>
+      <div class="parcours-name">EMI - Recherche, traitement et évaluation de l'information</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884356/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'DMBNVB848')">DMBNVB848</div>
+      <div class="parcours-name">EMI - Données</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884367/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+  </div>
+
+  <!-- CYBERSÉCURITÉ / SÉCURITÉ -->
+  <div class="section">
+    <div class="section-title">🔐 Cybersécurité &amp; Sécurité numérique</div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'ZDARMM393')">ZDARMM393</div>
+      <div class="parcours-name">Cybersécurité (MAJ 2025)</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884358/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'GVGDGC627')">GVGDGC627</div>
+      <div class="parcours-name">Protection et sécurité — focus cyberharcèlement (MAJ 2025)</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884370/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+  </div>
+
+  <!-- CITOYENNETÉ NUMÉRIQUE -->
+  <div class="section">
+    <div class="section-title">🌐 Éducation, Culture &amp; Citoyenneté numériques</div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'NSTHJP726')">NSTHJP726</div>
+      <div class="parcours-name">Le numérique : un espace d'émancipation et d'inclusion</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884359/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'FTTMRF647')">FTTMRF647</div>
+      <div class="parcours-name">Le numérique : un espace de droit</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884361/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'VKABAJ896')">VKABAJ896</div>
+      <div class="parcours-name">Le numérique : un espace de vigilance</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884363/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+  </div>
+
+  <!-- SPÉCIALITÉS -->
+  <div class="section">
+    <div class="section-title">🔬 Spécialités</div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'ZHAVWR859')">ZHAVWR859</div>
+      <div class="parcours-name">Spécialité Physique-Chimie — Terminale</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884352/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'HJDMEB558')">HJDMEB558</div>
+      <div class="parcours-name">Sciences de la vie et de la Terre</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884371/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+  </div>
+
+  <!-- BUREAUTIQUE -->
+  <div class="section">
+    <div class="section-title">📊 Bureautique — Tableur</div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'KJJSYC534')">KJJSYC534</div>
+      <div class="parcours-name">Tableur pour calculer</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884374/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'JFTWMA874')">JFTWMA874</div>
+      <div class="parcours-name">Tableur pour présenter des données</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884376/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+  </div>
+
+  <!-- EPS -->
+  <div class="section">
+    <div class="section-title">🏃 EPS</div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'GNJQUG943')">GNJQUG943</div>
+      <div class="parcours-name">Parcours EPS cycle terminal</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884349/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+  </div>
+
+  <!-- ACCESSIBILITÉ -->
+  <div class="section">
+    <div class="section-title">♿ Accessibilité</div>
+
+    <div class="card">
+      <div class="code-badge" onclick="copyCode(this, 'XYGUYJ432')">XYGUYJ432</div>
+      <div class="parcours-name">Parcours accessible — déficient visuel</div>
+      <a class="link-icon" href="https://orga.pix.fr/campagnes/1884380/parametres" target="_blank" title="Voir la campagne">↗</a>
+    </div>
+
+  </div>
+
+  <p class="note">17 campagnes · Lycée Saint-Victor Valence · Cliquez sur un code pour le copier</p>
+
+</div>
+
+<script>
+function copyCode(el, code) {
+  navigator.clipboard.writeText(code).then(() => {
+    const orig = el.textContent;
+    el.textContent = 'Copié !';
+    el.classList.add('copied');
+    setTimeout(() => {
+      el.textContent = orig;
+      el.classList.remove('copied');
+    }, 1500);
+  });
+}
+</script>
+</body>
+</html>
