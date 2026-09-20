@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AP Maths & Français — Synthèse 2026-2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bleu: #003478;
+    --bleu-light: #e8eef6;
+    --rose: #c4268b;
+    --rose-light: #faeef6;
+    --gris-fond: #f5f6f8;
+    --gris-bord: #dde1e8;
+    --texte: #1a1d23;
+    --texte-sec: #5a6070;
+    --attente: #b45309;
+    --attente-bg: #fef3c7;
+    --blanc: #ffffff;
+
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  *, *::before, *::after { box-sizing: inherit; }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--texte);
+    background: var(--gris-fond);
+    line-height: 1.5;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--bleu);
+    color: white;
+    padding: 28px 32px 24px;
+  }
+
+  .header-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    color: rgba(255,255,255,.55);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    margin: 0 0 4px;
+    line-height: 1.2;
+  }
+
+  header p {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(255,255,255,.6);
+  }
+
+  /* ── FILTRES ── */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 32px;
+    background: var(--blanc);
+    border-bottom: 1px solid var(--gris-bord);
+    flex-wrap: wrap;
+  }
+
+  .controls-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--texte-sec);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-right: 4px;
+  }
+
+  .seg-btn {
+    border: 1.5px solid var(--gris-bord);
+    background: var(--blanc);
+    color: var(--texte-sec);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+
+  .seg-btn:hover {
+    border-color: var(--bleu);
+    color: var(--bleu);
+  }
+
+  .seg-btn.active {
+    background: var(--bleu);
+    border-color: var(--bleu);
+    color: white;
+  }
+
+  /* ── TABLEAU ── */
+  .table-wrap {
+    padding: 24px 32px 40px;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--blanc);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  }
+
+  thead th {
+    background: var(--bleu);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    padding: 13px 18px;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--gris-bord);
+    transition: background .1s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--gris-fond); }
+
+  td {
+    padding: 14px 18px;
+    vertical-align: top;
+    font-size: 13.5px;
+  }
+
+  /* colonne niveau */
+  td.niveau {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .badge-2nde {
+    display: inline-block;
+    background: var(--bleu-light);
+    color: var(--bleu);
+    border-radius: 5px;
+    padding: 2px 9px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .badge-1ere {
+    display: inline-block;
+    background: var(--rose-light);
+    color: var(--rose);
+    border-radius: 5px;
+    padding: 2px 9px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* colonne matière */
+  .matiere-maths {
+    font-weight: 600;
+    color: var(--bleu);
+  }
+
+  .matiere-fr {
+    font-weight: 600;
+    color: var(--rose);
+  }
+
+  /* statut en attente */
+  .attente-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--attente-bg);
+    color: var(--attente);
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .attente-badge::before {
+    content: '●';
+    font-size: 8px;
+  }
+
+  /* colonne organisation */
+  td.orga {
+    color: var(--texte);
+    max-width: 440px;
+    line-height: 1.55;
+  }
+
+  td.orga .phase {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  td.orga .phase:last-child { margin-bottom: 0; }
+
+  td.orga .phase-label {
+    font-weight: 600;
+    color: var(--texte-sec);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-right: 4px;
+  }
+
+  /* hidden rows */
+  tr.hidden { display: none; }
+
+  /* légende */
+  .legende {
+    display: flex;
+    gap: 20px;
+    padding: 0 32px 28px;
+    flex-wrap: wrap;
+  }
+
+  .leg-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--texte-sec);
+  }
+
+  .leg-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">Lycée Saint Victor — 2026-2027</div>
+  <h1>Accompagnement Personnalisé</h1>
+  <p>Maths &amp; Français · 0,5 h/sem · 18 h/an · Groupes flexibles via EcoleDirecte</p>
+</header>
+
+<div class="controls">
+  <span class="controls-label">Niveau</span>
+  <button class="seg-btn active" data-filter="all">Tous</button>
+  <button class="seg-btn" data-filter="2nde">2nde</button>
+  <button class="seg-btn" data-filter="1ere">1re</button>
+  <button class="seg-btn" data-filter="maths">Maths</button>
+  <button class="seg-btn" data-filter="francais">Français</button>
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Niveau</th>
+      <th>Classe(s)</th>
+      <th>Matière</th>
+      <th>Enseignant</th>
+      <th>Organisation</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- 2nde Maths Roux -->
+    <tr data-niveau="2nde" data-matiere="maths">
+      <td class="niveau"><span class="badge-2nde">2nde</span></td>
+      <td>2A, 2D</td>
+      <td class="matiere-maths">Maths</td>
+      <td>M. Roux</td>
+      <td class="orga">
+        <span class="phase"><span class="phase-label">Rentrée → Toussaint</span>Classe entière, tous les élèves convoqués.</span>
+        <span class="phase"><span class="phase-label">Après Toussaint</span>Groupes éventuels selon les besoins identifiés.</span>
+      </td>
+    </tr>
+
+    <!-- 2nde Maths Rossille -->
+    <tr data-niveau="2nde" data-matiere="maths">
+      <td class="niveau"><span class="badge-2nde">2nde</span></td>
+      <td>2B</td>
+      <td class="matiere-maths">Maths</td>
+      <td>M. Rossille</td>
+      <td class="orga">
+        <span class="attente-badge">En attente de retour</span>
+      </td>
+    </tr>
+
+    <!-- 2nde Maths Mehadji -->
+    <tr data-niveau="2nde" data-matiere="maths">
+      <td class="niveau"><span class="badge-2nde">2nde</span></td>
+      <td>2C</td>
+      <td class="matiere-maths">Maths</td>
+      <td>M. Mehadji</td>
+      <td class="orga">
+        <span class="phase">Progression calée sur M. Roux pour assurer la cohérence entre toutes les classes de 2nde.</span>
+      </td>
+    </tr>
+
+    <!-- 2nde Français Darnaud -->
+    <tr data-niveau="2nde" data-matiere="francais">
+      <td class="niveau"><span class="badge-2nde">2nde</span></td>
+      <td>2A</td>
+      <td class="matiere-fr">Français</td>
+      <td>Mme Darnaud</td>
+      <td class="orga">
+        <span class="phase"><span class="phase-label">Phase 1</span>Classe entière.</span>
+        <span class="phase"><span class="phase-label">Phase 2</span>Groupes de 10-15 pour révision et approfondissement.</span>
+      </td>
+    </tr>
+
+    <!-- 2nde Français Durif -->
+    <tr data-niveau="2nde" data-matiere="francais">
+      <td class="niveau"><span class="badge-2nde">2nde</span></td>
+      <td>2B, 2C</td>
+      <td class="matiere-fr">Français</td>
+      <td>Mme Durif</td>
+      <td class="orga">
+        <span class="phase"><span class="phase-label">Semaines 1-2</span>Classe entière.</span>
+        <span class="phase"><span class="phase-label">Rentrée → Toussaint</span>Inscription libre (élèves sans besoin identifié) ou convocation directe (élèves fragiles). Focus : méthodologie du commentaire de texte.</span>
+        <span class="phase"><span class="phase-label">Après Toussaint</span>Groupes imposés sur la base du 1er commentaire corrigé : max 10 élèves à besoin + 5 volontaires. Réajustement après chaque évaluation finale.</span>
+      </td>
+    </tr>
+
+    <!-- 2nde Français Perge -->
+    <tr data-niveau="2nde" data-matiere="francais">
+      <td class="niveau"><span class="badge-2nde">2nde</span></td>
+      <td>2D</td>
+      <td class="matiere-fr">Français</td>
+      <td>Mme Perge</td>
+      <td class="orga">
+        <span class="phase"><span class="phase-label">Séances 1-2</span>Demi-groupe (≈18 élèves) — révision des figures de style.</span>
+        <span class="phase"><span class="phase-label">Après évaluations nationales</span>Groupes ciblés : procédés d'écriture / formulation de phrases / rédaction de paragraphe.</span>
+      </td>
+    </tr>
+
+    <!-- 1re Français Durif -->
+    <tr data-niveau="1ere" data-matiere="francais">
+      <td class="niveau"><span class="badge-1ere">1re</span></td>
+      <td>1A</td>
+      <td class="matiere-fr">Français</td>
+      <td>Mme Durif</td>
+      <td class="orga">
+        <span class="phase"><span class="phase-label">Rentrée → 1er bac blanc</span>Inscription libre (élèves sans besoin identifié) ou convocation directe (élèves fragiles). Focus : fiches de révision + questions de cours.</span>
+        <span class="phase"><span class="phase-label">Après résultats bac blanc</span>Groupes imposés : max 10 élèves à besoin + 5 volontaires. Réajustement après chaque bac blanc.</span>
+      </td>
+    </tr>
+
+    <!-- 1re Français Reymond -->
+    <tr data-niveau="1ere" data-matiere="francais">
+      <td class="niveau"><span class="badge-1ere">1re</span></td>
+      <td>1B</td>
+      <td class="matiere-fr">Français</td>
+      <td>Mme Reymond</td>
+      <td class="orga">
+        <span class="phase"><span class="phase-label">Séance 1</span>Classe entière (rattrappage heure Boucieu).</span>
+        <span class="phase"><span class="phase-label">Phase 2</span>Demi-groupes — notions de 2nde (registres, discours rapporté, points de vue).</span>
+        <span class="phase"><span class="phase-label">Phase 3</span>Groupes de besoin différenciés : renforcement (élèves en difficulté) et approfondissement. Enjeux de l'examen : procédés / commentaire et dissertation / oral / grammaire.</span>
+      </td>
+    </tr>
+
+    <!-- 1re Français Darnaud -->
+    <tr data-niveau="1ere" data-matiere="francais">
+      <td class="niveau"><span class="badge-1ere">1re</span></td>
+      <td>1D</td>
+      <td class="matiere-fr">Français</td>
+      <td>Mme Darnaud</td>
+      <td class="orga">
+        <span class="phase"><span class="phase-label">Phase 1</span>Classe entière.</span>
+        <span class="phase"><span class="phase-label">Phase 2</span>Groupes de 10-15 pour révision et approfondissement.</span>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<div class="legende">
+  <div class="leg-item"><div class="leg-dot" style="background:var(--bleu)"></div>2nde</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--rose)"></div>1re</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--attente)"></div>En attente de retour</div>
+</div>
+
+<script>
+  const btns = document.querySelectorAll('.seg-btn');
+  const rows = document.querySelectorAll('tbody tr');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const f = btn.dataset.filter;
+
+      rows.forEach(row => {
+        const n = row.dataset.niveau;
+        const m = row.dataset.matiere;
+
+        if (f === 'all') {
+          row.classList.remove('hidden');
+        } else if (f === '2nde') {
+          row.classList.toggle('hidden', n !== '2nde');
+        } else if (f === '1ere') {
+          row.classList.toggle('hidden', n !== '1ere');
+        } else if (f === 'maths') {
+          row.classList.toggle('hidden', m !== 'maths');
+        } else if (f === 'francais') {
+          row.classList.toggle('hidden', m !== 'francais');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
