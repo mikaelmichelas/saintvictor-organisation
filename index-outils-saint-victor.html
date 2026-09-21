@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outils Saint Victor - Index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #003478;
+            --secondary: #c4268b;
+            --light-bg: #f8f9fa;
+            --dark-bg: #1a1a1a;
+            --text-light: #333;
+            --text-dark: #e0e0e0;
+            --border: #ddd;
+            --border-dark: #444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light-bg);
+            color: var(--text-light);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background: var(--dark-bg);
+            color: var(--text-dark);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            color: var(--text-light);
+            transition: border-color 0.3s;
+        }
+
+        body.dark-mode .search-box input {
+            background: #333;
+            color: var(--text-dark);
+            border-color: var(--border-dark);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--border);
+            background: white;
+            color: var(--text-light);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        body.dark-mode .filter-btn {
+            background: #333;
+            color: var(--text-dark);
+            border-color: var(--border-dark);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .theme-toggle {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--border);
+            background: white;
+            color: var(--text-light);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: #333;
+            color: var(--text-dark);
+            border-color: var(--border-dark);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.dark-mode .card {
+            background: #2a2a2a;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            flex: 1;
+        }
+
+        .card-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            white-space: nowrap;
+            margin-left: 0.5rem;
+        }
+
+        .badge-public {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        body.dark-mode .badge-public {
+            background: #1b5e20;
+            color: #a5d6a7;
+        }
+
+        .badge-personnel {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        body.dark-mode .badge-personnel {
+            background: #bf360c;
+            color: #ffb74d;
+        }
+
+        .card-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            flex: 1;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        body.dark-mode .card-description {
+            color: var(--text-dark);
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            color: #666;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        body.dark-mode .tag {
+            background: #444;
+            color: #aaa;
+        }
+
+        .card-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: auto;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #002a5f;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #a01d6b;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-count {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .result-count {
+            color: #aaa;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode footer {
+            border-top-color: var(--border-dark);
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎯 Outils Saint Victor</h1>
+        <p>Index centralisé des pages et applications créées pour le lycée</p>
+    </header>
+
+    <div class="container">
+        <div class="controls">
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Rechercher un outil..."
+                >
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Tous</button>
+                <button class="filter-btn" data-filter="public">🌐 Public</button>
+                <button class="filter-btn" data-filter="personnel">🔒 Personnel</button>
+            </div>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+
+        <div id="resultCount" class="result-count"></div>
+        <div id="grid" class="grid"></div>
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <p>Aucun outil ne correspond à ta recherche.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Lycée Saint Victor, Valence (Drôme)</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+            ℹ️ Indexé : 20 outils. Mises à jour régulièrement. 🔐 Pages protégées indiquées.
+        </p>
+    </footer>
+
+    <script>
+        // ====== DONNÉES (19 outils) ======
+        const tools = [
+            // saintvictor-rentree (4)
+            {
+                id: 'suivi-as',
+                title: 'Suivi AS (Actions de Solidarité)',
+                description: 'Tableau de suivi des actions de solidarité des élèves. 🔐 Protégé par mot de passe (direction).',
+                access: 'personnel',
+                category: 'Suivi élèves',
+                url: 'https://mikaelmichelas.github.io/saintvictor-rentree/suivi_AS_saint_victor.html',
+                repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
+                tags: ['Suivi', 'Solidarité', 'Élèves', 'Protégé']
+            },
+            {
+                id: 'teletravail',
+                title: 'Télétravail',
+                description: 'Accès personnel réservé à Mikael. 🔒 Strictement privé.',
+                access: 'personnel',
+                category: 'Personnel',
+                url: 'https://mikaelmichelas.github.io/saintvictor-rentree/teletravail.html',
+                repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
+                tags: ['Privé', 'Télétravail', 'Protégé']
+            },
+            {
+                id: 'planning-evaluations',
+                title: 'Planning Évaluations & Protocoles',
+                description: 'Planning interactif des évaluations (oct 2026 – mai 2027). Protocoles absence/rattrapage. Accordéon par mois et niveau.',
+                access: 'public',
+                category: 'Pédagogie',
+                url: 'https://mikaelmichelas.github.io/saintvictor-rentree/index_planning.html',
+                repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
+                tags: ['Examens', 'Calendrier', 'Évaluations']
+            },
+            {
+                id: 'infographie-absence',
+                title: 'Infographie Absence Évaluation',
+                description: 'Flowchart interactif pour les protocoles d\'absence lors d\'une évaluation. Grid 4 colonnes avec décisions et branches.',
+                access: 'public',
+                category: 'Pédagogie',
+                url: 'https://mikaelmichelas.github.io/saintvictor-rentree/infographie_absence_eval.html',
+                repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
+                tags: ['Protocoles', 'Absence', 'Processus']
+            },
+            // comptabilite (1)
+            {
+                id: 'heures-sup',
+                title: 'Heures Supplémentaires',
+                description: 'Outil de comptabilisation des heures supplémentaires. Suivi des heures de Claudine Parfait et Marie Le Gall. 🔐 Protégé par mot de passe.',
+                access: 'personnel',
+                category: 'Comptabilité',
+                url: 'https://mikaelmichelas.github.io/comptabilite/heures_sup.html',
+                repo: 'https://github.com/mikaelmichelas/comptabilite',
+                tags: ['Comptabilité', 'Pastorale', 'Suivi temps', 'Protégé']
+            },
+            // saintvictor-organisation (4)
+            {
+                id: 'ap-synthese',
+                title: 'AP - Synthèse',
+                description: 'Vue synthétique de l\'accompagnement personnalisé. 🔐 Protégé par mot de passe (tous personnels).',
+                access: 'personnel',
+                category: 'Pédagogie',
+                url: 'https://mikaelmichelas.github.io/saintvictor-organisation/ap-synthese.html',
+                repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
+                tags: ['AP', 'Accompagnement', 'Pédagogie', 'Protégé']
+            },
+            {
+                id: 'barrettes-1eres',
+                title: 'Barrettes 1ères',
+                description: 'Organisation des barrettes horaires pour les élèves de 1ère. Accès public.',
+                access: 'public',
+                category: 'Emploi du temps',
+                url: 'https://mikaelmichelas.github.io/saintvictor-organisation/barrettes1eres.html',
+                repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
+                tags: ['Emploi du temps', '1ère', 'Barrettes']
+            },
+            {
+                id: 'barrettes-tales',
+                title: 'Barrettes Terminales',
+                description: 'Organisation des barrettes horaires pour les élèves de terminale. ⚠️ Onglet PR privé (mot de passe).',
+                access: 'public',
+                category: 'Emploi du temps',
+                url: 'https://mikaelmichelas.github.io/saintvictor-organisation/barrettesTales.html',
+                repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
+                tags: ['Emploi du temps', 'Terminale', 'Barrettes', 'PR privé']
+            },
+            {
+                id: 'pix-campagnes',
+                title: 'PIX - Campagnes Terminale',
+                description: 'Suivi des campagnes PIX pour les élèves de terminale. Certifications, résultats.',
+                access: 'public',
+                category: 'Certifications',
+                url: 'https://mikaelmichelas.github.io/saintvictor-organisation/pix-campagnes-terminale.html',
+                repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
+                tags: ['PIX', 'Terminale', 'Compétences numériques']
+            },
+            // orientation (8)
+            {
+                id: 'ap-orientation',
+                title: 'AP - Orientation',
+                description: 'Accompagnement personnalisé orientation. Ressources et suivi pour les élèves.',
+                access: 'public',
+                category: 'Orientation',
+                url: 'https://mikaelmichelas.github.io/orientation/ap-orientation.html',
+                repo: 'https://github.com/mikaelmichelas/orientation',
+                tags: ['Orientation', 'AP', 'Accompagnement']
+            },
+            {
+                id: 'barrettes-orientation',
+                title: 'Barrettes - Orientation',
+                description: 'Vue barrettes pour l\'orientation. Structuration par niveau et options.',
+                access: 'public',
+                category: 'Orientation',
+                url: 'https://mikaelmichelas.github.io/orientation/barrettes.html',
+                repo: 'https://github.com/mikaelmichelas/orientation',
+                tags: ['Orientation', 'Barrettes', 'Structure']
+            },
+            {
+                id: 'orientation-accueil',
+                title: 'Orientation - Accueil',
+                description: 'Page d\'accueil du pôle orientation. Point central pour toutes les ressources orientation.',
+                access: 'public',
+                category: 'Orientation',
+                url: 'https://mikaelmichelas.github.io/orientation/index.html',
+                repo: 'https://github.com/mikaelmichelas/orientation',
+                tags: ['Orientation', 'Accueil', 'Hub']
+            },
+            {
+                id: 'jdo-formulaire',
+                title: 'JDO - Formulaire Inscription Présentations',
+                description: 'Formulaire web pour la saisie des choix de présentations JDO. Intégration Google Sheets, sans doublon.',
+                access: 'public',
+                category: 'Rentrée',
+                url: 'https://mikaelmichelas.github.io/orientation/jdo_formulaire.html',
+                repo: 'https://github.com/mikaelmichelas/orientation',
+                tags: ['Rentrée', 'Orientation', 'Formulaire']
+            },
+            {
+                id: 'parcours-1ere',
+                title: 'Parcours 1ère - Timeline Orientation',
+                description: 'Timeline des temps forts de l\'orientation pour les élèves de 1ère. Calendrier, étapes clés.',
+                access: 'public',
+                category: 'Orientation',
+                url: 'https://mikaelmichelas.github.io/orientation/parcours_1ere.html',
+                repo: 'https://github.com/mikaelmichelas/orientation',
+                tags: ['Orientation', 'Calendrier', '1ère']
+            },
+            {
+                id: 'parcours-2nde',
+                title: 'Parcours 2nde - Timeline Orientation',
+                description: 'Timeline des temps forts de l\'orientation pour les élèves de 2nde. Découverte, immersions.',
+                access: 'public',
+                category: 'Orientation',
+                url: 'https://mikaelmichelas.github.io/orientation/parcours_2nde.html',
+                repo: 'https://github.com/mikaelmichelas/orientation',
+                tags: ['Orientation', 'Calendrier', '2nde']
+            },
+            {
+                id: 'parcours-tale',
+                title: 'Parcours Terminale - Timeline Orientation',
+                description: 'Timeline des temps forts de l\'orientation pour les élèves de terminale. Parcoursup, choix post-bac.',
+                access: 'public',
+                category: 'Orientation',
+                url: 'https://mikaelmichelas.github.io/orientation/parcours_tale.html',
+                repo: 'https://github.com/mikaelmichelas/orientation',
+                tags: ['Orientation', 'Calendrier', 'Terminale', 'Parcoursup']
+            },
+            {
+                id: 'rdv-orientation',
+                title: 'RDV Orientation',
+                description: 'Prise de rendez-vous pour les consultations orientation. Planification avec les élèves.',
+                access: 'public',
+                category: 'Orientation',
+                url: 'https://mikaelmichelas.github.io/orientation/rdv-orientation.html',
+                repo: 'https://github.com/mikaelmichelas/orientation',
+                tags: ['Orientation', 'RDV', 'Consultation']
+            },
+            // tremplins (3)
+            {
+                id: 'tremplins-dashboard',
+                title: 'Tremplins Sup - Dashboard',
+                description: 'Tableau de bord Tremplins Sup. Vue synthétique pour direction, secrétaire, comptabilité. 🔐 Protégé par mot de passe.',
+                access: 'personnel',
+                category: 'Tremplins Sup',
+                url: 'https://mikaelmichelas.github.io/tremplins/dashboard.html',
+                repo: 'https://github.com/mikaelmichelas/tremplins',
+                tags: ['Tremplins Sup', 'Dashboard', 'Suivi', 'Protégé']
+            },
+            {
+                id: 'tremplins-accueil',
+                title: 'Tremplins Sup - Accueil',
+                description: 'Page d\'accueil du dispositif Tremplins Sup. Informations et ressources pour élèves et familles.',
+                access: 'public',
+                category: 'Tremplins Sup',
+                url: 'https://mikaelmichelas.github.io/tremplins/index.html',
+                repo: 'https://github.com/mikaelmichelas/tremplins',
+                tags: ['Tremplins Sup', 'Accueil', 'Dispositif']
+            },
+            {
+                id: 'tremplins-planning',
+                title: 'Tremplins Sup - Planning',
+                description: 'Calendrier et planning des sessions Tremplins Sup. Dates clés, inscriptions.',
+                access: 'public',
+                category: 'Tremplins Sup',
+                url: 'https://mikaelmichelas.github.io/tremplins/planning.html',
+                repo: 'https://github.com/mikaelmichelas/tremplins',
+                tags: ['Tremplins Sup', 'Planning', 'Calendrier']
+            }
+        ];
+
+        // ====== ÉTAT & FILTRES ======
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // ====== DOM ÉLÉMENTS ======
+        const searchInput = document.getElementById('searchInput');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const grid = document.getElementById('grid');
+        const emptyState = document.getElementById('emptyState');
+        const resultCount = document.getElementById('resultCount');
+        const themeToggle = document.getElementById('themeToggle');
+
+        // ====== THÈME ======
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            updateThemeToggle();
+        });
+
+        function updateThemeToggle() {
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+
+        // Load theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+        updateThemeToggle();
+
+        // ====== RECHERCHE & FILTRES ======
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.toLowerCase();
+            render();
+        });
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                render();
+            });
+        });
+
+        // ====== LOGIQUE FILTRAGE ======
+        function filterTools() {
+            return tools.filter(tool => {
+                const matchesFilter = currentFilter === 'all' || tool.access === currentFilter;
+                const matchesSearch = currentSearch === '' ||
+                    tool.title.toLowerCase().includes(currentSearch) ||
+                    tool.description.toLowerCase().includes(currentSearch) ||
+                    tool.tags.some(tag => tag.toLowerCase().includes(currentSearch));
+                return matchesFilter && matchesSearch;
+            });
+        }
+
+        // ====== RENDU ======
+        function render() {
+            const filtered = filterTools();
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                emptyState.style.display = 'block';
+                resultCount.textContent = '';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            resultCount.textContent = `${filtered.length} outil${filtered.length > 1 ? 's' : ''} trouvé${filtered.length > 1 ? 's' : ''}`;
+
+            filtered.forEach(tool => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <h2>${tool.title}</h2>
+                        <span class="card-badge badge-${tool.access}">
+                            ${tool.access === 'public' ? '🌐 Public' : '🔒 Personnel'}
+                        </span>
+                    </div>
+                    <p class="card-description">${tool.description}</p>
+                    <div class="card-tags">
+                        <span class="tag">${tool.category}</span>
+                        ${tool.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <div class="card-links">
+                        <a href="${tool.url}" target="_blank" class="btn btn-primary">Accéder</a>
+                        <a href="${tool.repo}" target="_blank" class="btn btn-secondary">Code</a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Initial render
+        render();
+    </script>
+</body>
+</html>
