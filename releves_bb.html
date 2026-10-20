@@ -27,7 +27,7 @@ td.l{text-align:right;width:60%}td.c{text-align:center;width:20%}
 td.l.i{font-style:italic}
 .tot{text-align:right;width:150mm;margin:1px auto 0;font-size:11.5px}.tot i{font-size:10.5px;margin-right:14px}
 .res{margin:3mm 0 0;text-align:center;font-size:14px;line-height:1.9}
-.res .m{color:#0b3fb3;font-weight:600;font-size:16px}
+.res .sub{font-size:11px;color:#555;line-height:1.3}.res .m{color:#0b3fb3;font-weight:600;font-size:16px}
 .gauge{width:150mm;margin:7mm auto 0}
 .gauge .t{display:flex;height:9px;border-radius:5px;overflow:hidden}
 .gauge .t i{display:block}
@@ -89,7 +89,7 @@ function cls(c){c=String(c||"");return c.replace(/^T\s*/,"T ")}
 function load(buf){
   const wb=XLSX.read(buf,{type:"array"});
   const ws=wb.Sheets["Eleves"];
-  try{const pm=wb.Sheets["Param"];if(pm&&pm["B2"]&&(pm["B2"].v==1||pm["B2"].v==2))$("bb").value=String(pm["B2"].v)}catch(e){}
+  try{const pm=wb.Sheets["Param"];if(pm&&pm["B2"]&&(pm["B2"].v==1||pm["B2"].v==2))$("bb").value=String(pm["B2"].v);$("bb").disabled=true;$("bb").title="Choisi dans la base : onglet Param, case B2"}catch(e){}
   if(!ws){return fail("Onglet « Eleves » introuvable dans ce fichier.")}
   const rows=XLSX.utils.sheet_to_json(ws,{defval:null});
   if(!rows.length||!("Moyenne /20" in rows[0])) return fail("Colonnes de calcul absentes. Utilise la base 2026-2027_BASE_BB.xlsx.");
@@ -120,39 +120,50 @@ function gauge(m){
   return `<div class="gauge"><div style="position:relative"><div class="t">${segs}</div>${pin}</div><div class="k">${ticks}</div></div>`;
 }
 function row(l,coef,note,it){return `<tr><td class="l${it?" i":""}">${l}</td><td class="c">${coef}</td><td class="c">${note}</td></tr>`}
+const bbn=v=>num(v)?fn(v):(String(v||"").toUpperCase()==="ABS"?"ABS":"-");
 function releve(r,bb){
   const nb=bb==="2"?"2":"1";
-  const s1=r["Spé 1 (T°)"]||"",s2=r["Spé 2 (T°)"]||"";
-  const ab=r["Spé abandonnée"]||"";
-  let opt="";
+  const s1=r["Spé 1 (T°)"]||"",s2=r["Spé 2 (T°)"]||"",ab=r["Spé abandonnée"]||"";
+  const mats=[["HG","HISTOIRE-GÉOGRAPHIE","CC1 HG"],["LVA","LVA","CC1 LVA"],["LVB","LVB","CC1 LVB"],["ENS. SC.","ENS. SCIENTIFIQUE","CC1 ENS. SC."],["EMC","EMC","CC1 EMC"]];
+  const sansT=[];
+  const cc=mats.map(([k,lab,c1])=>{
+    const h1=num(r[c1]),ht=num(r["CT "+k]),coef=r["Coef "+k];
+    if(!ht) sansT.push(lab.toLowerCase());
+    const pre=h1&&ht?"CC 1° + T° ":h1?"CC 1° ":ht?"CC T° ":"CC ";
+    return row(pre+lab,coef>0?coef:"-",f2(r["CC "+k]),1);
+  });
+  const eps=num(r["CC EPS"]);
+  cc.push(row("CCF EPS (T1 de terminale)",eps?6:"-",eps?f2(r["CC EPS"]):"Dispensé(e)",1));
+  cc.push(row("CC spécialité abandonnée en 1°"+(ab?` (${esc(ab)})`:""),num(r["CC Spé abandonnée"])?8:"-",f2(r["CC Spé abandonnée"]),1));
   const o=["MATEX","MATCO","DGEMC"].filter(k=>num(r["T1 "+k])||num(r["T2 "+k]));
-  const cc=[
-    row("CC 1° + T° HISTOIRE-GÉOGRAPHIE",6,f2(r["CC HG"]),1),
-    row("CC 1° + T° LVA",6,f2(r["CC LVA"]),1),
-    row("CC 1° + T° LVB",6,f2(r["CC LVB"]),1),
-    row("CC 1° + T° ENS. SCIENTIFIQUE",6,f2(r["CC ENS. SC."]),1),
-    row("CC 1° + T° EMC",2,f2(r["CC EMC"]),1),
-    row("CCF EPS (T1 de terminale)",6,num(r["CC EPS"])?f2(r["CC EPS"]):"Dispensé(e)",1),
-    row("CC spécialité abandonnée en 1°"+(ab?` (${esc(ab)})`:""),8,f2(r["CC Spé abandonnée"]),1)];
   if(o.length) cc.push(row(`Option ${o.join(" / ")} (terminale)`,2,f2(r["CC Option"]),1));
   [["LATIN","LATIN"],["CHINOIS","CHINOIS"]].forEach(([n,l])=>{
     if(num(r["CC "+n+" 1°"])) cc.push(row("Option "+l+" (1ère)",2,f2(r["CC "+n+" 1°"]),1));
     if(num(r["CC "+n+" T°"])) cc.push(row("Option "+l+" (terminale)",2,f2(r["CC "+n+" T°"]),1));
   });
-  const noBB=!num(r["BB Spé 1"])&&!num(r["BB Spé 2"])&&!num(r["BB Philo"]);
-  const m=noBB?null:r["Moyenne /20"], pr=noBB?null:r["Points à rattraper"];
-  const manque= nb==="1"
-    ? ["la note du Grand Oral (coef 8)","les notes de CC de terminale des trimestres 2 et 3","les CCF d'EPS suivants"]
-    : ["la note du Grand Oral (coef 8)","les notes de CC de terminale du trimestre 3","les CCF d'EPS suivants"];
+  const anyBB=["BB Spé 1","BB Spé 2","BB Philo","BB Grand Oral"].some(k=>num(r[k])||String(r[k]||"").toUpperCase()==="ABS");
+  const partiel=r["Calcul"]==="PARTIEL";
+  const m=anyBB?r["Moyenne /20"]:null, cf=r["Coef pris en compte"];
+  const manq=r["Notes BB manquantes"]||"";
+  const pr=(!partiel&&anyBB)?r["Points à rattraper"]:null;
+  let res,warnPr;
+  if(!anyBB){res=`MOYENNE : <span class="m">non calculable</span><br><span class="sub">aucune note du bac blanc n'est saisie</span>`;warnPr="-- points à rattraper"}
+  else if(partiel){res=`MOYENNE PARTIELLE : <span class="m">${f2(m)}/20</span><br><span class="sub">calculée sur ${cf} coefficients · il manque : ${esc(manq)}</span><br>MENTION : non communiquée (moyenne partielle)`;warnPr="-- points à rattraper"}
+  else{res=`MOYENNE : <span class="m">${f2(m)}/20</span><br><span class="sub">calculée sur ${cf} coefficients</span><br>MENTION : ${esc(r["Mention"]||"-")}`;warnPr=num(pr)?`${f2(pr)} points à rattraper`:"-- points à rattraper"}
+  const manque=[];
+  if(nb==="1") manque.push("la note du Grand Oral (épreuve organisée au BB n°2 seulement)");
+  if(sansT.length) manque.push("le CC de terminale en : "+sansT.join(", ")+" (non renseigné, donc non compté)");
+  manque.push(nb==="1"?"les notes de CC de terminale des trimestres 2 et 3":"les notes de CC de terminale du trimestre 3");
+  const go=nb==="2"?row("GRAND ORAL",8,bbn(r["BB Grand Oral"])):"";
   return `<section class="page">${r["Statut"]==="TEST"?'<div class="test">ÉLÈVE TEST</div>':""}
   <div class="hd"><img src="${LOGO}" alt="Saint Victor Lycée">
    <div class="id"><b>INE:</b><span>${esc(r["INE"])}</span><b>NOM Prénom:</b><span class="n">${esc(r["Élève"])}</span><b>CLASSE:</b><span>${esc(cls(r["Classe"]))}</span></div></div>
   <div class="title">RELEVÉ DE BAC BLANC N°${nb}</div>
   <h2>RÉSULTATS DES ÉPREUVES DU BAC BLANC N°${nb}</h2>
   <table><tr><th></th><th>Coeff.</th><th>Note /20</th></tr>
-   ${row("SPÉCIALITÉ 1"+(s1?` (${esc(s1)})`:""),16,fn(r["BB Spé 1"]))}
-   ${row("SPÉCIALITÉ 2"+(s2?` (${esc(s2)})`:""),16,fn(r["BB Spé 2"]))}
-   ${row("PHILOSOPHIE",8,fn(r["BB Philo"]))}</table>
+   ${row("SPÉCIALITÉ 1"+(s1?` (${esc(s1)})`:""),16,bbn(r["BB Spé 1"]))}
+   ${row("SPÉCIALITÉ 2"+(s2?` (${esc(s2)})`:""),16,bbn(r["BB Spé 2"]))}
+   ${row("PHILOSOPHIE",8,bbn(r["BB Philo"]))}${go}</table>
   <h2>RÉSULTATS BAC DE FRANÇAIS ET ÉPREUVE ANTICIPÉE DE MATHS</h2>
   <table><tr><th></th><th>Coeff.</th><th>Note /20</th></tr>
    ${row("Français (écrit + oral)",10,fn(r["FR moyenne"]))}
@@ -161,10 +172,10 @@ function releve(r,bb){
   <table><tr><th></th><th>Coeff.</th><th>Note /20</th></tr>${cc.join("")}</table>
   <div class="tot"><i>TOTAL POINTS</i> ${f2(r["Total points"])}</div>
   <h2>MOYENNE SIMULÉE DU BAC BLANC N°${nb}</h2>
-  <div class="res">MOYENNE : <span class="m">${num(m)?f2(m)+"/20":"-"}</span><br>MENTION : ${noBB?"non calculée (notes du bac blanc manquantes)":esc(r["Mention"]||"-")}</div>
-  ${gauge(m)}
+  <div class="res">${res}</div>
+  ${(!partiel&&anyBB)?gauge(m):""}
   <div class="warn"><div>⚠ Il manque dans cette moyenne :<br>${manque.map(x=>"- "+x).join("<br>")}</div>
-   <div class="r">${num(pr)?`${f2(pr)} points à rattraper`:"-- points à rattraper"}</div></div>
+   <div class="r">${warnPr}</div></div>
   <div class="sig">${esc(r["PR"]||"")}<br>S/C DE LA DIRECTION</div>
   <div class="foot">Simulation indicative, calculée sur les coefficients du baccalauréat général. Elle ne préjuge pas des résultats de l'examen.</div></section>`;
 }
