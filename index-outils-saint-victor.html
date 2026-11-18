@@ -553,7 +553,7 @@
             repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
             tags: ['PIX', 'Terminale', 'Compétences numériques']
         },
-        // orientation (11)
+        // orientation (12)
         {
             id: 'padlet-orientation',
             title: 'Padlet Orientation',
@@ -643,6 +643,20 @@
             url: 'https://mikaelmichelas.github.io/orientation/forum-28-novembre.html',
             repo: 'https://github.com/mikaelmichelas/orientation',
             tags: ['Orientation', 'Forum', 'Présentation', 'Dual Diploma', 'Anglais +']
+        },
+        {
+            id: 'devenir-ingenieur',
+            title: 'Devenir ingénieur',
+            description: 'Deux ressources pour découvrir les études d\'ingénieur : le diaporama « Devenir ingénieur » et la carte interactive des écoles en région Auvergne-Rhône-Alpes.',
+            access: 'public',
+            theme: 'Orientation',
+            url: 'https://mikaelmichelas.github.io/orientation/Devenir_ingenieur-V2.pptx',
+            links: [
+                { label: 'Diaporama', url: 'https://mikaelmichelas.github.io/orientation/Devenir_ingenieur-V2.pptx' },
+                { label: 'Carte interactive', url: 'https://mikaelmichelas.github.io/orientation/carte-inge.html' }
+            ],
+            repo: 'https://github.com/mikaelmichelas/orientation',
+            tags: ['Orientation', 'Ingénieur', 'Diaporama', 'Carte', 'Rhône-Alpes']
         },
         // tremplins (3)
         {
@@ -797,7 +811,7 @@
                         ${tool.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                     </div>
                     <div class="card-links">
-                        <a href="${tool.url}" target="_blank" class="btn btn-primary">Accéder</a>
+                        ${(tool.links || [{ label: 'Accéder', url: tool.url }]).map(l => `<a href="${l.url}" target="_blank" class="btn btn-primary">${l.label}</a>`).join('')}
                         <a href="${tool.repo}" target="_blank" class="btn btn-secondary">Code</a>
                     </div>
                 `;
