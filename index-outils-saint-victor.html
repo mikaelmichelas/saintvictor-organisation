@@ -379,6 +379,68 @@
             color: #666;
         }
 
+
+        /* MENU HORIZONTAL */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            overflow-x: auto;
+            white-space: nowrap;
+            justify-content: center;
+        }
+
+        body.dark-mode .top-nav {
+            background: #222;
+            border-bottom-color: var(--border-dark);
+        }
+
+        .top-nav a {
+            padding: 0.45rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--primary);
+            background: #f0f0f0;
+            transition: all 0.2s;
+        }
+
+        .top-nav a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        body.dark-mode .top-nav a {
+            background: #444;
+            color: #7fb3ff;
+        }
+
+        body.dark-mode .top-nav a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .theme-section {
+            scroll-margin-top: 70px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (max-width: 768px) {
+            .top-nav {
+                justify-content: flex-start;
+            }
+        }
+
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8rem;
@@ -403,6 +465,8 @@
     </style>
 </head>
 <body>
+
+<nav class="top-nav" id="topNav" aria-label="Rubriques"></nav>
 
 <header>
     <h1>📚 Outils Saint Victor</h1>
@@ -440,7 +504,143 @@
 
 <script>
     const tools = [
-        // Orientation (8)
+        {
+            id: 'suivi-as',
+            title: 'Suivi AS (Association Sportive)',
+            description: 'Tableau de suivi des actions sportives. 🔐 Protégé par mot de passe (direction).',
+            access: 'personnel',
+            theme: 'Suivi & Pilotage',
+            url: 'https://mikaelmichelas.github.io/saintvictor-rentree/suivi_AS_saint_victor.html',
+            repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
+            tags: ['Suivi', 'AS', 'Sport']
+        },
+        {
+            id: 'teletravail',
+            title: 'Télétravail',
+            description: 'Accès personnel réservé à Mikael. 🔒 Strictement privé.',
+            access: 'personnel',
+            theme: 'Perso',
+            url: 'https://mikaelmichelas.github.io/saintvictor-rentree/teletravail.html',
+            repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
+            tags: ['Privé', 'Télétravail']
+        },
+        {
+            id: 'releves-bac-blanc',
+            title: 'Relevés de Bac Blanc',
+            description: 'Génération des relevés individuels de bac blanc (n°1 et n°2) à partir de la base Excel : moyenne simulée, mention, points à rattraper. Export PDF. 🔐 Protégé par mot de passe (direction).',
+            access: 'personnel',
+            theme: 'Suivi & Pilotage',
+            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/releves_bb.html',
+            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
+            tags: ['Bac blanc', 'Terminale', 'Relevés', 'PDF']
+        },
+        {
+            id: 'cc-terminale',
+            title: 'Suivi des Terminales - Conseils de classe',
+            description: 'Tableau de suivi des élèves de terminale pour les conseils de classe (2026-2027). Fichier Excel sur SharePoint. 🔒 Données élèves, accès restreint.',
+            access: 'personnel',
+            theme: 'Suivi & Pilotage',
+            url: 'https://saintvictoradministratif-my.sharepoint.com/:x:/g/personal/diradjoint-lycee_saintvictor26_com/IQDhq5W3czmTQL_flD-iXyNrAeSuTBY9hsq3BS3rGPldcio?e=upv7Xy',
+            tags: ['Terminale', 'Conseil de classe', 'Excel', 'SharePoint']
+        },
+        {
+            id: 'tdb-parcoursup',
+            title: 'Suivi des vœux Parcoursup - Terminales',
+            description: 'Tableau de bord de suivi des vœux Parcoursup des élèves de terminale (2026-2027). Fichier Excel sur SharePoint. 🔒 Données élèves, accès restreint.',
+            access: 'personnel',
+            theme: 'Suivi & Pilotage',
+            url: 'https://saintvictoradministratif-my.sharepoint.com/:x:/g/personal/diradjoint-lycee_saintvictor26_com/IQDyvaVwBTvaSo8jOKtuQEbjARClACLWZq0LnH9fMyFn2mw?e=hchipT',
+            tags: ['Terminale', 'Parcoursup', 'Excel', 'SharePoint']
+        },
+        {
+            id: 'budget-famille',
+            title: 'Budget Famille',
+            description: 'Suivi du budget personnel. 🔒 Strictement privé, mot de passe obligatoire.',
+            access: 'personnel',
+            theme: 'Perso',
+            url: 'https://mikaelmichelas.github.io/budget_famille/budget_famille_v2.html',
+            repo: 'https://github.com/mikaelmichelas/budget_famille',
+            tags: ['Privé', 'Budget']
+        },
+        {
+            id: 'veille-robots-laveurs',
+            title: 'Veille robots laveurs',
+            description: 'Routine de veille pour la recherche d\'un robot aspirateur-laveur : suivi des offres et des prix.',
+            access: 'personnel',
+            theme: 'Perso',
+            url: 'https://claude.ai/artifact/ExcmT25vK1NiX61YX88UfX',
+            tags: ['Perso', 'Veille', 'Robot', 'Maison']
+        },
+        {
+            id: 'planning-evaluations',
+            title: 'Planning Évaluations & Protocoles',
+            description: 'Planning interactif des évaluations (oct 2026 – mai 2027). Protocoles absence/rattrapage. Accordéon par mois et niveau.',
+            access: 'public',
+            theme: 'Pédagogie & Apprentissage',
+            url: 'https://mikaelmichelas.github.io/saintvictor-rentree/index_planning.html',
+            repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
+            tags: ['Examens', 'Calendrier', 'Évaluations']
+        },
+        {
+            id: 'infographie-absence',
+            title: 'Infographie Protocole Rattrapage Absence Évaluation',
+            description: 'Flowchart interactif pour les protocoles d\'absence lors d\'une évaluation. Grid 4 colonnes avec décisions et branches.',
+            access: 'public',
+            theme: 'Pédagogie & Apprentissage',
+            url: 'https://mikaelmichelas.github.io/saintvictor-rentree/infographie_absence_eval.html',
+            repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
+            tags: ['Protocoles', 'Absence', 'Processus']
+        },
+        {
+            id: 'heures-sup',
+            title: 'Heures Supplémentaires',
+            description: 'Outil de comptabilisation des heures supplémentaires. Suivi des heures de Claudine Parfait et Marie Le Gall. 🔐 Protégé par mot de passe.',
+            access: 'personnel',
+            theme: 'Suivi & Pilotage',
+            url: 'https://mikaelmichelas.github.io/comptabilite/heures_sup.html',
+            repo: 'https://github.com/mikaelmichelas/comptabilite',
+            tags: ['Comptabilité', 'Pastorale', 'Suivi temps']
+        },
+        {
+            id: 'ap-synthese',
+            title: 'AP Lycée- Maths & Français',
+            description: 'Vue synthétique de l\'accompagnement personnalisé. 🔐 Protégé par mot de passe (tous personnels).',
+            access: 'personnel',
+            theme: 'Pédagogie & Apprentissage',
+            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/ap-synthese.html',
+            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
+            tags: ['AP', 'Accompagnement', 'Pédagogie']
+        },
+        {
+            id: 'barrettes-1eres',
+            title: 'Barrettes 1ères',
+            description: 'Organisation des barrettes horaires pour les élèves de 1ère. Accès public.',
+            access: 'public',
+            theme: 'Pédagogie & Apprentissage',
+            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/barrettes1eres.html',
+            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
+            tags: ['Emploi du temps', '1ère', 'Barrettes']
+        },
+        {
+            id: 'barrettes-tales',
+            title: 'Barrettes Terminales',
+            description: 'Organisation des barrettes horaires pour les élèves de terminale. ⚠️ Onglet PR privé (mot de passe).',
+            access: 'public',
+            theme: 'Pédagogie & Apprentissage',
+            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/barrettesTales.html',
+            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
+            tags: ['Emploi du temps', 'Terminale', 'Barrettes', 'PR privé']
+        },
+        {
+            id: 'pix-campagnes',
+            title: 'PIX - Campagnes Terminale',
+            description: 'Suivi des campagnes PIX pour les élèves de terminale. Certifications, résultats.',
+            access: 'public',
+            theme: 'Pédagogie & Apprentissage',
+            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/pix-campagnes-terminale.html',
+            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
+            tags: ['PIX', 'Terminale', 'Compétences numériques']
+        },
         {
             id: 'orientation-accueil',
             title: 'Parcours Avenir',
@@ -454,10 +654,10 @@
         {
             id: 'forum-28-novembre',
             title: 'Présentation du lycée Saint Victor',
-            description: 'Support web de présentation du lycée: enseignements, spécialités, parcours Avenir, Anglais +, Dual Diploma, accompagnement à l\'orientation, Tremplins Sup, résultats 2026.',
+            description: 'Support web de présentation du lycée : enseignements, spécialités, parcours Avenir, Anglais +, Dual Diploma, accompagnement à l\'orientation, Tremplins Sup, résultats 2026.',
             access: 'public',
             theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/orientation/lycee-saint-victor.html',
+            url: 'https://mikaelmichelas.github.io/orientation/forum-28-novembre.html',
             repo: 'https://github.com/mikaelmichelas/orientation',
             tags: ['Orientation', 'spécialités', 'Présentation', 'Dual Diploma', 'Anglais +']
         },
@@ -525,7 +725,6 @@
             repo: 'https://github.com/mikaelmichelas/orientation',
             tags: ['Orientation', 'Formulaire', 'Rentrée']
         },
-        // Les Tremplins (3)
         {
             id: 'tremplins-accueil',
             title: 'Tremplins Sup - Accueil',
@@ -555,117 +754,6 @@
             url: 'https://mikaelmichelas.github.io/tremplins/dashboard.html',
             repo: 'https://github.com/mikaelmichelas/tremplins',
             tags: ['Tremplins Sup', 'Dashboard', 'Suivi']
-        },
-        // Pédagogie et suivi (11)
-        {
-            id: 'suivi-as',
-            title: 'Suivi AS (Association Sportive)',
-            description: 'Tableau de suivi des actions sportives. 🔐 Protégé par mot de passe (direction).',
-            access: 'personnel',
-            theme: 'Suivi & Pilotage',
-            url: 'https://mikaelmichelas.github.io/saintvictor-rentree/suivi_AS_saint_victor.html',
-            repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
-            tags: ['Suivi', 'AS', 'Sport']
-        },
-        {
-            id: 'teletravail',
-            title: 'Télétravail',
-            description: 'Accès personnel réservé à Mikael. 🔒 Strictement privé.',
-            access: 'personnel',
-            theme: 'Suivi & Pilotage',
-            url: 'https://mikaelmichelas.github.io/saintvictor-rentree/teletravail.html',
-            repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
-            tags: ['Privé', 'Télétravail']
-        },
-        {
-            id: 'releves-bac-blanc',
-            title: 'Relevés de Bac Blanc',
-            description: 'Génération des relevés individuels de bac blanc (n°1 et n°2) à partir de la base Excel : moyenne simulée, mention, points à rattraper. Export PDF. 🔐 Protégé par mot de passe (direction).',
-            access: 'personnel',
-            theme: 'Suivi & Pilotage',
-            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/releves_bb.html',
-            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
-            tags: ['Bac blanc', 'Terminale', 'Relevés', 'PDF']
-        },
-        {
-            id: 'budget-famille',
-            title: 'Budget Famille',
-            description: 'Suivi du budget personnel. 🔒 Strictement privé, mot de passe obligatoire.',
-            access: 'personnel',
-            theme: 'Suivi & Pilotage',
-            url: 'https://mikaelmichelas.github.io/budget_famille/budget_famille_v2.html',
-            repo: 'https://github.com/mikaelmichelas/budget_famille',
-            tags: ['Privé', 'Budget']
-        },
-        {
-            id: 'planning-evaluations',
-            title: 'Planning Évaluations & Protocoles',
-            description: 'Planning interactif des évaluations (oct 2026 – mai 2027). Protocoles absence/rattrapage. Accordéon par mois et niveau.',
-            access: 'public',
-            theme: 'Pédagogie & Apprentissage',
-            url: 'https://mikaelmichelas.github.io/saintvictor-rentree/index_planning.html',
-            repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
-            tags: ['Examens', 'Calendrier', 'Évaluations']
-        },
-        {
-            id: 'infographie-absence',
-            title: 'Infographie Protocole Rattrapage Absence Évaluation',
-            description: 'Flowchart interactif pour les protocoles d\'absence lors d\'une évaluation. Grid 4 colonnes avec décisions et branches.',
-            access: 'public',
-            theme: 'Pédagogie & Apprentissage',
-            url: 'https://mikaelmichelas.github.io/saintvictor-rentree/infographie_absence_eval.html',
-            repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
-            tags: ['Protocoles', 'Absence', 'Processus']
-        },
-        {
-            id: 'heures-sup',
-            title: 'Heures Supplémentaires',
-            description: 'Outil de comptabilisation des heures supplémentaires. Suivi des heures de Claudine Parfait et Marie Le Gall. 🔐 Protégé par mot de passe.',
-            access: 'personnel',
-            theme: 'Suivi & Pilotage',
-            url: 'https://mikaelmichelas.github.io/comptabilite/heures_sup.html',
-            repo: 'https://github.com/mikaelmichelas/comptabilite',
-            tags: ['Comptabilité', 'Pastorale', 'Suivi temps']
-        },
-        {
-            id: 'ap-synthese',
-            title: 'AP Lycée- Maths & Français',
-            description: 'Vue synthétique de l\'accompagnement personnalisé. 🔐 Protégé par mot de passe (tous personnels).',
-            access: 'personnel',
-            theme: 'Pédagogie & Apprentissage',
-            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/ap-synthese.html',
-            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
-            tags: ['AP', 'Accompagnement', 'Pédagogie']
-        },
-        {
-            id: 'barrettes-1eres',
-            title: 'Barrettes 1ères',
-            description: 'Organisation des barrettes horaires pour les élèves de 1ère. Accès public.',
-            access: 'public',
-            theme: 'Suivi & Pilotage',
-            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/barrettes1eres.html',
-            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
-            tags: ['Emploi du temps', '1ère', 'Barrettes']
-        },
-        {
-            id: 'barrettes-tales',
-            title: 'Barrettes Terminales',
-            description: 'Organisation des barrettes horaires pour les élèves de terminale. ⚠️ Onglet PR privé (mot de passe).',
-            access: 'public',
-            theme: 'Suivi & Pilotage',
-            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/barrettesTales.html',
-            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
-            tags: ['Emploi du temps', 'Terminale', 'Barrettes', 'PR privé']
-        },
-        {
-            id: 'pix-campagnes',
-            title: 'PIX - Campagnes Terminale',
-            description: 'Suivi des campagnes PIX pour les élèves de terminale. Certifications, résultats.',
-            access: 'public',
-            theme: 'Pédagogie & Apprentissage',
-            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/pix-campagnes-terminale.html',
-            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
-            tags: ['PIX', 'Terminale', 'Compétences numériques']
         }
     ];
 
@@ -737,6 +825,30 @@
         return grouped;
     }
 
+    // Menu horizontal
+    const topNav = document.getElementById('topNav');
+
+    function themeId(theme) {
+        return 'rubrique-' + theme.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+
+    function renderNav(themes, grouped) {
+        topNav.innerHTML = '';
+        themes.forEach(theme => {
+            const link = document.createElement('a');
+            link.href = '#' + themeId(theme);
+            link.textContent = `${theme} (${grouped[theme].length})`;
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.getElementById(themeId(theme));
+                if (!target) return;
+                target.classList.remove('collapsed');
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            topNav.appendChild(link);
+        });
+    }
+
     // Rendu principal
     function render() {
         const filtered = filterTools();
@@ -744,6 +856,7 @@
 
         if (filtered.length === 0) {
             emptyState.style.display = 'block';
+            topNav.innerHTML = '';
             resultCount.textContent = '';
             toolCount.textContent = '';
             return;
@@ -754,12 +867,17 @@
         toolCount.textContent = `${tools.length} outils au total`;
 
         const grouped = groupByTheme(filtered);
-        const ORDRE = ['Orientation', 'Les Tremplins', 'Pédagogie & Apprentissage', 'Suivi & Pilotage'];
-        const themes = Object.keys(grouped).sort((x, y) => ORDRE.indexOf(x) - ORDRE.indexOf(y));
+        const themeOrder = ['Orientation', 'Les Tremplins', 'Pédagogie & Apprentissage', 'Suivi & Pilotage', 'Perso'];
+        const themes = Object.keys(grouped).sort((x, y) => {
+            const ix = themeOrder.indexOf(x), iy = themeOrder.indexOf(y);
+            return (ix === -1 ? 99 : ix) - (iy === -1 ? 99 : iy) || x.localeCompare(y);
+        });
+        renderNav(themes, grouped);
 
         themes.forEach(theme => {
             const section = document.createElement('div');
             section.className = 'theme-section';
+            section.id = themeId(theme);
 
             const header = document.createElement('div');
             header.className = 'theme-header';
@@ -791,7 +909,7 @@
                     </div>
                     <div class="card-links">
                         ${(tool.links || [{ label: 'Accéder', url: tool.url }]).map(l => `<a href="${l.url}" target="_blank" class="btn btn-primary">${l.label}</a>`).join('')}
-                        <a href="${tool.repo}" target="_blank" class="btn btn-secondary">Code</a>
+                        ${tool.repo ? `<a href="${tool.repo}" target="_blank" class="btn btn-secondary">Code</a>` : ''}
                     </div>
                 `;
                 content.appendChild(card);
