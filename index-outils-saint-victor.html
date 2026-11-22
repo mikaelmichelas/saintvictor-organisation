@@ -440,7 +440,123 @@
 
 <script>
     const tools = [
-        // saintvictor-rentree (4)
+        // Orientation (8)
+        {
+            id: 'orientation-accueil',
+            title: 'Parcours Avenir',
+            description: 'Page d\'accueil du pôle orientation. Point central pour toutes les ressources orientation.',
+            access: 'public',
+            theme: 'Orientation',
+            url: 'https://mikaelmichelas.github.io/orientation/index.html',
+            repo: 'https://github.com/mikaelmichelas/orientation',
+            tags: ['Orientation', 'Accueil', 'Hub']
+        },
+        {
+            id: 'forum-28-novembre',
+            title: 'Présentation du lycée Saint Victor',
+            description: 'Support web de présentation du lycée: enseignements, spécialités, parcours Avenir, Anglais +, Dual Diploma, accompagnement à l\'orientation, Tremplins Sup, résultats 2026.',
+            access: 'public',
+            theme: 'Orientation',
+            url: 'https://mikaelmichelas.github.io/orientation/lycee-saint-victor.html',
+            repo: 'https://github.com/mikaelmichelas/orientation',
+            tags: ['Orientation', 'spécialités', 'Présentation', 'Dual Diploma', 'Anglais +']
+        },
+        {
+            id: 'padlet-orientation',
+            title: 'Padlet Orientation',
+            description: 'Tableau collaboratif Padlet pour le partage de ressources orientation. Lien direct vers le padlet de suivi orientation.',
+            access: 'public',
+            theme: 'Orientation',
+            url: 'https://padlet.com/Padlet_Orientation/orientation-saint-victor-valence-zcnbkfsr9e17j3kw',
+            repo: 'https://padlet.com',
+            tags: ['Orientation', 'Ressources', 'Collaboratif']
+        },
+        {
+            id: 'construire-projet-orientation',
+            title: 'Construire son projet d\'orientation 2026-2027',
+            description: 'Guide complet d\'accompagnement pour construire son projet d\'orientation. Démarche pas à pas avant Parcoursup: se connaître, découvrir, se renseigner.',
+            access: 'public',
+            theme: 'Orientation',
+            url: 'https://mikaelmichelas.github.io/orientation/2026-2027-construire-son-projet-orientation.pdf',
+            repo: 'https://github.com/mikaelmichelas/orientation',
+            tags: ['Orientation', 'Guide', 'Parcoursup', 'Projet']
+        },
+        {
+            id: 'ap-1ere-post-bac',
+            title: 'AP 1ère - Le post-bac en un coup d\'œil',
+            description: 'Support de la séance d\'AP des 1ères : panorama des parcours post-bac en un coup d\'œil.',
+            access: 'public',
+            theme: 'Orientation',
+            url: 'https://mikaelmichelas.github.io/orientation/2026-2027-presentation-1ere-post-bac.pptx',
+            repo: 'https://github.com/mikaelmichelas/orientation',
+            tags: ['Orientation', 'AP', '1ère', 'Post-bac']
+        },
+        {
+            id: 'devenir-ingenieur',
+            title: 'Devenir ingénieur',
+            description: 'Deux ressources pour découvrir les études d\'ingénieur : le diaporama « Devenir ingénieur » et la carte interactive des écoles en région Auvergne-Rhône-Alpes.',
+            access: 'public',
+            theme: 'Orientation',
+            url: 'https://mikaelmichelas.github.io/orientation/Devenir_ingenieur-V2.pptx',
+            links: [
+                { label: 'Diaporama', url: 'https://mikaelmichelas.github.io/orientation/Devenir_ingenieur-V2.pptx' },
+                { label: 'Carte interactive', url: 'https://mikaelmichelas.github.io/orientation/carte-inge.html' }
+            ],
+            repo: 'https://github.com/mikaelmichelas/orientation',
+            tags: ['Orientation', 'Ingénieur', 'Diaporama', 'Carte', 'Rhône-Alpes']
+        },
+        {
+            id: 'lps',
+            title: 'Licence Portail Santé (LPS)',
+            description: 'Support d\'information sur la Licence Portail Santé (LPS), qui remplace PASS et LAS à la rentrée 2027. Blocs, parcours, classement, acquis et points en attente.',
+            access: 'public',
+            theme: 'Orientation',
+            url: 'https://mikaelmichelas.github.io/orientation/lps.html',
+            repo: 'https://github.com/mikaelmichelas/orientation',
+            tags: ['Orientation', 'Santé', 'LPS']
+        },
+        {
+            id: 'jdo-formulaire',
+            title: 'JDO - Formulaire Inscription Présentations',
+            description: 'Formulaire web pour la saisie des choix de présentations JDO. Intégration Google Sheets, sans doublon.',
+            access: 'public',
+            theme: 'Orientation',
+            url: 'https://mikaelmichelas.github.io/orientation/jdo_formulaire.html',
+            repo: 'https://github.com/mikaelmichelas/orientation',
+            tags: ['Orientation', 'Formulaire', 'Rentrée']
+        },
+        // Les Tremplins (3)
+        {
+            id: 'tremplins-accueil',
+            title: 'Tremplins Sup - Accueil',
+            description: 'Page d\'accueil du dispositif Tremplins Sup. Informations et ressources pour élèves et familles.',
+            access: 'public',
+            theme: 'Les Tremplins',
+            url: 'https://mikaelmichelas.github.io/tremplins/index.html',
+            repo: 'https://github.com/mikaelmichelas/tremplins',
+            tags: ['Tremplins Sup', 'Accueil', 'Dispositif']
+        },
+        {
+            id: 'tremplins-planning',
+            title: 'Tremplins Sup - Planning',
+            description: 'Calendrier et planning des sessions Tremplins Sup. Dates clés, inscriptions.',
+            access: 'public',
+            theme: 'Les Tremplins',
+            url: 'https://mikaelmichelas.github.io/tremplins/planning.html',
+            repo: 'https://github.com/mikaelmichelas/tremplins',
+            tags: ['Tremplins Sup', 'Planning', 'Calendrier']
+        },
+        {
+            id: 'tremplins-dashboard',
+            title: 'Tremplins Sup - Dashboard',
+            description: 'Tableau de bord Tremplins Sup. Vue synthétique pour direction, secrétaire, comptabilité. 🔐 Protégé par mot de passe.',
+            access: 'personnel',
+            theme: 'Les Tremplins',
+            url: 'https://mikaelmichelas.github.io/tremplins/dashboard.html',
+            repo: 'https://github.com/mikaelmichelas/tremplins',
+            tags: ['Tremplins Sup', 'Dashboard', 'Suivi']
+        },
+        // Pédagogie et suivi (11)
         {
             id: 'suivi-as',
             title: 'Suivi AS (Association Sportive)',
@@ -501,7 +617,6 @@
             repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
             tags: ['Protocoles', 'Absence', 'Processus']
         },
-        // comptabilite (1)
         {
             id: 'heures-sup',
             title: 'Heures Supplémentaires',
@@ -512,7 +627,6 @@
             repo: 'https://github.com/mikaelmichelas/comptabilite',
             tags: ['Comptabilité', 'Pastorale', 'Suivi temps']
         },
-        // saintvictor-organisation (4)
         {
             id: 'ap-synthese',
             title: 'AP Lycée- Maths & Français',
@@ -552,142 +666,6 @@
             url: 'https://mikaelmichelas.github.io/saintvictor-organisation/pix-campagnes-terminale.html',
             repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
             tags: ['PIX', 'Terminale', 'Compétences numériques']
-        },
-        // orientation (12)
-        {
-            id: 'padlet-orientation',
-            title: 'Padlet Orientation',
-            description: 'Tableau collaboratif Padlet pour le partage de ressources orientation. Lien direct vers le padlet de suivi orientation.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://padlet.com/Padlet_Orientation/orientation-saint-victor-valence-zcnbkfsr9e17j3kw',
-            repo: 'https://padlet.com',
-            tags: ['Orientation', 'Ressources', 'Collaboratif']
-        },
-               {
-            id: 'construire-projet-orientation',
-            title: 'Construire son projet d\'orientation 2026-2027',
-            description: 'Guide complet d\'accompagnement pour construire son projet d\'orientation. Démarche pas à pas avant Parcoursup: se connaître, découvrir, se renseigner.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/orientation/2026-2027-construire-son-projet-orientation.pdf',
-            repo: 'https://github.com/mikaelmichelas/orientation',
-            tags: ['Orientation', 'Guide', 'Parcoursup', 'Projet']
-        },
-        {
-            id: 'ap-1ere-post-bac',
-            title: 'AP 1ère - Le post-bac en un coup d\'œil',
-            description: 'Support de la séance d\'AP des 1ères : panorama des parcours post-bac en un coup d\'œil.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/orientation/2026-2027-presentation-1ere-post-bac.pptx',
-            repo: 'https://github.com/mikaelmichelas/orientation',
-            tags: ['Orientation', 'AP', '1ère', 'Post-bac']
-        },
-        {
-            id: 'barrettes-orientation',
-            title: 'Barrettes - Orientation',
-            description: 'Vue barrettes pour l\'orientation. Structuration par niveau et options.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/orientation/barrettes.html',
-            repo: 'https://github.com/mikaelmichelas/orientation',
-            tags: ['Orientation', 'Barrettes', 'Structure']
-        },
-        {
-            id: 'orientation-accueil',
-            title: 'Parcours Avenir',
-            description: 'Page d\'accueil du pôle orientation. Point central pour toutes les ressources orientation.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/orientation/index.html',
-            repo: 'https://github.com/mikaelmichelas/orientation',
-            tags: ['Orientation', 'Accueil', 'Hub']
-        },
-        {
-            id: 'jdo-formulaire',
-            title: 'JDO - Formulaire Inscription Présentations',
-            description: 'Formulaire web pour la saisie des choix de présentations JDO. Intégration Google Sheets, sans doublon.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/orientation/jdo_formulaire.html',
-            repo: 'https://github.com/mikaelmichelas/orientation',
-            tags: ['Orientation', 'Formulaire', 'Rentrée']
-        },
-        {
-            id: 'rdv-orientation',
-            title: 'RDV Orientation',
-            description: 'Prise de rendez-vous pour les consultations orientation. Planification avec les élèves.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/orientation/rdv-orientation.html',
-            repo: 'https://github.com/mikaelmichelas/orientation',
-            tags: ['Orientation', 'RDV', 'Consultation']
-        },
-        {
-            id: 'lps',
-            title: 'Licence Portail Santé (LPS)',
-            description: 'Support d\'information sur la Licence Portail Santé (LPS), qui remplace PASS et LAS à la rentrée 2027. Blocs, parcours, classement, acquis et points en attente.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/orientation/lps.html',
-            repo: 'https://github.com/mikaelmichelas/orientation',
-            tags: ['Orientation', 'Santé', 'LPS']
-        },
-        {
-            id: 'forum-28-novembre',
-            title: 'Présentation du lycée Saint Victor',
-            description: 'Support web de présentation du lycée: enseignements, spécialités, parcours Avenir, Anglais +, Dual Diploma, accompagnement à l\'orientation, Tremplins Sup, résultats 2026.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/orientation/lycee-saint-victor.html',
-            repo: 'https://github.com/mikaelmichelas/orientation',
-            tags: ['Orientation', 'spécialités', 'Présentation', 'Dual Diploma', 'Anglais +']
-        },
-        {
-            id: 'devenir-ingenieur',
-            title: 'Devenir ingénieur',
-            description: 'Deux ressources pour découvrir les études d\'ingénieur : le diaporama « Devenir ingénieur » et la carte interactive des écoles en région Auvergne-Rhône-Alpes.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/orientation/Devenir_ingenieur-V2.pptx',
-            links: [
-                { label: 'Diaporama', url: 'https://mikaelmichelas.github.io/orientation/Devenir_ingenieur-V2.pptx' },
-                { label: 'Carte interactive', url: 'https://mikaelmichelas.github.io/orientation/carte-inge.html' }
-            ],
-            repo: 'https://github.com/mikaelmichelas/orientation',
-            tags: ['Orientation', 'Ingénieur', 'Diaporama', 'Carte', 'Rhône-Alpes']
-        },
-        // tremplins (3)
-        {
-            id: 'tremplins-dashboard',
-            title: 'Tremplins Sup - Dashboard',
-            description: 'Tableau de bord Tremplins Sup. Vue synthétique pour direction, secrétaire, comptabilité. 🔐 Protégé par mot de passe.',
-            access: 'personnel',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/tremplins/dashboard.html',
-            repo: 'https://github.com/mikaelmichelas/tremplins',
-            tags: ['Tremplins Sup', 'Dashboard', 'Suivi']
-        },
-        {
-            id: 'tremplins-accueil',
-            title: 'Tremplins Sup - Accueil',
-            description: 'Page d\'accueil du dispositif Tremplins Sup. Informations et ressources pour élèves et familles.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/tremplins/index.html',
-            repo: 'https://github.com/mikaelmichelas/tremplins',
-            tags: ['Tremplins Sup', 'Accueil', 'Dispositif']
-        },
-        {
-            id: 'tremplins-planning',
-            title: 'Tremplins Sup - Planning',
-            description: 'Calendrier et planning des sessions Tremplins Sup. Dates clés, inscriptions.',
-            access: 'public',
-            theme: 'Orientation',
-            url: 'https://mikaelmichelas.github.io/tremplins/planning.html',
-            repo: 'https://github.com/mikaelmichelas/tremplins',
-            tags: ['Tremplins Sup', 'Planning', 'Calendrier']
         }
     ];
 
@@ -776,7 +754,8 @@
         toolCount.textContent = `${tools.length} outils au total`;
 
         const grouped = groupByTheme(filtered);
-        const themes = Object.keys(grouped).sort();
+        const ORDRE = ['Orientation', 'Les Tremplins', 'Pédagogie & Apprentissage', 'Suivi & Pilotage'];
+        const themes = Object.keys(grouped).sort((x, y) => ORDRE.indexOf(x) - ORDRE.indexOf(y));
 
         themes.forEach(theme => {
             const section = document.createElement('div');
