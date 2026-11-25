@@ -1379,7 +1379,7 @@
         let html = `
         <div class="sv-head">
             <div class="sv-gen">Données mises à jour — ${gens || '—'}${SV.missing.length ? ' · <b>non publié : ' + SV.missing.join(', ') + '</b>' : ''}</div>
-            <div><button type="button" class="sv-btn ghost" id="svRefresh">Actualiser</button> <button type="button" class="sv-btn ghost" id="svLogout">Verrouiller</button></div>
+            <div><button type="button" class="sv-btn ghost" id="svRefresh" title="Recharge les fichiers déjà publiés. Ne lit pas Excel : pour de nouvelles données, lancer la macro PublierSuivi.">Recharger les données publiées</button> <span id="svRefMsg" style="font-size:.8rem;color:#5a6784"></span> <button type="button" class="sv-btn ghost" id="svLogout">Verrouiller</button></div>
         </div>
         <div class="sv-bar">
             <div class="sv-chips">${chip('all', 'Tous')}${chip('college', 'Collège')}${chip('lycee', 'Lycée')}${nivs.map(n => chip(n, n)).join('')}</div>
@@ -1457,7 +1457,17 @@
     const svApp = document.getElementById('svApp');
     svApp.addEventListener('click', e => {
         const t = e.target;
-        if (t.closest('#svRefresh')) { try { svTry(sessionStorage.getItem('svPw'), true); } catch (x) {} return; }
+        if (t.closest('#svRefresh')) {
+            let pw = null; try { pw = sessionStorage.getItem('svPw'); } catch (x) {}
+            if (!pw) { svLock(); return; }
+            svTry(pw, true).then(ok => {
+                const m = document.getElementById('svRefMsg');
+                if (!m) return;
+                const d = new Date();
+                m.textContent = ok ? 'Rechargé à ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : 'Échec du rechargement (réseau ou GitHub). Réessaie.';
+            });
+            return;
+        }
         if (t.closest('#svLogout')) { svLock(); return; }
         if (t.closest('#svGroup')) { SV.group = !SV.group; svRender(); return; }
         const chip = t.closest('[data-niv]'); if (chip) { SV.f.niv = chip.dataset.niv; svRender(); return; }
