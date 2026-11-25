@@ -347,6 +347,13 @@
             gap: 1rem;
         }
 
+        @media (min-width: 1000px) {
+            .steps {
+                grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+                gap: 0.8rem;
+            }
+        }
+
         .step {
             position: relative;
             background: var(--card);
@@ -933,7 +940,7 @@
                 <h2>${b.title}</h2>
                 <p class="sub">${b.sub}</p>
                 <div class="bars">${bars}</div>
-                <div class="steps">${steps}</div>
+                <div class="steps" style="--n:${b.rows.length}">${steps}</div>
                 ${b.callout ? `<div class="callout">⚠ ${b.callout}</div>` : ''}
             </section>`;
     }
