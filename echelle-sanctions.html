@@ -1336,7 +1336,7 @@
         if (!rows.length && missing.length === SV_FILES.length) throw new Error('none');
         rows.forEach(r => {
             r.niv = NIV[(r.classe || '?')[0]] || '?';
-            r.tier = r.p >= r.n ? 3 : (r.p / r.n >= 0.75 ? 2 : (r.p / r.n >= 0.5 ? 1 : 0));
+            r.tier = r.p >= r.n ? 3 : ((r.n >= 3 && r.p === r.n - 1) ? 2 : (r.p / r.n >= 0.5 ? 1 : 0));
             const s = (r.qui || '').toUpperCase();
             r.who = [];
             if (/EVS/.test(s)) r.who.push('EVS');
