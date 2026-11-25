@@ -639,6 +639,85 @@
             font-size: 1.05rem;
         }
 
+
+        /* LIGNES QUI / ACTION / SANCTION DU SIMULATEUR */
+        .lines {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.4rem;
+        }
+
+        .line {
+            display: grid;
+            grid-template-columns: 6.2rem 1fr;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            border: 1px solid var(--line);
+        }
+
+        .line .k {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0.9rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
+        .line .v {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            line-height: 1.25;
+        }
+
+        .line.qui .k {
+            background: var(--navy);
+            color: white;
+        }
+
+        .line.qui .v {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        .line.action {
+            border: 2px solid var(--c, var(--navy));
+        }
+
+        .line.action .k {
+            background: var(--c, var(--navy));
+            color: white;
+        }
+
+        .line.action .v {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: #eef3fb;
+            background: color-mix(in srgb, var(--c, var(--navy)) 12%, white);
+            color: var(--ink);
+        }
+
+        .line.sanction .k {
+            background: #fbe6f3;
+            color: var(--magenta);
+        }
+
+        .line.sanction .v {
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 520px) {
+            .line {
+                grid-template-columns: 5rem 1fr;
+            }
+        }
+
         .track {
             height: 10px;
             background: #e3eaf6;
@@ -994,11 +1073,11 @@
         const r = b.rows[k];
         return `<div class="res" style="--c:${colors[k]}">
             <div class="res-head"><span class="res-level">${label}</span><span class="res-step">Palier ${k + 1} / ${b.rows.length} · dès ${r[idx]}</span></div>
-            <dl>
-                <dt>Qui</dt><dd>${r[2]}</dd>
-                <dt>Action</dt><dd>${r[3]}</dd>
-                <dt>Sanction</dt><dd class="sanction">${r[4]}</dd>
-            </dl>
+            <div class="lines">
+                <div class="line qui"><span class="k">Qui</span><span class="v">${r[2]}</span></div>
+                <div class="line action"><span class="k">Action</span><span class="v">${r[3]}</span></div>
+                <div class="line sanction"><span class="k">Sanction</span><span class="v">${r[4]}</span></div>
+            </div>
             ${r[5] ? `<span class="tag-warn">⚠ ${r[5]}</span>` : ''}
             <div class="track"><i style="width:${pct}%"></i></div>
             <div class="res-next">${next} · <a href="#${b.id}">Voir le tableau</a></div>
