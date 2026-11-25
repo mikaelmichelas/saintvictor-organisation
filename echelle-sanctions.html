@@ -919,7 +919,6 @@
                 <button class="lvl-btn" data-level="both">Les deux</button>
             </div>
         </div>
-        <div class="stats" id="stats"></div>
     </div>
 </header>
 
@@ -1095,25 +1094,6 @@
             </section>`;
     }
 
-    function statsHtml() {
-        const byId = id => blocks.find(b => b.id === id).rows;
-        const cards = [
-            [byId('retards')[0], 'retards avant une première remarque'],
-            [byId('retards')[4], 'retards : convocation d\'un CEP'],
-            [byId('comportement')[0], 'remarques de comportement : 1 heure de retenue possible'],
-            [byId('travail')[1], 'remarques de travail : rdv avec la famille et 1 heure de retenue']
-        ];
-        return cards.map(([r, text]) => {
-            let head;
-            if (level === 'both') {
-                head = `<div class="duo"><div><small>Collège</small><b>${r[0]}</b></div><div><small>Lycée</small><b>${r[1]}</b></div></div>`;
-            } else {
-                head = `<small>${level === 'lycee' ? 'Lycée' : 'Collège'}</small><b>${level === 'lycee' ? r[1] : r[0]}</b>`;
-            }
-            return `<div class="stat">${head}<span>${text}</span></div>`;
-        }).join('');
-    }
-
     // Simulateur
     let simCat = 'retards';
     let simCount = 6;
@@ -1206,7 +1186,6 @@
     function render() {
         const visible = blocks.filter(b => !(b.lyceeOnly && level === 'college'));
         document.getElementById('sections').innerHTML = visible.map(sectionHtml).join('');
-        document.getElementById('stats').innerHTML = statsHtml();
         renderNav(visible);
         renderSim();
         document.querySelectorAll('.lvl-btn').forEach(b => b.classList.toggle('active', b.dataset.level === level));
