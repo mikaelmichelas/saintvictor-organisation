@@ -437,6 +437,44 @@
         }
 
 
+
+        /* DEUX NIVEAUX : valeurs étiquetées côte à côte */
+        .duo {
+            display: flex;
+            gap: 1.6rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .duo small {
+            display: block;
+            font-size: 0.66rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.1rem;
+        }
+
+        .duo .num {
+            display: block;
+        }
+
+        .step.last .duo small {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .stat .duo {
+            margin-bottom: 0.4rem;
+        }
+
+        .stat .duo small {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .stat .duo b {
+            margin-bottom: 0;
+        }
+
         /* SIMULATEUR */
         .sim {
             background: var(--card);
@@ -822,10 +860,13 @@
         return Array.from({ length: n }, (_, i) => PALETTE[Math.round(i * (PALETTE.length - 1) / (n - 1))]);
     }
 
-    function numLabel(r, lvl) {
-        if (lvl === 'lycee') return `${r[1]}`;
-        if (lvl === 'college') return `${r[0]}`;
-        return `${r[0]} / ${r[1]}`;
+    function numHtml(r, lvl) {
+        if (lvl === 'lycee') return `<div class="num">${r[1]}</div>`;
+        if (lvl === 'college') return `<div class="num">${r[0]}</div>`;
+        return `<div class="duo">
+            <div><small>Collège</small><span class="num">${r[0]}</span></div>
+            <div><small>Lycée</small><span class="num">${r[1]}</span></div>
+        </div>`;
     }
 
     function barHtml(rows, idx, colors, label) {
@@ -853,8 +894,8 @@
         }
         const steps = b.rows.map((r, i) => `
             <article class="step ${i === b.rows.length - 1 ? 'last' : ''} ${r[5] ? 'warn' : ''}" style="--c:${colors[i]}">
-                <div class="num">${numLabel(r, lvl)}</div>
-                <div class="unit">${b.unit}${lvl === 'both' ? ' · collège / lycée' : ''}</div>
+                ${numHtml(r, lvl)}
+                <div class="unit">${b.unit}</div>
                 <dl>
                     <dt>Qui</dt><dd>${r[2]}</dd>
                     <dt>Action</dt><dd>${r[3]}</dd>
@@ -873,8 +914,6 @@
     }
 
     function statsHtml() {
-        const val = r => level === 'lycee' ? `${r[1]}` : (level === 'college' ? `${r[0]}` : `${r[0]} / ${r[1]}`);
-        const caption = level === 'lycee' ? 'Lycée' : (level === 'college' ? 'Collège' : 'Collège / Lycée');
         const byId = id => blocks.find(b => b.id === id).rows;
         const cards = [
             [byId('retards')[0], 'retards avant une première remarque'],
@@ -882,7 +921,15 @@
             [byId('comportement')[0], 'remarques de comportement : 1 heure de retenue possible'],
             [byId('travail')[1], 'remarques de travail : rdv avec la famille et 1 heure de retenue']
         ];
-        return cards.map(c => `<div class="stat"><small>${caption}</small><b>${val(c[0])}</b><span>${c[1]}</span></div>`).join('');
+        return cards.map(([r, text]) => {
+            let head;
+            if (level === 'both') {
+                head = `<div class="duo"><div><small>Collège</small><b>${r[0]}</b></div><div><small>Lycée</small><b>${r[1]}</b></div></div>`;
+            } else {
+                head = `<small>${level === 'lycee' ? 'Lycée' : 'Collège'}</small><b>${level === 'lycee' ? r[1] : r[0]}</b>`;
+            }
+            return `<div class="stat">${head}<span>${text}</span></div>`;
+        }).join('');
     }
 
     // Simulateur
