@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Échelle des sanctions - Saint Victor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #003478;
+            --navy-deep: #001a42;
+            --magenta: #c4268b;
+            --teal: #0e8aa6;
+            --ink: #0b1f44;
+            --muted: #5a6784;
+            --bg: #f5f8fd;
+            --card: #ffffff;
+            --line: #d9e1ef;
+            --radius: 16px;
+            --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.5;
+        }
+
+        .wrap {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* NAVIGATION */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(245, 248, 253, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .topbar .wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            height: 60px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: var(--navy);
+            font-weight: 800;
+            font-size: 1.05rem;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .brand-mark {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--navy), var(--magenta));
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .brand small {
+            display: block;
+            font-weight: 600;
+            font-size: 0.68rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.25rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 0.88rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            white-space: nowrap;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        nav a:hover {
+            background: #e6ecf7;
+        }
+
+        nav a.active {
+            background: var(--navy);
+            color: white;
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            color: white;
+            background:
+                radial-gradient(600px 400px at 85% 10%, rgba(196, 38, 139, 0.45), transparent 70%),
+                radial-gradient(700px 500px at 5% 100%, rgba(14, 138, 166, 0.45), transparent 70%),
+                linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 100%);
+            padding: 4.5rem 0 4rem;
+        }
+
+        .hero-waves {
+            position: absolute;
+            right: -40px;
+            bottom: -10px;
+            width: 62%;
+            max-width: 760px;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .pill {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 0.35rem 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.4rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+            line-height: 1.08;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.2rem;
+        }
+
+        .grad {
+            background: linear-gradient(90deg, #ff7ac8 0%, #b7a2ee 50%, #6fd0ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p.lead {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.88);
+            max-width: 34rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .levels {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .levels-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.75);
+            margin-right: 0.2rem;
+        }
+
+        .lvl-btn {
+            font-family: var(--font);
+            font-size: 0.92rem;
+            font-weight: 700;
+            padding: 0.7rem 1.25rem;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            background: transparent;
+            color: white;
+            transition: all 0.2s;
+        }
+
+        .lvl-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .lvl-btn.active {
+            background: var(--magenta);
+            border-color: var(--magenta);
+            box-shadow: 0 6px 20px rgba(196, 38, 139, 0.45);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius);
+            padding: 1.1rem 1.2rem;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .stat:nth-child(even) {
+            transform: translateY(12px);
+        }
+
+        .stat b {
+            display: block;
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 0.4rem;
+        }
+
+        .stat span {
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        /* SECTIONS */
+        main {
+            padding: 1rem 0 3rem;
+        }
+
+        section {
+            padding-top: 3.5rem;
+        }
+
+        section h2 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            letter-spacing: -0.015em;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+
+        section p.sub {
+            color: var(--muted);
+            max-width: 40rem;
+            margin-bottom: 1.6rem;
+        }
+
+        /* BARRE DES SEUILS */
+        .bars {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .bar-label {
+            width: 4.5rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--muted);
+            flex: none;
+        }
+
+        .bar {
+            flex: 1;
+            display: flex;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 52px;
+            box-shadow: 0 6px 18px rgba(0, 52, 120, 0.12);
+        }
+
+        .seg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.15rem;
+            min-width: 2.6rem;
+        }
+
+        .legend {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 1.4rem;
+            padding-left: 0;
+        }
+
+        /* PALIERS */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1rem;
+        }
+
+        .step {
+            position: relative;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-top: 5px solid var(--c);
+            border-radius: var(--radius);
+            padding: 1.1rem 1.2rem 1.2rem;
+            box-shadow: 0 4px 14px rgba(0, 52, 120, 0.06);
+        }
+
+        .step.last {
+            background: linear-gradient(160deg, #0c3f95 0%, var(--navy) 100%);
+            color: white;
+            border-color: var(--navy);
+            border-top-color: var(--magenta);
+        }
+
+        .step .num {
+            font-size: 1.9rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--c);
+        }
+
+        .step.last .num {
+            color: #ffffff;
+        }
+
+        .step .unit {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 0.9rem;
+        }
+
+        .step.last .unit {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .step dl dt {
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 0.7rem;
+        }
+
+        .step.last dl dt {
+            color: #7fe0ff;
+        }
+
+        .step dl dd {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .step dl dd.sanction {
+            font-weight: 800;
+        }
+
+        .step.warn {
+            border-style: dashed;
+            border-color: var(--magenta);
+            border-top-style: solid;
+        }
+
+        .tag-warn {
+            display: inline-block;
+            margin-top: 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--magenta);
+            background: #fbe6f3;
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+        }
+
+        .callout {
+            margin-top: 1.2rem;
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            background: #fbe6f3;
+            color: #7d1558;
+            font-weight: 700;
+            font-size: 0.93rem;
+            border-left: 5px solid var(--magenta);
+        }
+
+
+        /* SIMULATEUR */
+        .sim {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 1.4rem;
+            box-shadow: 0 10px 30px rgba(0, 52, 120, 0.08);
+        }
+
+        .sim-controls {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.3rem;
+        }
+
+        .sim-cats {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            font-family: var(--font);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.5rem 0.95rem;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: white;
+            color: var(--ink);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cat-btn:hover {
+            border-color: var(--navy);
+        }
+
+        .cat-btn.active {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: white;
+        }
+
+        .stepper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stepper button {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: white;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--navy);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .stepper button:hover {
+            background: var(--navy);
+            color: white;
+        }
+
+        .stepper input {
+            width: 84px;
+            height: 44px;
+            text-align: center;
+            font-family: var(--font);
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--ink);
+            border: 2px solid var(--navy);
+            border-radius: 12px;
+            background: white;
+        }
+
+        .sim-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .res {
+            border-radius: 16px;
+            padding: 1.2rem 1.3rem;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-left: 6px solid var(--c, var(--line));
+        }
+
+        .res-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .res-level {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .res-step {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--c, var(--ink));
+        }
+
+        .res dl dt {
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 0.55rem;
+        }
+
+        .res dl dd {
+            font-weight: 500;
+        }
+
+        .res dl dd.sanction {
+            font-weight: 800;
+            font-size: 1.05rem;
+        }
+
+        .track {
+            height: 10px;
+            background: #e3eaf6;
+            border-radius: 999px;
+            margin: 1rem 0 0.5rem;
+            overflow: hidden;
+        }
+
+        .track i {
+            display: block;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--teal), var(--navy), var(--magenta));
+            transition: width 0.35s ease;
+        }
+
+        .res-next {
+            font-size: 0.85rem;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .res-next a {
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .step.hit {
+            box-shadow: 0 0 0 3px var(--c), 0 8px 24px rgba(0, 52, 120, 0.18);
+            transform: translateY(-3px);
+        }
+
+        .step {
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 1.6rem 0;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--navy);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        @media (max-width: 860px) {
+            .hero {
+                padding: 3rem 0;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-waves {
+                width: 120%;
+                opacity: 0.45;
+            }
+
+            .brand small {
+                display: none;
+            }
+
+            .bar-label {
+                display: none;
+            }
+
+            .wrap {
+                padding: 0 1rem;
+            }
+        }
+
+        @media print {
+            .topbar, .levels, .hero-waves {
+                display: none;
+            }
+
+            .hero {
+                background: none;
+                color: #000;
+                padding: 1rem 0;
+            }
+
+            .hero .grad {
+                color: #000;
+                background: none;
+            }
+
+            .stats {
+                display: none;
+            }
+
+            .step {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="wrap">
+        <a class="brand" href="index-outils-saint-victor.html" title="Retour à l'index des outils">
+            <span class="brand-mark">S</span>
+            <span>Saint Victor<small>Lycée · Valence</small></span>
+        </a>
+        <nav id="nav" aria-label="Rubriques"></nav>
+    </div>
+</div>
+
+<header class="hero">
+    <svg class="hero-waves" viewBox="0 0 700 300" fill="none" aria-hidden="true">
+        <defs>
+            <linearGradient id="w1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#0e8aa6" stop-opacity="0"/>
+                <stop offset="0.5" stop-color="#4aa8e8" stop-opacity="0.85"/>
+                <stop offset="1" stop-color="#6fd0ff" stop-opacity="0.9"/>
+            </linearGradient>
+            <linearGradient id="w2" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#c4268b" stop-opacity="0"/>
+                <stop offset="0.5" stop-color="#9a5ee6" stop-opacity="0.7"/>
+                <stop offset="1" stop-color="#b58bf0" stop-opacity="0.85"/>
+            </linearGradient>
+        </defs>
+        <path d="M0 230 C 140 190, 240 270, 380 215 S 600 130, 700 150 L 700 190 C 600 175, 500 250, 380 262 S 140 240, 0 270 Z" fill="url(#w1)"/>
+        <path d="M20 160 C 160 110, 260 200, 400 150 S 600 60, 700 80 L 700 115 C 600 100, 500 180, 400 192 S 160 165, 20 205 Z" fill="url(#w2)"/>
+    </svg>
+    <div class="wrap hero-grid">
+        <div>
+            <span class="pill">Vie scolaire · Suivi des élèves</span>
+            <h1>L'échelle des <span class="grad">sanctions</span> prévues par le règlement</h1>
+            <p class="lead">Retards, téléphone, remarques, retenues : selon le nombre d'occurrences, qui intervient, quelle action, quelle sanction.</p>
+            <div class="levels" id="levels">
+                <span class="levels-label">Niveau</span>
+                <button class="lvl-btn" data-level="lycee">Lycée</button>
+                <button class="lvl-btn" data-level="college">Collège</button>
+                <button class="lvl-btn" data-level="both">Les deux</button>
+            </div>
+        </div>
+        <div class="stats" id="stats"></div>
+    </div>
+</header>
+
+<main>
+    <div class="wrap">
+        <section id="simulateur" data-nav="Simulateur">
+            <h2>Simulateur</h2>
+            <p class="sub">Choisissez une catégorie et le nombre d'occurrences : le palier atteint et le prochain seuil s'affichent.</p>
+            <div class="sim">
+                <div class="sim-controls">
+                    <div class="sim-cats" id="simCats"></div>
+                    <div class="stepper">
+                        <button type="button" id="simMinus" aria-label="Moins">−</button>
+                        <input type="number" id="simCount" min="0" max="60" value="6" aria-label="Nombre d'occurrences">
+                        <button type="button" id="simPlus" aria-label="Plus">+</button>
+                    </div>
+                </div>
+                <div class="sim-results" id="simResults"></div>
+            </div>
+        </section>
+        <div id="sections"></div>
+    </div>
+</main>
+
+<footer>
+    <div class="wrap">Lycée Saint Victor, Valence · Échelle des sanctions · <a href="index-outils-saint-victor.html">Index des outils</a></div>
+</footer>
+
+<script>
+    // Données issues d'Echelle_sanctions.xlsx
+    // Ligne : [seuil collège, seuil lycée, qui, action, sanction, alerte]
+    const blocks = [
+        {
+            id: 'retards', nav: 'Retards', title: 'Retards', unit: 'retards',
+            sub: 'Du premier entretien à la convocation d\'un CEP : le seuil correspond au nombre de retards cumulés.',
+            rows: [
+                [5, 5, 'EVS', 'Entretien avec l\'élève', 'Remarque'],
+                [10, 8, 'EVS', 'Dialogue avec la famille', '1 heure de retenue'],
+                [15, 11, 'EVS / CPE', 'Dialogue avec la famille', '2 heures de retenue'],
+                [20, 13, 'CPE / Directeur adjoint', 'Rdv famille', '1 journée d\'exclusion ou d\'inclusion'],
+                [25, 15, 'Directeur adjoint', 'Convocation d\'un CEP', 'Selon CEP']
+            ]
+        },
+        {
+            id: 'telephone', nav: 'Téléphone', title: 'Téléphone', unit: 'fois', lyceeOnly: true,
+            sub: 'Lycée uniquement. Le seuil correspond au nombre de fois où le téléphone est remis au CPE.',
+            rows: [
+                [null, 1, 'CPE', 'Téléphone remis au CPE', 'Remarque'],
+                [null, 2, 'CPE', 'Téléphone remis au CPE', '1 heure de retenue'],
+                [null, 3, 'CPE', 'Téléphone remis au CPE', '2 heures de retenue']
+            ]
+        },
+        {
+            id: 'comportement', nav: 'Remarques comportement', title: 'Remarques comportementales', unit: 'remarques',
+            sub: 'Le seuil correspond au nombre de remarques de comportement.',
+            rows: [
+                [5, 4, 'EVS', 'Entretien avec l\'élève', '1 heure de retenue possible'],
+                [8, 7, 'EVS', 'Dialogue avec la famille', '2 heures de retenue'],
+                [10, 9, 'CPE / RN', 'Rdv ou dialogue avec la famille', 'Selon la situation'],
+                [12, 12, 'Directeur adjoint', 'Rdv avec la famille', 'Selon la situation']
+            ]
+        },
+        {
+            id: 'travail', nav: 'Remarques travail', title: 'Remarques de travail', unit: 'remarques',
+            sub: 'Le seuil correspond au nombre de remarques de travail.',
+            rows: [
+                [5, 4, 'PP', 'Entretien avec l\'élève et téléphone à la famille', 'Selon la situation'],
+                [9, 8, 'RN (PP convié)', 'Rdv famille', '1 heure de retenue'],
+                [12, 10, 'Directeur adjoint (PP / RN conviés)', 'Rdv élève avec famille ?', 'Mise en garde de travail']
+            ]
+        },
+        {
+            id: 'retenues-comportement', nav: 'Retenues comportement', title: 'Retenues et mises en garde comportementales', unit: 'retenues / mises en garde',
+            sub: 'Hors remarques. Le seuil correspond au nombre de retenues et de mises en garde.',
+            rows: [
+                [3, 2, 'CPE', 'Rdv famille', 'Selon la situation'],
+                [6, 5, 'CPE / RN', 'Rdv famille', 'Proposition de sanction à la direction'],
+                [9, 7, 'Directeur adjoint', 'Convocation d\'un CEP', 'Selon CEP']
+            ]
+        },
+        {
+            id: 'retenues-travail', nav: 'Retenues travail', title: 'Retenues et mises en garde de travail', unit: 'retenues / mises en garde',
+            sub: 'Hors remarques. Le seuil correspond au nombre de retenues et de mises en garde.',
+            rows: [
+                [4, 3, 'PP (RN convié)', 'Rdv famille', '-'],
+                [7, 5, 'RN (PP convié)', 'Rdv famille', '2 heures de retenue', '6e sanction automatique'],
+                [10, 9, 'Directeur adjoint', 'Convocation d\'un CEP', 'Selon CEP']
+            ],
+            callout: 'Attention : les 2 heures de retenue donnent une 6e sanction automatique.'
+        }
+    ];
+
+    const PALETTE = ['#0e8aa6', '#2a6fc0', '#003478', '#7a2a9a', '#c4268b'];
+    let level = 'lycee';
+    try { level = localStorage.getItem('sanctionsLevel') || 'lycee'; } catch (e) {}
+
+    function stepColors(n) {
+        if (n <= 1) return [PALETTE[2]];
+        return Array.from({ length: n }, (_, i) => PALETTE[Math.round(i * (PALETTE.length - 1) / (n - 1))]);
+    }
+
+    function numLabel(r, lvl) {
+        if (lvl === 'lycee') return `${r[1]}`;
+        if (lvl === 'college') return `${r[0]}`;
+        return `${r[0]} / ${r[1]}`;
+    }
+
+    function barHtml(rows, idx, colors, label) {
+        const vals = rows.map(r => r[idx]);
+        const gaps = vals.slice(1).map((v, i) => v - vals[i]);
+        const avg = gaps.length ? gaps.reduce((a, b) => a + b, 0) / gaps.length : 1;
+        const flexes = vals.map((v, i) => i < vals.length - 1 ? vals[i + 1] - v : avg);
+        return `
+            <div class="bar-row">
+                ${label ? `<span class="bar-label">${label}</span>` : ''}
+                <div class="bar">
+                    ${vals.map((v, i) => `<div class="seg" style="flex:${flexes[i]};background:${colors[i]}">${v}</div>`).join('')}
+                </div>
+            </div>`;
+    }
+
+    function sectionHtml(b) {
+        const lvl = b.lyceeOnly ? 'lycee' : level;
+        const colors = stepColors(b.rows.length);
+        let bars;
+        if (lvl === 'both') {
+            bars = barHtml(b.rows, 0, colors, 'Collège') + barHtml(b.rows, 1, colors, 'Lycée');
+        } else {
+            bars = barHtml(b.rows, lvl === 'lycee' ? 1 : 0, colors, lvl === 'lycee' ? 'Lycée' : 'Collège');
+        }
+        const steps = b.rows.map((r, i) => `
+            <article class="step ${i === b.rows.length - 1 ? 'last' : ''} ${r[5] ? 'warn' : ''}" style="--c:${colors[i]}">
+                <div class="num">${numLabel(r, lvl)}</div>
+                <div class="unit">${b.unit}${lvl === 'both' ? ' · collège / lycée' : ''}</div>
+                <dl>
+                    <dt>Qui</dt><dd>${r[2]}</dd>
+                    <dt>Action</dt><dd>${r[3]}</dd>
+                    <dt>Sanction</dt><dd class="sanction">${r[4]}</dd>
+                </dl>
+                ${r[5] ? `<span class="tag-warn">⚠ ${r[5]}</span>` : ''}
+            </article>`).join('');
+        return `
+            <section id="${b.id}" data-nav="${b.nav}">
+                <h2>${b.title}</h2>
+                <p class="sub">${b.sub}</p>
+                <div class="bars">${bars}</div>
+                <div class="steps">${steps}</div>
+                ${b.callout ? `<div class="callout">⚠ ${b.callout}</div>` : ''}
+            </section>`;
+    }
+
+    function statsHtml() {
+        const retards = blocks[0].rows;
+        const tel = blocks[1].rows;
+        const retTrav = blocks[5].rows;
+        const i = level === 'college' ? 0 : 1;
+        const cards = [
+            [retards[0][i], 'retards avant une première remarque'],
+            [retards[retards.length - 1][i], 'retards : convocation d\'un CEP']
+        ];
+        if (level === 'college') {
+            cards.push([blocks[2].rows[3][0], 'remarques de comportement : rdv avec la direction']);
+        } else {
+            cards.push([tel[2][1] + 'e', 'téléphone remis au CPE : 2 heures de retenue']);
+        }
+        cards.push(['2 h', 'de retenue en travail : 6e sanction automatique']);
+        return cards.map(c => `<div class="stat"><b>${c[0]}</b><span>${c[1]}</span></div>`).join('');
+    }
+
+    // Simulateur
+    let simCat = 'retards';
+    let simCount = 6;
+
+    function reach(rows, idx, n) {
+        let k = -1;
+        rows.forEach((r, i) => { if (n >= r[idx]) k = i; });
+        return k;
+    }
+
+    function resHtml(b, lvl, n, colors) {
+        const idx = lvl === 'lycee' ? 1 : 0;
+        const label = lvl === 'lycee' ? 'Lycée' : 'Collège';
+        const k = reach(b.rows, idx, n);
+        const nextRow = b.rows[k + 1];
+        const max = b.rows[b.rows.length - 1][idx];
+        const pct = Math.min(100, Math.round(n / max * 100));
+        const next = nextRow
+            ? `Prochain seuil : <b>${nextRow[idx]}</b> (encore ${nextRow[idx] - n})`
+            : 'Dernier palier atteint.';
+        if (k < 0) {
+            return `<div class="res">
+                <div class="res-head"><span class="res-level">${label}</span><span class="res-step">Aucun palier</span></div>
+                <div class="track"><i style="width:${pct}%"></i></div>
+                <div class="res-next">Premier seuil : <b>${b.rows[0][idx]}</b> (encore ${b.rows[0][idx] - n})</div>
+            </div>`;
+        }
+        const r = b.rows[k];
+        return `<div class="res" style="--c:${colors[k]}">
+            <div class="res-head"><span class="res-level">${label}</span><span class="res-step">Palier ${k + 1} / ${b.rows.length} · dès ${r[idx]}</span></div>
+            <dl>
+                <dt>Qui</dt><dd>${r[2]}</dd>
+                <dt>Action</dt><dd>${r[3]}</dd>
+                <dt>Sanction</dt><dd class="sanction">${r[4]}</dd>
+            </dl>
+            ${r[5] ? `<span class="tag-warn">⚠ ${r[5]}</span>` : ''}
+            <div class="track"><i style="width:${pct}%"></i></div>
+            <div class="res-next">${next} · <a href="#${b.id}">Voir le tableau</a></div>
+        </div>`;
+    }
+
+    function renderSim() {
+        const visible = blocks.filter(b => !(b.lyceeOnly && level === 'college'));
+        if (!visible.find(b => b.id === simCat)) simCat = visible[0].id;
+        const b = blocks.find(x => x.id === simCat);
+        const colors = stepColors(b.rows.length);
+        document.getElementById('simCats').innerHTML = visible.map(v =>
+            `<button type="button" class="cat-btn ${v.id === simCat ? 'active' : ''}" data-cat="${v.id}">${v.nav}</button>`).join('');
+        document.getElementById('simCount').value = simCount;
+        const lvls = (b.lyceeOnly || level === 'lycee') ? ['lycee'] : (level === 'college' ? ['college'] : ['college', 'lycee']);
+        document.getElementById('simResults').innerHTML = lvls.map(l => resHtml(b, l, simCount, colors)).join('');
+        document.querySelectorAll('.step').forEach(el => el.classList.remove('hit'));
+        // met en évidence le palier atteint dans le tableau
+        const idx = (b.lyceeOnly || level !== 'college') ? 1 : 0;
+        const k = reach(b.rows, idx, simCount);
+        const steps = document.querySelectorAll('#' + simCat + ' .step');
+        if (k >= 0 && steps[k]) steps[k].classList.add('hit');
+    }
+
+    document.getElementById('simCats').addEventListener('click', e => {
+        const btn = e.target.closest('.cat-btn');
+        if (!btn) return;
+        simCat = btn.dataset.cat;
+        renderSim();
+    });
+    document.getElementById('simMinus').addEventListener('click', () => { simCount = Math.max(0, simCount - 1); renderSim(); });
+    document.getElementById('simPlus').addEventListener('click', () => { simCount = Math.min(60, simCount + 1); renderSim(); });
+    document.getElementById('simCount').addEventListener('input', e => {
+        const v = parseInt(e.target.value, 10);
+        simCount = isNaN(v) ? 0 : Math.max(0, Math.min(60, v));
+        renderSim();
+    });
+
+    function renderNav(visible) {
+        document.getElementById('nav').innerHTML = [{ id: 'simulateur', nav: 'Simulateur' }].concat(visible).map(b => `<a href="#${b.id}" data-id="${b.id}">${b.nav}</a>`).join('');
+    }
+
+    function render() {
+        const visible = blocks.filter(b => !(b.lyceeOnly && level === 'college'));
+        document.getElementById('sections').innerHTML = visible.map(sectionHtml).join('');
+        document.getElementById('stats').innerHTML = statsHtml();
+        renderNav(visible);
+        renderSim();
+        document.querySelectorAll('.lvl-btn').forEach(b => b.classList.toggle('active', b.dataset.level === level));
+        observe();
+    }
+
+    document.querySelectorAll('.lvl-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            level = btn.dataset.level;
+            try { localStorage.setItem('sanctionsLevel', level); } catch (e) {}
+            render();
+        });
+    });
+
+    // Rubrique active dans la navigation
+    let io = null;
+    function observe() {
+        if (io) io.disconnect();
+        const links = [...document.querySelectorAll('#nav a')];
+        io = new IntersectionObserver(entries => {
+            entries.forEach(en => {
+                if (en.isIntersecting) {
+                    links.forEach(a => a.classList.toggle('active', a.dataset.id === en.target.id));
+                    const act = links.find(a => a.dataset.id === en.target.id);
+                    if (act) act.scrollIntoView({ block: 'nearest', inline: 'center' });
+                }
+            });
+        }, { rootMargin: '-35% 0px -55% 0px' });
+        document.querySelectorAll('main section').forEach(s => io.observe(s));
+    }
+
+    render();
+</script>
+
+</body>
+</html>

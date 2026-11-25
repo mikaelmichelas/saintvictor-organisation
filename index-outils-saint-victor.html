@@ -380,6 +380,76 @@
         }
 
 
+
+        /* RUBRIQUE VERROUILLÉE */
+        .locked-box {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            color: #666;
+        }
+
+        body.dark-mode .locked-box {
+            color: #aaa;
+        }
+
+        .unlock-form {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .unlock-form input {
+            padding: 0.6rem 1rem;
+            font-size: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            color: var(--text-light);
+        }
+
+        body.dark-mode .unlock-form input {
+            background: #333;
+            color: var(--text-dark);
+            border-color: var(--border-dark);
+        }
+
+        .unlock-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .unlock-form .btn {
+            flex: none;
+        }
+
+        .unlock-err {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            min-height: 1.2rem;
+        }
+
+        .lock-btn {
+            margin-left: auto;
+            margin-right: 1rem;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        body.dark-mode .lock-btn {
+            background: #444;
+            border-color: var(--border-dark);
+            color: #7fb3ff;
+        }
+
         /* MENU HORIZONTAL */
         .top-nav {
             position: sticky;
@@ -515,16 +585,6 @@
             tags: ['Suivi', 'AS', 'Sport']
         },
         {
-            id: 'teletravail',
-            title: 'Télétravail',
-            description: 'Accès personnel réservé à Mikael. 🔒 Strictement privé.',
-            access: 'personnel',
-            theme: 'Perso',
-            url: 'https://mikaelmichelas.github.io/saintvictor-rentree/teletravail.html',
-            repo: 'https://github.com/mikaelmichelas/saintvictor-rentree',
-            tags: ['Privé', 'Télétravail']
-        },
-        {
             id: 'releves-bac-blanc',
             title: 'Relevés de Bac Blanc',
             description: 'Génération des relevés individuels de bac blanc (n°1 et n°2) à partir de la base Excel : moyenne simulée, mention, points à rattraper. Export PDF. 🔐 Protégé par mot de passe (direction).',
@@ -553,23 +613,45 @@
             tags: ['Terminale', 'Parcoursup', 'Excel', 'SharePoint']
         },
         {
-            id: 'budget-famille',
-            title: 'Budget Famille',
-            description: 'Suivi du budget personnel. 🔒 Strictement privé, mot de passe obligatoire.',
+            id: 'delegues-parents',
+            title: 'Délégués et parents correspondants',
+            description: 'Tableau récapitulatif des parents correspondants et des délégués de classe (2026-2027). Fichier Excel sur SharePoint. 🔒 Accès restreint.',
             access: 'personnel',
-            theme: 'Perso',
-            url: 'https://mikaelmichelas.github.io/budget_famille/budget_famille_v2.html',
-            repo: 'https://github.com/mikaelmichelas/budget_famille',
-            tags: ['Privé', 'Budget']
+            theme: 'Suivi & Pilotage',
+            url: 'https://saintvictoradministratif.sharepoint.com/:x:/s/Conseildedirection/IQB9sp35CMjOSp__CWJryVCiARW6djr1yDJdsDRqbV-_mjE?e=pZkB1C',
+            tags: ['Délégués', 'Parents correspondants', 'Excel', 'SharePoint']
         },
         {
-            id: 'veille-robots-laveurs',
-            title: 'Veille robots laveurs',
-            description: 'Routine de veille pour la recherche d\'un robot aspirateur-laveur : suivi des offres et des prix.',
+            id: 'ebep',
+            title: 'Gestion des EBEP',
+            description: 'Tableau de suivi des élèves à besoins éducatifs particuliers (2026-2027) et fiche classe PAP / LPI. Fichiers SharePoint. 🔒 Données élèves, accès restreint.',
             access: 'personnel',
-            theme: 'Perso',
-            url: 'https://claude.ai/artifact/ExcmT25vK1NiX61YX88UfX',
-            tags: ['Perso', 'Veille', 'Robot', 'Maison']
+            theme: 'Suivi & Pilotage',
+            url: 'https://saintvictoradministratif.sharepoint.com/:x:/s/Conseildedirection/IQA32jgfYQ82RpuK_zsnvS8LAaBm-pJomFIDOCcTjlasjL8?e=9DdVUq',
+            links: [
+                { label: 'Suivi EBEP', url: 'https://saintvictoradministratif.sharepoint.com/:x:/s/Conseildedirection/IQA32jgfYQ82RpuK_zsnvS8LAaBm-pJomFIDOCcTjlasjL8?e=9DdVUq' },
+                { label: 'Fiche classe PAP/LPI', url: 'https://saintvictoradministratif.sharepoint.com/:w:/s/Conseildedirection/IQD6-0yXIyS-R4bQApz_QIR1AbyNrX6QoW5SlxZ0DPKsRTQ?e=itenfh' }
+            ],
+            tags: ['EBEP', 'PAP', 'LPI', 'Excel', 'Word', 'SharePoint']
+        },
+        {
+            id: 'suivi-fraudes',
+            title: 'Suivi et gestion des fraudes',
+            description: 'Tableau de suivi des fraudes aux évaluations (2026-2027). Fichier Excel sur SharePoint. 🔒 Données élèves, accès restreint.',
+            access: 'personnel',
+            theme: 'Suivi & Pilotage',
+            url: 'https://saintvictoradministratif.sharepoint.com/:x:/s/Conseildedirection/IQBoWQPip9T5SJfGt-5xEV3MAbf_Hs7K5ZNktAnAYQ_NsVQ?e=MycWEt',
+            tags: ['Fraudes', 'Évaluations', 'Excel', 'SharePoint']
+        },
+        {
+            id: 'echelle-sanctions',
+            title: 'Échelle des sanctions',
+            description: 'Barème des sanctions prévues et appliquées par le règlement : retards, téléphone, remarques et retenues. Seuils collège et lycée, avec simulateur.',
+            access: 'public',
+            theme: 'Suivi & Pilotage',
+            url: 'https://mikaelmichelas.github.io/saintvictor-organisation/echelle-sanctions.html',
+            repo: 'https://github.com/mikaelmichelas/saintvictor-organisation',
+            tags: ['Règlement', 'Sanctions', 'Retards', 'Vie scolaire']
         },
         {
             id: 'planning-evaluations',
@@ -757,6 +839,45 @@
         }
     ];
 
+    // Rubrique Perso : cards chiffrées (AES-GCM, clé dérivée du mot de passe par PBKDF2)
+    const PERSO_ENC = { iter: 600000, salt: 'MhOGMHhSEjwG9u2TtXsJwQ==', iv: '6ikO2ImdvAKgtzWG', data: 'cPkCMjuxxy9WNCWfDVb62NDn3tbv/IWkfN3JCAMT4t2In2dTJH+5ZSNjicoPZzvRUZtNXhdLwsTiDHquIKUENuJOGbjGGOSZpgSiTYefocYZN0a//Bn7G0nNq+vpTeKwFv5jTxVVAaqtBJc1d+LPgVPy7+OMpYmb4jBFAlo4hziz+WN6/t7WsunDOo4iF7KiWqVKrx47welsT9jbPZkei4lIOyj5sRy0bJeFkP3ouR0W3F72QGNQklkHpLJXryfX3hAQSTl4+qMqCzRDVlRyd/4L39beS8MYJz5GNnqBaIjEzX2rZE4zUNg/gq+z/GpugvAFF8/8UgvJgxFQqGSkSud5UIjxO9R48zDSsBzTujusg7bycrT+CvfCREdIsEGoGboxE47+4P8jOXoXVAel3Mc3gAZBWlKOqKoqxhvb6dVITdu4p+G37h1dI5iPMmo6AP24cH9v/zACYd7LDftbs6I6t4yqYqlWHEwLDmBnzjlCNtFLVc0kNcvxPAEYna2xtTwaxAdIvmJihB02pXUo5TMqp67muEJVyxdTAUGJLIEuz3YH/CK+fe0OGnEjTzEspte53WjltE0sfiDONpNQC0HYfwI2kR1vlTTpOLjFEELBPLoAddOMmsihPefuiIb7/BDwXtdCuWV3+B0mk5Eu75yFX0GmeUPBqTLuJ4bnPwx5xOr0tZ1c3EaclwUe+EJbkeM2MTs/1AHPVxKR2n6rJAY89ytWE5Gpuw9kGrJRl99pa8SxuGdvm+Wb3CRnKapA0eGLMKM7zUjGYNvuXFURSMf/Rh5wD5JlkQOx9oTvqL8zfuOyNJDPhgz9uGs50Q23BpmM9+zVcd6vBb+QqpuqKnTcDNmPRPuVyhibSu81DWg18ORJ37ohbY0MApqDq2lsjj1HHEn+NQD3/TWjB5fmW/i08ROEz50N/VO/sWn8BRDYoHjPpZX0FwgD2+HuMDqEWJt4FDntQeQ2Lwivp81DdDLLIfAS5pK7bMs4YUM2rMt6rC0HAu09v3LaWNm3HGlJhA/avalYnBwYyTAC1GredMxtO0D7Q+4UgbVnwaQUExnG6JjbBr/2gVojgcxl+PlRlgb+Uqx59OPklyXPR7z3oXYsUZRo55NvysDOvepVS1lOKR+VJ6Mx73T6dmxBQjSqNiJ5l08gK9ebAAMeJY9KIw8cQ9mT5loD939hEeGH8KypbZVJp8WYC/VrH2q86jXwAucqDTaBUlFLLVdlvDuAigJ2YqSM97Z31uIOPNxUWGmB9tBB+4Fm12Ck2nLxAn1/cncIXtk78l84iARaxRYQlOD0UKZ18xXOE2Tv+V+9joeRob+O9tLRPCiFYMhDtE7iM2pp' };
+    let persoTools = [];
+    let persoUnlocked = false;
+
+    function allTools() {
+        return persoUnlocked ? tools.concat(persoTools) : tools;
+    }
+
+    async function unlockPerso(pw) {
+        try {
+            const b64 = x => Uint8Array.from(atob(x), c => c.charCodeAt(0));
+            const km = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
+            const key = await crypto.subtle.deriveKey(
+                { name: 'PBKDF2', salt: b64(PERSO_ENC.salt), iterations: PERSO_ENC.iter, hash: 'SHA-256' },
+                km, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+            const buf = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(PERSO_ENC.iv) }, key, b64(PERSO_ENC.data));
+            const json = new TextDecoder().decode(buf);
+            persoTools = JSON.parse(json);
+            persoUnlocked = true;
+            try { sessionStorage.setItem('persoData', json); } catch (e) {}
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function lockPerso() {
+        persoTools = [];
+        persoUnlocked = false;
+        try { sessionStorage.removeItem('persoData'); } catch (e) {}
+        render();
+    }
+
+    try {
+        const saved = sessionStorage.getItem('persoData');
+        if (saved) { persoTools = JSON.parse(saved); persoUnlocked = true; }
+    } catch (e) {}
+
     // État global
     let currentFilter = 'all';
     let currentSearch = '';
@@ -803,7 +924,7 @@
 
     // Filtrage
     function filterTools() {
-        return tools.filter(tool => {
+        return allTools().filter(tool => {
             const matchesFilter = currentFilter === 'all' || tool.access === currentFilter;
             const matchesSearch = currentSearch === '' ||
                 tool.title.toLowerCase().includes(currentSearch) ||
@@ -825,6 +946,47 @@
         return grouped;
     }
 
+    // Section Perso verrouillée
+    function buildLockedSection() {
+        const section = document.createElement('div');
+        section.className = 'theme-section';
+        section.id = themeId('Perso');
+
+        const header = document.createElement('div');
+        header.className = 'theme-header';
+        header.style.cursor = 'default';
+        header.innerHTML = '<h2>Perso 🔒</h2>';
+
+        const box = document.createElement('div');
+        box.className = 'locked-box';
+        box.innerHTML = `
+            <p>Rubrique verrouillée.</p>
+            <form class="unlock-form" autocomplete="off">
+                <input type="password" placeholder="Mot de passe">
+                <button type="submit" class="btn btn-primary">Déverrouiller</button>
+            </form>
+            <div class="unlock-err"></div>
+        `;
+        const input = box.querySelector('input');
+        const err = box.querySelector('.unlock-err');
+        box.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (await unlockPerso(input.value)) {
+                render();
+                const target = document.getElementById(themeId('Perso'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                err.textContent = 'Mot de passe incorrect.';
+                input.value = '';
+                input.focus();
+            }
+        });
+
+        section.appendChild(header);
+        section.appendChild(box);
+        return section;
+    }
+
     // Menu horizontal
     const topNav = document.getElementById('topNav');
 
@@ -837,7 +999,7 @@
         themes.forEach(theme => {
             const link = document.createElement('a');
             link.href = '#' + themeId(theme);
-            link.textContent = `${theme} (${grouped[theme].length})`;
+            link.textContent = (theme === 'Perso' && !persoUnlocked) ? 'Perso 🔒' : `${theme} (${grouped[theme].length})`;
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = document.getElementById(themeId(theme));
@@ -853,8 +1015,9 @@
     function render() {
         const filtered = filterTools();
         themesContainer.innerHTML = '';
+        const showLocked = !persoUnlocked && currentSearch === '' && currentFilter === 'all';
 
-        if (filtered.length === 0) {
+        if (filtered.length === 0 && !showLocked) {
             emptyState.style.display = 'block';
             topNav.innerHTML = '';
             resultCount.textContent = '';
@@ -864,9 +1027,10 @@
 
         emptyState.style.display = 'none';
         resultCount.textContent = `${filtered.length} outil${filtered.length > 1 ? 's' : ''} trouvé${filtered.length > 1 ? 's' : ''}`;
-        toolCount.textContent = `${tools.length} outils au total`;
+        toolCount.textContent = `${allTools().length} outils au total`;
 
         const grouped = groupByTheme(filtered);
+        if (showLocked) grouped['Perso'] = [];
         const themeOrder = ['Orientation', 'Les Tremplins', 'Pédagogie & Apprentissage', 'Suivi & Pilotage', 'Perso'];
         const themes = Object.keys(grouped).sort((x, y) => {
             const ix = themeOrder.indexOf(x), iy = themeOrder.indexOf(y);
@@ -875,6 +1039,10 @@
         renderNav(themes, grouped);
 
         themes.forEach(theme => {
+            if (theme === 'Perso' && !persoUnlocked) {
+                themesContainer.appendChild(buildLockedSection());
+                return;
+            }
             const section = document.createElement('div');
             section.className = 'theme-section';
             section.id = themeId(theme);
@@ -883,8 +1051,16 @@
             header.className = 'theme-header';
             header.innerHTML = `
                 <h2>${theme}</h2>
+                ${theme === 'Perso' ? '<button type="button" class="lock-btn">🔓 Verrouiller</button>' : ''}
                 <span class="theme-toggle-icon">▼</span>
             `;
+            const lockBtn = header.querySelector('.lock-btn');
+            if (lockBtn) {
+                lockBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    lockPerso();
+                });
+            }
 
             header.addEventListener('click', () => {
                 section.classList.toggle('collapsed');
@@ -900,7 +1076,7 @@
                     <div class="card-header">
                         <h2>${tool.title}</h2>
                         <span class="card-badge badge-${tool.access}">
-                            ${tool.access === 'public' ? '🌐 Public' : '🔒 Personnel'}
+                            ${tool.access === 'public' ? '🌐 Public' : (tool.theme === 'Suivi & Pilotage' ? 'Direction✍🏻' : '🔒 Personnel')}
                         </span>
                     </div>
                     <p class="card-description">${tool.description}</p>
