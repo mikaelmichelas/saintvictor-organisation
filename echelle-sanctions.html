@@ -30,7 +30,6 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 80px;
         }
 
         body {
@@ -254,6 +253,16 @@
             margin-bottom: 0.4rem;
         }
 
+        .stat small {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.25rem;
+        }
+
         .stat span {
             font-size: 0.88rem;
             color: rgba(255, 255, 255, 0.88);
@@ -269,6 +278,7 @@
         }
 
         section h2 {
+            scroll-margin-top: 84px;
             font-size: clamp(1.6rem, 3vw, 2.2rem);
             font-weight: 800;
             letter-spacing: -0.015em;
@@ -863,21 +873,16 @@
     }
 
     function statsHtml() {
-        const retards = blocks[0].rows;
-        const tel = blocks[1].rows;
-        const retTrav = blocks[5].rows;
-        const i = level === 'college' ? 0 : 1;
+        const val = r => level === 'lycee' ? `${r[1]}` : (level === 'college' ? `${r[0]}` : `${r[0]} / ${r[1]}`);
+        const caption = level === 'lycee' ? 'Lycée' : (level === 'college' ? 'Collège' : 'Collège / Lycée');
+        const byId = id => blocks.find(b => b.id === id).rows;
         const cards = [
-            [retards[0][i], 'retards avant une première remarque'],
-            [retards[retards.length - 1][i], 'retards : convocation d\'un CEP']
+            [byId('retards')[0], 'retards avant une première remarque'],
+            [byId('retards')[4], 'retards : convocation d\'un CEP'],
+            [byId('comportement')[0], 'remarques de comportement : 1 heure de retenue possible'],
+            [byId('travail')[1], 'remarques de travail : rdv avec la famille et 1 heure de retenue']
         ];
-        if (level === 'college') {
-            cards.push([blocks[2].rows[3][0], 'remarques de comportement : rdv avec la direction']);
-        } else {
-            cards.push([tel[2][1] + 'e', 'téléphone remis au CPE : 2 heures de retenue']);
-        }
-        cards.push(['2 h', 'de retenue en travail : 6e sanction automatique']);
-        return cards.map(c => `<div class="stat"><b>${c[0]}</b><span>${c[1]}</span></div>`).join('');
+        return cards.map(c => `<div class="stat"><small>${caption}</small><b>${val(c[0])}</b><span>${c[1]}</span></div>`).join('');
     }
 
     // Simulateur
@@ -991,6 +996,16 @@
         }, { rootMargin: '-35% 0px -55% 0px' });
         document.querySelectorAll('main section').forEach(s => io.observe(s));
     }
+
+    document.addEventListener('click', e => {
+        const a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        const target = document.getElementById(a.getAttribute('href').slice(1));
+        if (!target) return;
+        e.preventDefault();
+        const h = target.querySelector('h2') || target;
+        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
 
     render();
 </script>
