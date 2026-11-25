@@ -484,6 +484,25 @@
             box-shadow: 0 10px 30px rgba(0, 52, 120, 0.08);
         }
 
+        .sim-levels {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .sim-levels-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-right: 0.3rem;
+        }
+
         .sim-controls {
             display: flex;
             gap: 1.2rem;
@@ -768,6 +787,12 @@
             <h2>Simulateur</h2>
             <p class="sub">Choisissez une catégorie et le nombre d'occurrences : le palier atteint et le prochain seuil s'affichent.</p>
             <div class="sim">
+                <div class="sim-levels" id="simLevels">
+                    <span class="sim-levels-label">Niveau</span>
+                    <button type="button" class="cat-btn" data-slvl="college">Collège</button>
+                    <button type="button" class="cat-btn" data-slvl="lycee">Lycée</button>
+                    <button type="button" class="cat-btn" data-slvl="both">Les deux en parallèle</button>
+                </div>
                 <div class="sim-controls">
                     <div class="sim-cats" id="simCats"></div>
                     <div class="stepper">
@@ -973,24 +998,36 @@
         </div>`;
     }
 
+    let simLevel = 'both';
+
     function renderSim() {
-        const visible = blocks.filter(b => !(b.lyceeOnly && level === 'college'));
+        const visible = blocks.filter(b => !(b.lyceeOnly && simLevel === 'college'));
         if (!visible.find(b => b.id === simCat)) simCat = visible[0].id;
         const b = blocks.find(x => x.id === simCat);
         const colors = stepColors(b.rows.length);
         document.getElementById('simCats').innerHTML = visible.map(v =>
             `<button type="button" class="cat-btn ${v.id === simCat ? 'active' : ''}" data-cat="${v.id}">${v.nav}</button>`).join('');
+        document.querySelectorAll('[data-slvl]').forEach(x => x.classList.toggle('active', x.dataset.slvl === simLevel));
         document.getElementById('simCount').value = simCount;
-        const lvls = (b.lyceeOnly || level === 'lycee') ? ['lycee'] : (level === 'college' ? ['college'] : ['college', 'lycee']);
+        const lvls = b.lyceeOnly ? ['lycee'] : (simLevel === 'both' ? ['college', 'lycee'] : [simLevel]);
         document.getElementById('simResults').innerHTML = lvls.map(l => resHtml(b, l, simCount, colors)).join('');
+
+        // met en évidence, dans le tableau affiché, le palier atteint
         document.querySelectorAll('.step').forEach(el => el.classList.remove('hit'));
-        // met en évidence le palier atteint dans le tableau
-        const idx = (b.lyceeOnly || level !== 'college') ? 1 : 0;
-        const k = reach(b.rows, idx, simCount);
+        const shown = (b.lyceeOnly || level === 'lycee') ? ['lycee'] : (level === 'college' ? ['college'] : ['college', 'lycee']);
         const steps = document.querySelectorAll('#' + simCat + ' .step');
-        if (k >= 0 && steps[k]) steps[k].classList.add('hit');
+        shown.forEach(l => {
+            const k = reach(b.rows, l === 'lycee' ? 1 : 0, simCount);
+            if (k >= 0 && steps[k]) steps[k].classList.add('hit');
+        });
     }
 
+    document.getElementById('simLevels').addEventListener('click', e => {
+        const btn = e.target.closest('[data-slvl]');
+        if (!btn) return;
+        simLevel = btn.dataset.slvl;
+        renderSim();
+    });
     document.getElementById('simCats').addEventListener('click', e => {
         const btn = e.target.closest('.cat-btn');
         if (!btn) return;
