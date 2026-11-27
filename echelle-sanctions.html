@@ -886,11 +886,12 @@
         .sv-track { flex:1; display:flex; height:16px; background:#eef2f9; border-radius:8px; overflow:hidden; }
         .sv-seg { height:100%; }
         .sv-num { width:34px; text-align:right; font-weight:700; color:var(--navy); flex:none; }
-        .t0 { --tbg:#ffeb9c; --tfg:#7f6000; --trow:#fff8dc; }
-        .t1 { --tbg:#f8cbad; --tfg:#833c0b; --trow:#fdebdd; }
-        .t2 { --tbg:#ed7d31; --tfg:#fff;    --trow:#fbd9c0; }
-        .t3 { --tbg:#c00000; --tfg:#fff;    --trow:#f6c9c9; }
-        .sv-seg.t0 { background:#ffd54a; } .sv-seg.t1 { background:#f4a77a; } .sv-seg.t2 { background:#ed7d31; } .sv-seg.t3 { background:#c00000; }
+        .t0 { --tbg:#fff2cc; --tfg:#7f6000; --trow:#fffaea; }
+        .t1 { --tbg:#ffe066; --tfg:#5c4a00; --trow:#fff6cf; }
+        .t2 { --tbg:#ffc000; --tfg:#7f3f00; --trow:#ffecb8; }
+        .t3 { --tbg:#f4791f; --tfg:#fff;    --trow:#fbd9c0; }
+        .t4 { --tbg:#c00000; --tfg:#fff;    --trow:#f6c9c9; }
+        .sv-seg.t0 { background:#fff2cc; } .sv-seg.t1 { background:#ffe066; } .sv-seg.t2 { background:#ffc000; } .sv-seg.t3 { background:#f4791f; } .sv-seg.t4 { background:#c00000; }
         .sv-legend { display:flex; flex-wrap:wrap; gap:.9rem; font-size:.78rem; color:var(--muted); margin:.3rem 0 .9rem; }
         .sv-legend i { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:.35rem; vertical-align:-1px; }
         .sv-tablewrap { overflow-x:auto; border:1px solid var(--line); border-radius:14px; background:#fff; }
@@ -1305,7 +1306,7 @@
     const NIV = { '6': '6e', '5': '5e', '4': '4e', '3': '3e', '2': '2nde', '1': '1ère', 'T': 'Tle' };
     const NIV_ORDER = ['6e', '5e', '4e', '3e', '2nde', '1ère', 'Tle'];
     const COLLEGE_NIV = ['6e', '5e', '4e', '3e'];
-    const TIER_LABEL = ['Palier atteint', 'Au-delà de la moitié', 'Avant-dernier palier', 'Dernier palier'];
+    const TIER_LABEL = ['Premiers paliers', '', '', 'Avant-dernier palier', 'Dernier palier'];
     const SV = { rows: [], gens: [], missing: [], f: { niv: 'all', classe: '', qui: '', cat: '', q: '' }, view: 'global', group: false, sort: { k: 'classe', d: 1 } };
 
     const svB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
@@ -1336,7 +1337,7 @@
         if (!rows.length && missing.length === SV_FILES.length) throw new Error('none');
         rows.forEach(r => {
             r.niv = NIV[(r.classe || '?')[0]] || '?';
-            r.tier = r.p >= r.n ? 3 : ((r.n >= 3 && r.p === r.n - 1) ? 2 : (r.p / r.n >= 0.5 ? 1 : 0));
+            r.tier = Math.max(0, Math.min(4, 4 - (r.n - r.p)));
             const s = (r.qui || '').toUpperCase();
             r.who = [];
             if (/EVS/.test(s)) r.who.push('EVS');
@@ -1368,7 +1369,7 @@
     function svCount(rows, keyFn) {
         const m = new Map();
         rows.forEach(r => [].concat(keyFn(r)).forEach(k => {
-            if (!m.has(k)) m.set(k, [0, 0, 0, 0]);
+            if (!m.has(k)) m.set(k, [0, 0, 0, 0, 0]);
             m.get(k)[r.tier]++;
         }));
         return m;
@@ -1417,7 +1418,7 @@
         const cats = [...new Set(all.map(r => r.cat))];
         const nivs = NIV_ORDER.filter(n => all.some(r => r.niv === n));
         const eleves = new Set(rows.map(r => r.classe + '|' + r.eleve)).size;
-        const dern = rows.filter(r => r.tier === 3).length, avdern = rows.filter(r => r.tier === 2).length;
+        const dern = rows.filter(r => r.p >= r.n).length, avdern = rows.filter(r => r.n >= 3 && r.p === r.n - 1).length;
         const gens = SV.gens.map(g => `${g.label} : ${svEsc(g.gen)}`).join(' · ');
         const chip = (v, lab) => `<button type="button" class="sv-chip${SV.f.niv === v ? ' active' : ''}" data-niv="${v}">${lab}</button>`;
         const opt = (list, cur, all) => `<option value="">${all}</option>` + list.map(x => `<option${x === cur ? ' selected' : ''}>${svEsc(x)}</option>`).join('');
@@ -1441,7 +1442,7 @@
             <button type="button" class="sv-chip${SV.view === 'liste' ? ' active' : ''}" data-view="liste">Liste détaillée</button>
             ${SV.view === 'liste' ? `<button type="button" class="sv-chip${SV.group ? ' active' : ''}" id="svGroup">Regrouper par élève</button>` : ''}
         </div>
-        <div class="sv-legend">${TIER_LABEL.map((l, i) => `<span class="t${i}"><i style="background:var(--tbg)"></i>${l}</span>`).join('')}</div>`;
+        <div class="sv-legend">${TIER_LABEL.map((l, i) => `<span class="t${i}"><i style="background:var(--tbg);border:1px solid #d0d7e6"></i>${l}</span>`).join('') + '<span>La couleur fonce à chaque palier franchi</span>'}</div>`;
         if (SV.view === 'global') {
             const top = rows.slice().sort((a, b) => b.p / b.n - a.p / a.n || b.p - a.p).slice(0, 8);
             html += `
